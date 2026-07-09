@@ -9,6 +9,26 @@ import { MapView } from "@/components/MapView";
 
 type Props = { params: Promise<{ slug: string }> };
 
+// Enlace a la UBICACIÓN del lugar en Google Maps (no ruta, no coordenadas):
+// busca por nombre + dirección y, si existe, ancla al Place ID de Google.
+function googleMapsUrl(place: {
+  name: string;
+  address?: string | null;
+  neighborhood?: string | null;
+  municipality?: string | null;
+  googlePlaceId?: string | null;
+}): string {
+  const query = encodeURIComponent(
+    [place.name, place.address, place.neighborhood, place.municipality]
+      .filter(Boolean)
+      .join(", "),
+  );
+  const base = `https://www.google.com/maps/search/?api=1&query=${query}`;
+  return place.googlePlaceId
+    ? `${base}&query_place_id=${encodeURIComponent(place.googlePlaceId)}`
+    : base;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const place = await getPlaceBySlug(slug);
@@ -81,12 +101,12 @@ export default async function PlacePage({ params }: Props) {
       <div className="mt-6 flex flex-wrap gap-3">
         <ShareButton title={place.name} text={`${TYPE_LABEL[place.type]} en ${where}`} />
         <a
-          href={`https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}`}
+          href={googleMapsUrl(place)}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm text-paper transition-opacity hover:opacity-90"
         >
-          Cómo llegar ↗
+          Ver en Google Maps ↗
         </a>
       </div>
 

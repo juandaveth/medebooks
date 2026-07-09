@@ -7,7 +7,7 @@ import type { Place, PlaceFilters } from "./types";
 const SELECT = `
   id, type, name, slug, description, address, neighborhood, municipality,
   lat, lng, phone, whatsapp, website, instagram, hours, specialties,
-  is_free, services, entity
+  is_free, services, entity, google_place_id
 `;
 
 type Row = Record<string, unknown>;
@@ -33,6 +33,7 @@ function rowToPlace(r: Row): Place {
     isFree: (r.is_free as boolean) ?? null,
     services: (r.services as string[]) ?? [],
     entity: (r.entity as string) ?? null,
+    googlePlaceId: (r.google_place_id as string) ?? null,
   };
 }
 

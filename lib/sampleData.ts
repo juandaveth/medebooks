@@ -98,6 +98,8 @@ export const SAMPLE_PLACES: Place[] = [
     lat: 6.251,
     lng: -75.5686,
     hours: "Mar–Sáb 8:30–17:30",
+    website: "https://www.fundacionepm.org.co/biblioteca-epm",
+    instagram: "bibliotecaepm",
     isFree: true,
     services: ["wifi", "salas de estudio", "préstamo", "eventos"],
     entity: "Fundación EPM",
@@ -115,6 +117,8 @@ export const SAMPLE_PLACES: Place[] = [
     lat: 6.2088,
     lng: -75.5665,
     hours: "Lun–Sáb 10:00–19:00",
+    website: "https://libreriagrammata.com",
+    instagram: "libreriagrammata",
     specialties: ["nuevos", "independiente", "café-librería"],
   },
   {
@@ -128,6 +132,7 @@ export const SAMPLE_PLACES: Place[] = [
     lat: 6.245,
     lng: -75.592,
     hours: "Lun–Sáb 10:00–19:00",
+    instagram: "alpiedelaletra.co",
     specialties: ["nuevos", "usados", "independiente"],
   },
   {

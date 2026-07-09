@@ -20,6 +20,7 @@ export type Place = {
   isFree?: boolean | null; // biblioteca: acceso gratuito
   services?: string[]; // biblioteca: wifi, salas, préstamo...
   entity?: string | null; // biblioteca: entidad
+  googlePlaceId?: string | null; // ID del lugar en Google Maps (para enlazar por lugar)
 };
 
 export type PlaceFilters = {
