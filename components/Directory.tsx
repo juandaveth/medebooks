@@ -1,11 +1,22 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Place, PlaceFilters, PlaceType } from "@/lib/types";
 import { filterPlaces } from "@/lib/filter";
+import { slugifyMunicipio } from "@/lib/municipios";
 import { Filters } from "./Filters";
 import { PlaceList } from "./PlaceList";
 import { MapView } from "./MapView";
+
+// Ruta canónica compartible para un tipo + municipio dados.
+function canonicalPath(type: PlaceType | "all", municipality?: string): string {
+  const typeSeg =
+    type === "libreria" ? "/librerias" : type === "biblioteca" ? "/bibliotecas" : "";
+  const muni =
+    municipality && municipality !== "all" ? slugifyMunicipio(municipality) : null;
+  if (muni) return typeSeg ? `${typeSeg}/${muni}` : `/${muni}`;
+  return typeSeg || "/";
+}
 
 export function Directory({
   places,
@@ -44,6 +55,14 @@ export function Directory({
       );
     return filtered; // ya viene alfabético desde la consulta
   }, [filtered, sort, randomRank]);
+
+  // Refleja el filtro tipo+municipio en la URL (sin recargar) para que sea compartible
+  // y el usuario descubra la ruta específica del municipio.
+  useEffect(() => {
+    const path = canonicalPath(filters.type ?? "all", filters.municipality);
+    if (window.location.pathname !== path)
+      window.history.replaceState(null, "", path);
+  }, [filters.type, filters.municipality]);
 
   function patch(p: Partial<PlaceFilters>) {
     setFilters((f) => {
