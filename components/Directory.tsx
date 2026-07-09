@@ -21,7 +21,12 @@ export function Directory({
   const filtered = useMemo(() => filterPlaces(places, filters), [places, filters]);
 
   function patch(p: Partial<PlaceFilters>) {
-    setFilters((f) => ({ ...f, ...p }));
+    setFilters((f) => {
+      const next = { ...f, ...p };
+      // Las especialidades no aplican a bibliotecas: al cambiar a ese tipo, se limpian.
+      if (p.type === "biblioteca") next.specialties = [];
+      return next;
+    });
     setActiveId(null);
   }
 

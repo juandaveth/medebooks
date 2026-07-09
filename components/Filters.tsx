@@ -19,6 +19,14 @@ export function Filters({
   count: number;
   onChange: (patch: Partial<PlaceFilters>) => void;
 }) {
+  const selected = filters.specialties ?? [];
+  const toggleSpecialty = (s: string) =>
+    onChange({
+      specialties: selected.includes(s)
+        ? selected.filter((x) => x !== s)
+        : [...selected, s],
+    });
+
   return (
     <div className="space-y-3">
       {/* Segmentado por tipo */}
@@ -48,7 +56,7 @@ export function Filters({
         className="w-full rounded-lg border border-line bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-soft/70 focus:border-ink focus:outline-none"
       />
 
-      {/* Selects */}
+      {/* Municipio */}
       <div className="flex flex-wrap gap-2">
         <select
           value={filters.municipality ?? "all"}
@@ -62,22 +70,45 @@ export function Filters({
             </option>
           ))}
         </select>
-
-        {(filters.type ?? "all") !== "biblioteca" && (
-          <select
-            value={filters.specialty ?? "all"}
-            onChange={(e) => onChange({ specialty: e.target.value })}
-            className="rounded-lg border border-line bg-paper px-3 py-2 text-sm text-ink focus:border-ink focus:outline-none"
-          >
-            <option value="all">Todas las especialidades</option>
-            {facets.specialties.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        )}
       </div>
+
+      {/* Especialidades: selección múltiple (chips) — solo aplica a librerías */}
+      {(filters.type ?? "all") !== "biblioteca" && facets.specialties.length > 0 && (
+        <div>
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="text-xs uppercase tracking-wide text-ink-soft">
+              Especialidades
+            </span>
+            {selected.length > 0 && (
+              <button
+                onClick={() => onChange({ specialties: [] })}
+                className="text-xs text-accent hover:underline"
+              >
+                Limpiar
+              </button>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {facets.specialties.map((s) => {
+              const on = selected.includes(s);
+              return (
+                <button
+                  key={s}
+                  aria-pressed={on}
+                  onClick={() => toggleSpecialty(s)}
+                  className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                    on
+                      ? "border-accent bg-accent text-paper"
+                      : "border-line text-ink-soft hover:border-ink hover:text-ink"
+                  }`}
+                >
+                  {s}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <p className="text-xs uppercase tracking-wide text-ink-soft">
         {count} {count === 1 ? "lugar" : "lugares"}

@@ -25,7 +25,7 @@ export type Place = {
 export type PlaceFilters = {
   type?: PlaceType | "all";
   municipality?: string | "all";
-  specialty?: string | "all";
+  specialties?: string[]; // selección múltiple (OR): muestra lugares con cualquiera
   query?: string;
 };
 

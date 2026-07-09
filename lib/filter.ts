@@ -6,8 +6,10 @@ export function filterPlaces(places: Place[], f: PlaceFilters = {}): Place[] {
   if (f.type && f.type !== "all") out = out.filter((p) => p.type === f.type);
   if (f.municipality && f.municipality !== "all")
     out = out.filter((p) => p.municipality === f.municipality);
-  if (f.specialty && f.specialty !== "all")
-    out = out.filter((p) => (p.specialties ?? []).includes(f.specialty!));
+  if (f.specialties && f.specialties.length > 0)
+    out = out.filter((p) =>
+      (p.specialties ?? []).some((s) => f.specialties!.includes(s)),
+    );
   if (f.query && f.query.trim()) {
     const q = f.query.trim().toLowerCase();
     out = out.filter(

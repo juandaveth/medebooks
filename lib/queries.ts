@@ -48,8 +48,8 @@ export async function getPlaces(filters: PlaceFilters = {}): Promise<Place[]> {
   if (filters.type && filters.type !== "all") query = query.eq("type", filters.type);
   if (filters.municipality && filters.municipality !== "all")
     query = query.eq("municipality", filters.municipality);
-  if (filters.specialty && filters.specialty !== "all")
-    query = query.contains("specialties", [filters.specialty]);
+  if (filters.specialties && filters.specialties.length > 0)
+    query = query.overlaps("specialties", filters.specialties);
   if (filters.query && filters.query.trim())
     query = query.ilike("name", `%${filters.query.trim()}%`);
 
