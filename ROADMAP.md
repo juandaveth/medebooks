@@ -39,6 +39,21 @@ Este archivo recoge lo que sigue; no es compromiso de fechas, es orden de intenc
 - Endurecer RLS.
 - Poblar `specialties` (tipo de librería) y `subjects` (materias BISAC) con aportes de comunidad
   — decidido dejarlos para esta etapa; hoy la UI los oculta cuando están vacíos.
+- **Dashboard de curaduría con roles y permisos por lugar** ⭐ (pedido explícito).
+  - Qué: además del **admin/curador** global (rol actual del proyecto), permitir roles
+    delegados y **acotados a un lugar concreto**:
+    - **`owner` (dueño de librería)** — administra su(s) librería(s).
+    - **`manager` (gestor cultural)** — administra su(s) biblioteca(s) / espacio(s).
+    Estos roles pueden **editar y aprobar los cambios asociados solo a sus lugares**.
+  - Modelo de datos (borrador): tabla `place_roles` (`user_id`, `place_id`, `role`
+    ['owner'|'manager'], `status` ['pending'|'approved'], `created_at`). Roles globales
+    (admin/curador) en `user_roles` o vía claim de metadatos.
+  - Flujo de reclamación (**seguridad clave**): un dueño/gestor **solicita** el lugar
+    ("reclamar esta librería"); el **admin verifica y aprueba** antes de otorgar permisos
+    (evita secuestro de fichas). Verificación posible: correo del dominio, contacto, etc.
+  - Permisos vía **RLS de Supabase**: un usuario puede editar/aprobar un `place` solo si
+    tiene un `place_role` aprobado sobre ese lugar; el admin puede todo. Los cambios siguen
+    pasando por `status='pending'` y los aprueba el owner/manager del lugar o el admin.
 
 ## v4 — Clubes de lectura y eventos
 - **Clubes de lectura y eventos** ⭐ (pedido explícito, para más adelante).
