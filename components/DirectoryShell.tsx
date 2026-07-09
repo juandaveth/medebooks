@@ -10,14 +10,24 @@ const SUBTITLE: Record<PlaceType | "all", string> = {
   biblioteca: "Bibliotecas del Área Metropolitana de Medellín",
 };
 
+function subtitleFor(type: PlaceType | "all", municipality?: string): string {
+  const base = SUBTITLE[type];
+  if (!municipality) return base;
+  const kind =
+    type === "libreria" ? "Librerías" : type === "biblioteca" ? "Bibliotecas" : "Librerías y bibliotecas";
+  return `${kind} en ${municipality}`;
+}
+
 export function DirectoryShell({
   places,
   facets,
   initialType = "all",
+  initialMunicipality,
 }: {
   places: Place[];
   facets: { municipalities: string[]; specialties: string[]; subjects: string[] };
   initialType?: PlaceType | "all";
+  initialMunicipality?: string;
 }) {
   return (
     <div className="flex h-[100dvh] flex-col">
@@ -32,7 +42,7 @@ export function DirectoryShell({
               medebooks
             </Link>
             <p className="hidden text-sm text-ink-soft sm:block">
-              {SUBTITLE[initialType]}
+              {subtitleFor(initialType, initialMunicipality)}
             </p>
           </div>
           <div className="flex items-center gap-3 text-xs uppercase tracking-wide text-ink-soft">
@@ -53,7 +63,12 @@ export function DirectoryShell({
       </header>
 
       <main className="min-h-0 flex-1">
-        <Directory places={places} facets={facets} initialType={initialType} />
+        <Directory
+          places={places}
+          facets={facets}
+          initialType={initialType}
+          initialMunicipality={initialMunicipality}
+        />
       </main>
     </div>
   );

@@ -11,12 +11,17 @@ export function Directory({
   places,
   facets,
   initialType = "all",
+  initialMunicipality,
 }: {
   places: Place[];
   facets: { municipalities: string[]; specialties: string[]; subjects: string[] };
   initialType?: PlaceType | "all";
+  initialMunicipality?: string;
 }) {
-  const [filters, setFilters] = useState<PlaceFilters>({ type: initialType });
+  const [filters, setFilters] = useState<PlaceFilters>({
+    type: initialType,
+    municipality: initialMunicipality ?? "all",
+  });
   const [activeId, setActiveId] = useState<string | null>(null);
   const [mobileView, setMobileView] = useState<"list" | "map">("list");
   const [sort, setSort] = useState<"alpha" | "random">("alpha");
