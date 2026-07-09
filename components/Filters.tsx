@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { PlaceFilters, PlaceType } from "@/lib/types";
 
 const TYPES: { value: PlaceType | "all"; label: string }[] = [
@@ -8,50 +9,74 @@ const TYPES: { value: PlaceType | "all"; label: string }[] = [
   { value: "biblioteca", label: "Bibliotecas" },
 ];
 
-/** Grupo de chips de selección múltiple (OR) con encabezado y "Limpiar". */
+/** Grupo de chips de selección múltiple (OR), plegable, con encabezado y "Limpiar". */
 function ChipGroup({
   label,
   options,
   selected,
   onToggle,
   onClear,
+  defaultOpen = false,
 }: {
   label: string;
   options: string[];
   selected: string[];
   onToggle: (value: string) => void;
   onClear: () => void;
+  defaultOpen?: boolean;
 }) {
+  const [open, setOpen] = useState(defaultOpen);
   if (options.length === 0) return null;
   return (
     <div>
-      <div className="mb-1.5 flex items-center justify-between">
-        <span className="text-xs uppercase tracking-wide text-ink-soft">{label}</span>
-        {selected.length > 0 && (
+      <div className="flex items-center justify-between">
+        {/* Encabezado plegable con flecha */}
+        <button
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-ink-soft hover:text-ink"
+        >
+          <span
+            aria-hidden
+            className={`inline-block text-ink-soft transition-transform ${
+              open ? "rotate-90" : ""
+            }`}
+          >
+            ›
+          </span>
+          {label}
+          {selected.length > 0 && (
+            <span className="text-accent">({selected.length})</span>
+          )}
+        </button>
+        {open && selected.length > 0 && (
           <button onClick={onClear} className="text-xs text-accent hover:underline">
             Limpiar
           </button>
         )}
       </div>
-      <div className="flex flex-wrap gap-1.5">
-        {options.map((o) => {
-          const on = selected.includes(o);
-          return (
-            <button
-              key={o}
-              aria-pressed={on}
-              onClick={() => onToggle(o)}
-              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                on
-                  ? "border-accent bg-accent text-paper"
-                  : "border-line text-ink-soft hover:border-ink hover:text-ink"
-              }`}
-            >
-              {o}
-            </button>
-          );
-        })}
-      </div>
+
+      {open && (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {options.map((o) => {
+            const on = selected.includes(o);
+            return (
+              <button
+                key={o}
+                aria-pressed={on}
+                onClick={() => onToggle(o)}
+                className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                  on
+                    ? "border-accent bg-accent text-paper"
+                    : "border-line text-ink-soft hover:border-ink hover:text-ink"
+                }`}
+              >
+                {o}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
