@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Place, PlaceFilters } from "@/lib/types";
+import type { Place, PlaceFilters, PlaceType } from "@/lib/types";
 import { filterPlaces } from "@/lib/filter";
 import { Filters } from "./Filters";
 import { PlaceList } from "./PlaceList";
@@ -10,11 +10,13 @@ import { MapView } from "./MapView";
 export function Directory({
   places,
   facets,
+  initialType = "all",
 }: {
   places: Place[];
   facets: { municipalities: string[]; specialties: string[]; subjects: string[] };
+  initialType?: PlaceType | "all";
 }) {
-  const [filters, setFilters] = useState<PlaceFilters>({ type: "all" });
+  const [filters, setFilters] = useState<PlaceFilters>({ type: initialType });
   const [activeId, setActiveId] = useState<string | null>(null);
   const [mobileView, setMobileView] = useState<"list" | "map">("list");
 

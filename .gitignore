@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Borrador de bitácora para el post (no publicar)
+BITACORA.md
