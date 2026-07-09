@@ -53,10 +53,17 @@ export function MapView({
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
     map.on("load", () => {
       readyRef.current = true;
+      map.resize(); // el contenedor flex puede dimensionarse después del init
       renderMarkers();
     });
     mapRef.current = map;
+
+    // Si el contenedor cambia de tamaño (layout flex, responsive), reajusta el canvas.
+    const ro = new ResizeObserver(() => map.resize());
+    ro.observe(containerRef.current!);
+
     return () => {
+      ro.disconnect();
       map.remove();
       mapRef.current = null;
       readyRef.current = false;
