@@ -78,8 +78,16 @@ export default async function PlacePage({ params }: Props) {
         <p className="mt-4 text-lg leading-relaxed text-ink">{place.description}</p>
       )}
 
-      <div className="mt-6">
+      <div className="mt-6 flex flex-wrap gap-3">
         <ShareButton title={place.name} text={`${TYPE_LABEL[place.type]} en ${where}`} />
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm text-paper transition-opacity hover:opacity-90"
+        >
+          Cómo llegar ↗
+        </a>
       </div>
 
       {/* Mini-mapa */}
