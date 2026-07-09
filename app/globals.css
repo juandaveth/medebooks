@@ -1,26 +1,67 @@
 @import "tailwindcss";
 
+/*
+  Directorio Lector — sistema editorial-tipográfico.
+  Referencia: aeon.com (aire, tipografía protagonista) + carácter tipo replica.studio.
+  Paleta "papel": fondo hueso, tinta casi negra, un acento terracota.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #f6f1e7; /* fondo hueso/crema */
+  --paper-2: #efe8da; /* superficie ligeramente más marcada */
+  --ink: #1b1a17; /* tinta */
+  --ink-soft: #55514a; /* texto secundario */
+  --line: #d9d0be; /* bordes/hairlines */
+  --accent: #b8432a; /* terracota (librerías / acciones) */
+  --accent-2: #2f5d50; /* verde profundo (bibliotecas) */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Titulares editoriales */
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  font-optical-sizing: auto;
+}
+
+/* Hairline superior tipo revista */
+.rule {
+  border-color: var(--line);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* MapLibre: ocultamos el "watermark" por defecto y ajustamos controles al tema */
+.maplibregl-ctrl-attrib {
+  font-size: 10px;
+  background: rgba(246, 241, 231, 0.7) !important;
+}
+.maplibregl-ctrl-group {
+  border: 1px solid var(--line) !important;
+  box-shadow: none !important;
 }
