@@ -30,7 +30,7 @@ function popupHtml(place: Place): string {
         ${TYPE_LABEL[place.type]}${where ? ` · ${where}` : ""}
       </div>
       <h3 class="dl-popup-name">${escapeHtml(place.name)}</h3>
-      <a class="dl-popup-link" href="/lugar/${encodeURIComponent(place.slug)}">Ver ficha →</a>
+      <a class="dl-popup-link" href="/lugar/${encodeURIComponent(place.slug)}">Ver →</a>
     </div>`;
 }
 
@@ -153,12 +153,19 @@ export function MapView({
     });
     if (activeId) {
       const place = propsRef.current.places.find((p) => p.id === activeId);
-      if (place)
+      if (place) {
+        // En móvil el contenedor pudo estar oculto (vista lista); recalcular tamaño
+        // antes de centrar para que el mapa y el popup se ubiquen bien.
+        map.resize();
         map.easeTo({
           center: [place.lng, place.lat],
           zoom: Math.max(map.getZoom(), 14),
           duration: 500,
         });
+        openPopup(place);
+      }
+    } else {
+      popupRef.current?.remove();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId]);

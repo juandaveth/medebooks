@@ -10,7 +10,10 @@
  *
  * Idempotente: hace upsert por google_place_id, así que se puede correr de nuevo.
  */
-import "dotenv/config";
+import { config } from "dotenv";
+// Next.js guarda las llaves en .env.local; cargamos ese primero y .env como respaldo.
+config({ path: ".env.local" });
+config();
 import { createClient } from "@supabase/supabase-js";
 import type { PlaceType } from "../lib/types";
 

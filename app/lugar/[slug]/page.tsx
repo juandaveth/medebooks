@@ -76,7 +76,7 @@ export default async function PlacePage({ params }: Props) {
         href="/"
         className="text-sm text-ink-soft underline-offset-2 hover:text-ink hover:underline"
       >
-        ← Volver al directorio
+        ← Volver
       </Link>
 
       {/* Foto destacada (mejor foto de Google Maps) */}

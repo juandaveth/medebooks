@@ -57,7 +57,7 @@ export function PlaceCard({
             onClick={(e) => e.stopPropagation()}
             className="mt-2 inline-block text-sm text-accent underline-offset-2 hover:underline"
           >
-            Ver ficha →
+            Ver →
           </Link>
         </div>
         {place.photoUrl && (
