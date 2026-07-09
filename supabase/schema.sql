@@ -34,6 +34,7 @@ create table if not exists places (
   hours           text,
   specialties     text[]  default '{}',  -- tipo de librería (usados, café-librería...)
   subjects        text[]  default '{}',  -- materias/temas (taxonomía BISAC)
+  photo_url       text,                -- foto destacada (mejor foto de Google Maps)
   is_free         boolean,
   services        text[]  default '{}',
   entity          text,

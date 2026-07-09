@@ -79,6 +79,25 @@ export default async function PlacePage({ params }: Props) {
         ← Volver al directorio
       </Link>
 
+      {/* Foto destacada (mejor foto de Google Maps) */}
+      <div className="mt-6 aspect-[16/9] overflow-hidden rounded-2xl border border-line">
+        {place.photoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={place.photoUrl}
+            alt={`Foto de ${place.name}`}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-paper-2">
+            <span className="text-5xl opacity-25">
+              {place.type === "libreria" ? "📕" : "🏛️"}
+            </span>
+          </div>
+        )}
+      </div>
+
       <div className="mt-6 flex items-center gap-2">
         <span
           className="h-3 w-3 rounded-full"

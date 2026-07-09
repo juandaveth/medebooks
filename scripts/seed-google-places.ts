@@ -58,7 +58,26 @@ type GPlace = {
   nationalPhoneNumber?: string;
   websiteUri?: string;
   regularOpeningHours?: { weekdayDescriptions?: string[] };
+  photos?: { name: string; widthPx?: number; heightPx?: number }[];
 };
+
+// Resuelve la MEJOR foto (la primera que devuelve Google = más relevante) a una
+// URL de imagen usable sin API key en el navegador (skipHttpRedirect → photoUri).
+async function resolvePhoto(photos?: GPlace["photos"]): Promise<string | null> {
+  const photo = photos?.[0];
+  if (!photo?.name) return null;
+  try {
+    const res = await fetch(
+      `https://places.googleapis.com/v1/${photo.name}/media` +
+        `?maxWidthPx=1200&skipHttpRedirect=true&key=${GOOGLE_KEY}`,
+    );
+    if (!res.ok) return null;
+    const json = (await res.json()) as { photoUri?: string };
+    return json.photoUri ?? null;
+  } catch {
+    return null;
+  }
+}
 
 function slugify(s: string): string {
   return s
@@ -77,7 +96,7 @@ async function textSearch(textQuery: string): Promise<GPlace[]> {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": GOOGLE_KEY!,
       "X-Goog-FieldMask":
-        "places.id,places.displayName,places.formattedAddress,places.location,places.nationalPhoneNumber,places.websiteUri,places.regularOpeningHours",
+        "places.id,places.displayName,places.formattedAddress,places.location,places.nationalPhoneNumber,places.websiteUri,places.regularOpeningHours,places.photos",
     },
     body: JSON.stringify({ textQuery, languageCode: "es", regionCode: "CO" }),
   });
@@ -104,6 +123,7 @@ async function main() {
         let slug = slugify(name);
         while (seenSlug.has(slug)) slug = `${slug}-${p.id.slice(-4)}`;
         seenSlug.add(slug);
+        const photoUrl = await resolvePhoto(p.photos);
         byId.set(p.id, {
           type,
           status: "published",
@@ -116,6 +136,7 @@ async function main() {
           phone: p.nationalPhoneNumber ?? null,
           website: p.websiteUri ?? null,
           hours: p.regularOpeningHours?.weekdayDescriptions?.join(" · ") ?? null,
+          photo_url: photoUrl,
           is_free: type === "biblioteca" ? true : null,
           google_place_id: p.id,
           source: "seed",

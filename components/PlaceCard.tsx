@@ -60,6 +60,15 @@ export function PlaceCard({
             Ver ficha →
           </Link>
         </div>
+        {place.photoUrl && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={place.photoUrl}
+            alt=""
+            className="h-16 w-16 shrink-0 rounded-md object-cover"
+            loading="lazy"
+          />
+        )}
       </div>
     </div>
   );

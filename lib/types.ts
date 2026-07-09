@@ -22,6 +22,7 @@ export type Place = {
   entity?: string | null; // biblioteca: entidad
   googlePlaceId?: string | null; // ID del lugar en Google Maps (para enlazar por lugar)
   subjects?: string[]; // materias/temas (taxonomía BISAC, ver MATERIAS)
+  photoUrl?: string | null; // foto destacada (mejor foto de Google Maps, resuelta en el sembrado)
 };
 
 /**
