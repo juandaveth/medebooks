@@ -32,7 +32,8 @@ create table if not exists places (
   website         text,
   instagram       text,
   hours           text,
-  specialties     text[]  default '{}',
+  specialties     text[]  default '{}',  -- tipo de librería (usados, café-librería...)
+  subjects        text[]  default '{}',  -- materias/temas (taxonomía BISAC)
   is_free         boolean,
   services        text[]  default '{}',
   entity          text,
@@ -46,6 +47,8 @@ create index if not exists places_location_idx     on places using gist (locatio
 create index if not exists places_type_idx         on places (type);
 create index if not exists places_municipality_idx on places (municipality);
 create index if not exists places_status_idx       on places (status);
+create index if not exists places_specialties_idx  on places using gin (specialties);
+create index if not exists places_subjects_idx     on places using gin (subjects);
 
 -- RLS: lectura pública de lo publicado; escritura sólo con service_role (scripts/admin).
 alter table places enable row level security;

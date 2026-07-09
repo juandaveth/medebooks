@@ -65,6 +65,11 @@ export function MapView({
   const popupRef = useRef<maplibregl.Popup | null>(null);
   const readyRef = useRef(false);
 
+  // Los handlers (load, effects) se registran una vez pero deben leer SIEMPRE
+  // los datos más recientes; guardamos props en un ref para evitar stale closures.
+  const propsRef = useRef({ places, activeId, onSelect });
+  propsRef.current = { places, activeId, onSelect };
+
   function openPopup(place: Place) {
     const map = mapRef.current;
     if (!map) return;
@@ -78,6 +83,7 @@ export function MapView({
   function renderMarkers() {
     const map = mapRef.current;
     if (!map) return;
+    const { places, activeId, onSelect } = propsRef.current;
     popupRef.current?.remove();
     markersRef.current.forEach((m) => m.remove());
     markersRef.current.clear();
@@ -146,7 +152,7 @@ export function MapView({
       el.style.zIndex = active ? "10" : "1";
     });
     if (activeId) {
-      const place = places.find((p) => p.id === activeId);
+      const place = propsRef.current.places.find((p) => p.id === activeId);
       if (place)
         map.easeTo({
           center: [place.lng, place.lat],

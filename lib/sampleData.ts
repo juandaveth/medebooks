@@ -5,6 +5,9 @@ import type { Place } from "./types";
   Coordenadas aproximadas — los datos reales llegan con el sembrado
   (scripts/seed-google-places.ts). Cuando hay credenciales de Supabase,
   lib/queries.ts consulta la base y NO usa este archivo.
+
+  specialties = tipo de librería (usados, nuevos, café-librería...).
+  subjects    = materias/temas (taxonomía BISAC, ver MATERIAS en types.ts).
 */
 export const SAMPLE_PLACES: Place[] = [
   // ── Bibliotecas (sistema público) ─────────────────────────────
@@ -24,6 +27,7 @@ export const SAMPLE_PLACES: Place[] = [
     isFree: true,
     services: ["wifi", "salas de estudio", "préstamo", "eventos", "ludoteca"],
     entity: "Sistema de Bibliotecas Públicas de Medellín",
+    subjects: ["Literatura y ficción", "Infantil", "Historia", "Ciencias sociales"],
   },
   {
     id: "s-biblioteca-leon-de-greiff",
@@ -39,6 +43,7 @@ export const SAMPLE_PLACES: Place[] = [
     isFree: true,
     services: ["wifi", "salas de estudio", "préstamo", "eventos"],
     entity: "Sistema de Bibliotecas Públicas de Medellín",
+    subjects: ["Literatura y ficción", "Arte", "Música", "Infantil"],
   },
   {
     id: "s-biblioteca-belen",
@@ -54,6 +59,7 @@ export const SAMPLE_PLACES: Place[] = [
     isFree: true,
     services: ["wifi", "salas de estudio", "préstamo", "ludoteca"],
     entity: "Sistema de Bibliotecas Públicas de Medellín",
+    subjects: ["Infantil", "Juvenil (Young Adult)", "Literatura y ficción"],
   },
   {
     id: "s-biblioteca-san-javier",
@@ -69,6 +75,7 @@ export const SAMPLE_PLACES: Place[] = [
     isFree: true,
     services: ["wifi", "préstamo", "eventos"],
     entity: "Sistema de Bibliotecas Públicas de Medellín",
+    subjects: ["Literatura y ficción", "Ciencias sociales", "Infantil"],
   },
   {
     id: "s-biblioteca-piloto",
@@ -86,6 +93,7 @@ export const SAMPLE_PLACES: Place[] = [
     isFree: true,
     services: ["wifi", "salas de estudio", "préstamo", "archivo"],
     entity: "Biblioteca Pública Piloto",
+    subjects: ["Historia", "Fotografía", "Literatura y ficción", "Ciencias sociales"],
   },
   {
     id: "s-biblioteca-epm",
@@ -103,6 +111,7 @@ export const SAMPLE_PLACES: Place[] = [
     isFree: true,
     services: ["wifi", "salas de estudio", "préstamo", "eventos"],
     entity: "Fundación EPM",
+    subjects: ["Ciencia", "Tecnología e ingeniería", "Computación e informática", "Infantil"],
   },
   // ── Librerías ────────────────────────────────────────────────
   {
@@ -120,6 +129,13 @@ export const SAMPLE_PLACES: Place[] = [
     website: "https://libreriagrammata.com",
     instagram: "libreriagrammata",
     specialties: ["nuevos", "independiente", "café-librería"],
+    subjects: [
+      "Literatura y ficción",
+      "Poesía",
+      "Filosofía",
+      "Arte",
+      "Manga y cultura japonesa",
+    ],
   },
   {
     id: "s-libreria-al-pie-de-la-letra",
@@ -134,6 +150,7 @@ export const SAMPLE_PLACES: Place[] = [
     hours: "Lun–Sáb 10:00–19:00",
     instagram: "alpiedelaletra.co",
     specialties: ["nuevos", "usados", "independiente"],
+    subjects: ["Literatura y ficción", "Historia", "Poesía"],
   },
   {
     id: "s-libreria-palinuro",
@@ -147,12 +164,14 @@ export const SAMPLE_PLACES: Place[] = [
     lng: -75.5686,
     hours: "Lun–Sáb 9:00–18:00",
     specialties: ["usados", "académico"],
+    subjects: ["Ciencias sociales", "Filosofía", "Historia", "Política"],
   },
   {
     id: "s-libreria-cientifica",
     type: "libreria",
     name: "Librería Científica",
     slug: "libreria-cientifica",
+    description: "Especializada en libros técnicos, científicos y académicos.",
     address: "Centro",
     neighborhood: "La Candelaria",
     municipality: "Medellín",
@@ -160,6 +179,13 @@ export const SAMPLE_PLACES: Place[] = [
     lng: -75.5665,
     hours: "Lun–Vie 9:00–18:00 · Sáb 9:00–13:00",
     specialties: ["académico", "nuevos"],
+    subjects: [
+      "Ciencia",
+      "Tecnología e ingeniería",
+      "Arquitectura",
+      "Medicina y salud",
+      "Matemáticas",
+    ],
   },
   {
     id: "s-libreria-acentos",
@@ -172,7 +198,8 @@ export const SAMPLE_PLACES: Place[] = [
     lat: 6.1667,
     lng: -75.5836,
     hours: "Lun–Sáb 10:00–19:00",
-    specialties: ["independiente", "infantil", "nuevos"],
+    specialties: ["independiente", "nuevos"],
+    subjects: ["Infantil", "Juvenil (Young Adult)", "Literatura y ficción"],
   },
   {
     id: "s-libreria-la-anticuaria",
@@ -187,5 +214,6 @@ export const SAMPLE_PLACES: Place[] = [
     lng: -75.6167,
     hours: "Lun–Sáb 10:00–18:00",
     specialties: ["usados", "raros"],
+    subjects: ["Historia", "Literatura y ficción", "Arte", "Biografías y memorias"],
   },
 ];

@@ -8,6 +8,54 @@ const TYPES: { value: PlaceType | "all"; label: string }[] = [
   { value: "biblioteca", label: "Bibliotecas" },
 ];
 
+/** Grupo de chips de selección múltiple (OR) con encabezado y "Limpiar". */
+function ChipGroup({
+  label,
+  options,
+  selected,
+  onToggle,
+  onClear,
+}: {
+  label: string;
+  options: string[];
+  selected: string[];
+  onToggle: (value: string) => void;
+  onClear: () => void;
+}) {
+  if (options.length === 0) return null;
+  return (
+    <div>
+      <div className="mb-1.5 flex items-center justify-between">
+        <span className="text-xs uppercase tracking-wide text-ink-soft">{label}</span>
+        {selected.length > 0 && (
+          <button onClick={onClear} className="text-xs text-accent hover:underline">
+            Limpiar
+          </button>
+        )}
+      </div>
+      <div className="flex flex-wrap gap-1.5">
+        {options.map((o) => {
+          const on = selected.includes(o);
+          return (
+            <button
+              key={o}
+              aria-pressed={on}
+              onClick={() => onToggle(o)}
+              className={`rounded-full border px-3 py-1 text-sm transition-colors ${
+                on
+                  ? "border-accent bg-accent text-paper"
+                  : "border-line text-ink-soft hover:border-ink hover:text-ink"
+              }`}
+            >
+              {o}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function Filters({
   filters,
   facets,
@@ -15,17 +63,17 @@ export function Filters({
   onChange,
 }: {
   filters: PlaceFilters;
-  facets: { municipalities: string[]; specialties: string[] };
+  facets: { municipalities: string[]; specialties: string[]; subjects: string[] };
   count: number;
   onChange: (patch: Partial<PlaceFilters>) => void;
 }) {
-  const selected = filters.specialties ?? [];
-  const toggleSpecialty = (s: string) =>
-    onChange({
-      specialties: selected.includes(s)
-        ? selected.filter((x) => x !== s)
-        : [...selected, s],
-    });
+  const specialties = filters.specialties ?? [];
+  const subjects = filters.subjects ?? [];
+
+  const toggle = (list: string[], value: string) =>
+    list.includes(value) ? list.filter((x) => x !== value) : [...list, value];
+
+  const isBiblioteca = (filters.type ?? "all") === "biblioteca";
 
   return (
     <div className="space-y-3">
@@ -72,43 +120,25 @@ export function Filters({
         </select>
       </div>
 
-      {/* Especialidades: selección múltiple (chips) — solo aplica a librerías */}
-      {(filters.type ?? "all") !== "biblioteca" && facets.specialties.length > 0 && (
-        <div>
-          <div className="mb-1.5 flex items-center justify-between">
-            <span className="text-xs uppercase tracking-wide text-ink-soft">
-              Especialidades
-            </span>
-            {selected.length > 0 && (
-              <button
-                onClick={() => onChange({ specialties: [] })}
-                className="text-xs text-accent hover:underline"
-              >
-                Limpiar
-              </button>
-            )}
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {facets.specialties.map((s) => {
-              const on = selected.includes(s);
-              return (
-                <button
-                  key={s}
-                  aria-pressed={on}
-                  onClick={() => toggleSpecialty(s)}
-                  className={`rounded-full border px-3 py-1 text-sm transition-colors ${
-                    on
-                      ? "border-accent bg-accent text-paper"
-                      : "border-line text-ink-soft hover:border-ink hover:text-ink"
-                  }`}
-                >
-                  {s}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+      {/* Tipo de librería (solo aplica a librerías) */}
+      {!isBiblioteca && (
+        <ChipGroup
+          label="Tipo de librería"
+          options={facets.specialties}
+          selected={specialties}
+          onToggle={(v) => onChange({ specialties: toggle(specialties, v) })}
+          onClear={() => onChange({ specialties: [] })}
+        />
       )}
+
+      {/* Materias / temas (aplica a librerías y bibliotecas) */}
+      <ChipGroup
+        label="Materias"
+        options={facets.subjects}
+        selected={subjects}
+        onToggle={(v) => onChange({ subjects: toggle(subjects, v) })}
+        onClear={() => onChange({ subjects: [] })}
+      />
 
       <p className="text-xs uppercase tracking-wide text-ink-soft">
         {count} {count === 1 ? "lugar" : "lugares"}

@@ -115,7 +115,7 @@ export default async function PlacePage({ params }: Props) {
         <MapView places={[place]} activeId={place.id} />
       </div>
 
-      {/* Tags */}
+      {/* Tags: tipo de librería / servicios de biblioteca */}
       {tags && tags.length > 0 && (
         <div className="mt-6 flex flex-wrap gap-2">
           {tags.map((t) => (
@@ -126,6 +126,23 @@ export default async function PlacePage({ params }: Props) {
               {t}
             </span>
           ))}
+        </div>
+      )}
+
+      {/* Materias / temas */}
+      {place.subjects && place.subjects.length > 0 && (
+        <div className="mt-6">
+          <p className="mb-2 text-xs uppercase tracking-wide text-ink-soft">Materias</p>
+          <div className="flex flex-wrap gap-2">
+            {place.subjects.map((s) => (
+              <span
+                key={s}
+                className="rounded-full bg-paper-2 px-3 py-1 text-sm text-ink"
+              >
+                {s}
+              </span>
+            ))}
+          </div>
         </div>
       )}
 

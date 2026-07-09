@@ -12,7 +12,7 @@ export function Directory({
   facets,
 }: {
   places: Place[];
-  facets: { municipalities: string[]; specialties: string[] };
+  facets: { municipalities: string[]; specialties: string[]; subjects: string[] };
 }) {
   const [filters, setFilters] = useState<PlaceFilters>({ type: "all" });
   const [activeId, setActiveId] = useState<string | null>(null);

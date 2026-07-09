@@ -1,13 +1,14 @@
 import { getSupabase } from "./supabase";
 import { SAMPLE_PLACES } from "./sampleData";
 import { filterPlaces } from "./filter";
+import { MATERIAS } from "./types";
 import type { Place, PlaceFilters } from "./types";
 
 // Columnas que expone la vista/tabla y su mapeo al tipo Place.
 const SELECT = `
   id, type, name, slug, description, address, neighborhood, municipality,
   lat, lng, phone, whatsapp, website, instagram, hours, specialties,
-  is_free, services, entity, google_place_id
+  is_free, services, entity, google_place_id, subjects
 `;
 
 type Row = Record<string, unknown>;
@@ -34,6 +35,7 @@ function rowToPlace(r: Row): Place {
     services: (r.services as string[]) ?? [],
     entity: (r.entity as string) ?? null,
     googlePlaceId: (r.google_place_id as string) ?? null,
+    subjects: (r.subjects as string[]) ?? [],
   };
 }
 
@@ -51,6 +53,8 @@ export async function getPlaces(filters: PlaceFilters = {}): Promise<Place[]> {
     query = query.eq("municipality", filters.municipality);
   if (filters.specialties && filters.specialties.length > 0)
     query = query.overlaps("specialties", filters.specialties);
+  if (filters.subjects && filters.subjects.length > 0)
+    query = query.overlaps("subjects", filters.subjects);
   if (filters.query && filters.query.trim())
     query = query.ilike("name", `%${filters.query.trim()}%`);
 
@@ -81,6 +85,7 @@ export async function getPlaceBySlug(slug: string): Promise<Place | null> {
 export async function getFacets(): Promise<{
   municipalities: string[];
   specialties: string[];
+  subjects: string[];
 }> {
   const all = await getPlaces();
   const municipalities = [
@@ -89,5 +94,8 @@ export async function getFacets(): Promise<{
   const specialties = [
     ...new Set(all.flatMap((p) => p.specialties ?? [])),
   ].sort((a, b) => a.localeCompare(b, "es"));
-  return { municipalities, specialties };
+  // Materias ordenadas según el orden canónico de la taxonomía (MATERIAS).
+  const present = new Set(all.flatMap((p) => p.subjects ?? []));
+  const subjects = MATERIAS.filter((m) => present.has(m));
+  return { municipalities, specialties, subjects };
 }
