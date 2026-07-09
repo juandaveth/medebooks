@@ -108,6 +108,11 @@ export function Directory({
           places={ordered}
           activeId={activeId}
           onSelect={(p) => setActiveId(p.id)}
+          activeMunicipality={
+            filters.municipality && filters.municipality !== "all"
+              ? filters.municipality
+              : undefined
+          }
         />
       </div>
 
