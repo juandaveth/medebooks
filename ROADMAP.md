@@ -40,6 +40,21 @@ Este archivo recoge lo que sigue; no es compromiso de fechas, es orden de intenc
 - Poblar `specialties` (tipo de librería) y `subjects` (materias BISAC) con aportes de comunidad
   — decidido dejarlos para esta etapa; hoy la UI los oculta cuando están vacíos.
 
+## v4 — Clubes de lectura y eventos
+- **Clubes de lectura y eventos** ⭐ (pedido explícito, para más adelante).
+  - Qué: poder registrar y descubrir **clubes de lectura** y **eventos** (lecturas, lanzamientos,
+    talleres, ferias) asociados a las librerías/bibliotecas — y quizá también independientes.
+  - Por qué: pasar de "dónde conseguir libros" a "dónde pasan cosas alrededor de los libros";
+    fideliza y da vida al directorio.
+  - Modelo de datos (borrador):
+    - `events` (`id`, `place_id?` [opcional si es en otro lugar], `title`, `description`,
+      `starts_at`, `ends_at?`, `recurrence?` [para clubes periódicos], `url?`, `organizer?`,
+      `added_by`, `status` ['published'|'pending'], `created_at`).
+    - Un club de lectura = evento recurrente (o un tipo propio `book_clubs` si crece).
+  - UX (a decidir): sección "Agenda/Eventos" en la ficha del lugar + posible vista de agenda
+    global filtrable por fecha/municipio/tipo. Estados vencidos vs próximos.
+  - Encaja con la infra de aportes + moderación de v2/v3 (`status='pending'` → aprobar).
+
 ## Futuro / ideas
 - i18n inglés (estructura preparada).
 - Cajas de compensación (Comfama/Comfenalco), bibliotecas universitarias y comunitarias.
