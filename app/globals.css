@@ -65,3 +65,41 @@ body {
   border: 1px solid var(--line) !important;
   box-shadow: none !important;
 }
+
+/* Popup del pin, acorde a la estética papel */
+.maplibregl-popup-content {
+  background: var(--paper) !important;
+  border: 1px solid var(--line);
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+  box-shadow: 0 8px 24px rgba(27, 26, 23, 0.14) !important;
+}
+.maplibregl-popup-tip {
+  border-top-color: var(--paper) !important;
+  border-bottom-color: var(--paper) !important;
+}
+.maplibregl-popup-close-button {
+  color: var(--ink-soft);
+  font-size: 18px;
+  padding: 0 6px;
+}
+.dl-popup-type {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.dl-popup-name {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 18px;
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 2px 0 6px;
+}
+.dl-popup-link {
+  color: var(--accent);
+  font-size: 14px;
+  text-decoration: none;
+}
+.dl-popup-link:hover {
+  text-decoration: underline;
+}
