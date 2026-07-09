@@ -67,6 +67,10 @@ body {
 }
 
 /* Popup del pin, acorde a la estética papel */
+/* Por encima de los marcadores (el activo usa z-index 10) para que no lo tapen. */
+.maplibregl-popup {
+  z-index: 20;
+}
 .maplibregl-popup-content {
   background: var(--paper) !important;
   border: 1px solid var(--line);
