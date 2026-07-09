@@ -86,11 +86,17 @@ export function Filters({
   facets,
   count,
   onChange,
+  sort,
+  onSort,
+  onRandomPick,
 }: {
   filters: PlaceFilters;
   facets: { municipalities: string[]; specialties: string[]; subjects: string[] };
   count: number;
   onChange: (patch: Partial<PlaceFilters>) => void;
+  sort: "alpha" | "random";
+  onSort: (next: "alpha" | "random") => void;
+  onRandomPick: () => void;
 }) {
   const specialties = filters.specialties ?? [];
   const subjects = filters.subjects ?? [];
@@ -143,6 +149,40 @@ export function Filters({
             </option>
           ))}
         </select>
+      </div>
+
+      {/* Al azar + orden de la lista */}
+      <div className="flex items-center justify-between gap-2">
+        <button
+          onClick={onRandomPick}
+          className="flex items-center gap-1.5 rounded-full border border-line px-3.5 py-1.5 text-sm text-ink transition-colors hover:border-ink hover:bg-paper-2"
+        >
+          <span aria-hidden>🎲</span> Al azar
+        </button>
+        <div className="inline-flex items-center gap-1.5">
+          <span className="text-xs uppercase tracking-wide text-ink-soft">Orden</span>
+          <div className="inline-flex rounded-full border border-line p-0.5">
+            {(
+              [
+                { value: "alpha", label: "A–Z" },
+                { value: "random", label: "Aleatorio" },
+              ] as const
+            ).map((o) => (
+              <button
+                key={o.value}
+                onClick={() => onSort(o.value)}
+                aria-pressed={sort === o.value}
+                className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                  sort === o.value
+                    ? "bg-ink text-paper"
+                    : "text-ink-soft hover:text-ink"
+                }`}
+              >
+                {o.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Tipo de librería (solo aplica a librerías) */}

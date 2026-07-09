@@ -19,8 +19,26 @@ export function Directory({
   const [filters, setFilters] = useState<PlaceFilters>({ type: initialType });
   const [activeId, setActiveId] = useState<string | null>(null);
   const [mobileView, setMobileView] = useState<"list" | "map">("list");
+  const [sort, setSort] = useState<"alpha" | "random">("alpha");
+  const [shuffleSeed, setShuffleSeed] = useState(0);
 
   const filtered = useMemo(() => filterPlaces(places, filters), [places, filters]);
+
+  // Ranking aleatorio estable durante la sesión; se rebaraja al pulsar "Aleatorio".
+  const randomRank = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const p of places) m.set(p.id, Math.random());
+    return m;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [places, shuffleSeed]);
+
+  const ordered = useMemo(() => {
+    if (sort === "random")
+      return [...filtered].sort(
+        (a, b) => (randomRank.get(a.id) ?? 0) - (randomRank.get(b.id) ?? 0),
+      );
+    return filtered; // ya viene alfabético desde la consulta
+  }, [filtered, sort, randomRank]);
 
   function patch(p: Partial<PlaceFilters>) {
     setFilters((f) => {
@@ -38,6 +56,19 @@ export function Directory({
       setMobileView("map");
   }
 
+  // Orden de la lista: A–Z o aleatorio (rebaraja cada vez que se elige aleatorio).
+  function changeSort(next: "alpha" | "random") {
+    setSort(next);
+    if (next === "random") setShuffleSeed((s) => s + 1);
+  }
+
+  // "Muéstrame un lugar al azar": elige uno de los filtrados y lo abre en el mapa.
+  function pickRandom() {
+    if (filtered.length === 0) return;
+    const p = filtered[Math.floor(Math.random() * filtered.length)];
+    select(p);
+  }
+
   return (
     <div className="flex h-full flex-col md:flex-row">
       {/* Panel izquierdo: filtros + lista */}
@@ -52,10 +83,13 @@ export function Directory({
             facets={facets}
             count={filtered.length}
             onChange={patch}
+            sort={sort}
+            onSort={changeSort}
+            onRandomPick={pickRandom}
           />
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto">
-          <PlaceList places={filtered} activeId={activeId} onSelect={select} />
+          <PlaceList places={ordered} activeId={activeId} onSelect={select} />
         </div>
       </aside>
 
@@ -66,7 +100,7 @@ export function Directory({
         }`}
       >
         <MapView
-          places={filtered}
+          places={ordered}
           activeId={activeId}
           onSelect={(p) => setActiveId(p.id)}
         />

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import type { Place } from "@/lib/types";
 import { PlaceCard } from "./PlaceCard";
 
@@ -12,6 +13,13 @@ export function PlaceList({
   activeId?: string | null;
   onSelect?: (p: Place) => void;
 }) {
+  const activeRef = useRef<HTMLDivElement | null>(null);
+
+  // Al cambiar el lugar activo (clic en pin o "al azar"), trae su tarjeta a la vista.
+  useEffect(() => {
+    activeRef.current?.scrollIntoView({ block: "nearest" });
+  }, [activeId]);
+
   if (places.length === 0) {
     return (
       <div className="px-5 py-16 text-center text-ink-soft">
@@ -23,12 +31,13 @@ export function PlaceList({
   return (
     <div>
       {places.map((p) => (
-        <PlaceCard
-          key={p.id}
-          place={p}
-          active={p.id === activeId}
-          onSelect={onSelect}
-        />
+        <div key={p.id} ref={p.id === activeId ? activeRef : null}>
+          <PlaceCard
+            place={p}
+            active={p.id === activeId}
+            onSelect={onSelect}
+          />
+        </div>
       ))}
     </div>
   );
