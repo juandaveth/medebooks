@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Directorio Lector — Librerías y bibliotecas de Medellín",
-    short_name: "Directorio Lector",
+    name: "medebooks — Librerías y bibliotecas de Medellín",
+    short_name: "medebooks",
     description:
       "Todas las librerías y bibliotecas del Área Metropolitana de Medellín, en un mapa.",
     start_url: "/",

@@ -14,12 +14,12 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const SITE_NAME = "Directorio Lector";
+const SITE_NAME = "medebooks";
 const SITE_DESC =
   "Todas las librerías y bibliotecas del Área Metropolitana de Medellín, en un mapa.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://directorio-lector.vercel.app"),
+  metadataBase: new URL("https://medebooks.vercel.app"),
   title: {
     default: `${SITE_NAME} — Librerías y bibliotecas de Medellín`,
     template: `%s · ${SITE_NAME}`,

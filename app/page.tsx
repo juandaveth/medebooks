@@ -12,7 +12,7 @@ export default async function Home() {
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-baseline gap-3">
             <h1 className="font-display text-2xl leading-none tracking-tight text-ink">
-              Directorio Lector
+              medebooks
             </h1>
             <p className="hidden text-sm text-ink-soft sm:block">
               Librerías y bibliotecas del Área Metropolitana de Medellín
