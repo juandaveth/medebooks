@@ -7,12 +7,17 @@ import { marked } from "marked";
 
 const DIR = path.join(process.cwd(), "content/blog");
 
+// Las dos corrientes del blog. "construyendo" es la bitácora de cómo se hace
+// medebooks; "resenas" son las reseñas de librerías y bibliotecas de la ciudad.
+export type Section = "resenas" | "construyendo";
+
 export type PostMeta = {
   slug: string;
   title: string;
   date: string; // ISO (YYYY-MM-DD)
   description: string;
   tag?: string;
+  section: Section;
   readingMinutes: number;
 };
 
@@ -65,6 +70,7 @@ export function getPost(slug: string): Post | null {
     date: data.date ?? "",
     description: data.description ?? "",
     tag: data.tag,
+    section: data.section === "resenas" ? "resenas" : "construyendo",
     readingMinutes: Math.max(1, Math.round(words / 200)),
     html: marked.parse(body, { async: false }) as string,
   };

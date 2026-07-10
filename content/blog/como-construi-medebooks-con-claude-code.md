@@ -3,6 +3,7 @@ title: "Cómo construí medebooks con Claude Code"
 date: 2026-07-10
 description: "Un directorio en mapa de las librerías y bibliotecas de Medellín, hecho con un agente de código. Estas son las decisiones, los tropiezos y el bug que lo resume todo."
 tag: "Construyendo en público"
+section: construyendo
 ---
 
 En Medellín hay decenas de librerías y bibliotecas, pero no hay un solo lugar donde verlas todas. Uno se entera de la librería de usados del barrio por casualidad, o descubre un Parque Biblioteca años después de que lo inauguraran. Esa fue la idea de **medebooks**: reunirlas todas en un mapa, por barrio.
