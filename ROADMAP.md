@@ -70,6 +70,16 @@ Este archivo recoge lo que sigue; no es compromiso de fechas, es orden de intenc
     global filtrable por fecha/municipio/tipo. Estados vencidos vs próximos.
   - Encaja con la infra de aportes + moderación de v2/v3 (`status='pending'` → aprobar).
 
+## v4 — Búsqueda en lenguaje natural (IA)
+- **Búsqueda tipo IA / semántica** ⭐ (pedido explícito, para más adelante).
+  - Qué: que el usuario escriba en lenguaje natural (ej. *"busco libros usados en Floresta"*)
+    y el sistema entienda la intención → filtra por especialidad (`usados`) + barrio (`Floresta`)
+    y muestra resultados, en vez de sólo coincidencia de texto por nombre.
+  - Enfoque (a decidir): (a) parseo de intención con un LLM que mapea la frase a filtros
+    estructurados (tipo/barrio/materias/especialidad) — barato y explicable; o (b) búsqueda
+    semántica con embeddings (pgvector en Supabase) sobre nombre/descripción/reseñas/videos.
+  - Depende de tener pobladas las `specialties`/`subjects` (v3) para que el filtro sea útil.
+
 ## Futuro / ideas
 - i18n inglés (estructura preparada).
 - Cajas de compensación (Comfama/Comfenalco), bibliotecas universitarias y comunitarias.

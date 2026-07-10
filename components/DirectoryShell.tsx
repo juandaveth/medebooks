@@ -1,33 +1,45 @@
 import Link from "next/link";
 import type { Place, PlaceType } from "@/lib/types";
+import type { Facets } from "@/lib/queries";
 import { hasSupabase } from "@/lib/supabase";
 import { Directory } from "./Directory";
 
 // Subtítulo del masthead según el tipo que se está viendo.
 const SUBTITLE: Record<PlaceType | "all", string> = {
-  all: "Librerías y bibliotecas del Área Metropolitana de Medellín",
-  libreria: "Librerías del Área Metropolitana de Medellín",
-  biblioteca: "Bibliotecas del Área Metropolitana de Medellín",
+  all: "Librerías y bibliotecas de Medellín, por barrio",
+  libreria: "Librerías de Medellín, por barrio",
+  biblioteca: "Bibliotecas de Medellín, por barrio",
 };
 
-function subtitleFor(type: PlaceType | "all", municipality?: string): string {
-  const base = SUBTITLE[type];
-  if (!municipality) return base;
+function subtitleFor(
+  type: PlaceType | "all",
+  comuna?: string,
+  neighborhood?: string,
+): string {
+  if (!comuna) return SUBTITLE[type];
   const kind =
-    type === "libreria" ? "Librerías" : type === "biblioteca" ? "Bibliotecas" : "Librerías y bibliotecas";
-  return `${kind} en ${municipality}`;
+    type === "libreria"
+      ? "Librerías"
+      : type === "biblioteca"
+        ? "Bibliotecas"
+        : "Librerías y bibliotecas";
+  // "… en La Mota, Belén" o "… en Belén"
+  const where = neighborhood ? `${neighborhood}, ${comuna}` : comuna;
+  return `${kind} en ${where}`;
 }
 
 export function DirectoryShell({
   places,
   facets,
   initialType = "all",
-  initialMunicipality,
+  initialComuna,
+  initialNeighborhood,
 }: {
   places: Place[];
-  facets: { municipalities: string[]; specialties: string[]; subjects: string[] };
+  facets: Facets;
   initialType?: PlaceType | "all";
-  initialMunicipality?: string;
+  initialComuna?: string;
+  initialNeighborhood?: string;
 }) {
   return (
     <div className="flex h-[100dvh] flex-col">
@@ -42,7 +54,7 @@ export function DirectoryShell({
               medebooks
             </Link>
             <p className="hidden text-sm text-ink-soft sm:block">
-              {subtitleFor(initialType, initialMunicipality)}
+              {subtitleFor(initialType, initialComuna, initialNeighborhood)}
             </p>
           </div>
           <div className="flex items-center gap-3 text-xs uppercase tracking-wide text-ink-soft">
@@ -67,7 +79,8 @@ export function DirectoryShell({
           places={places}
           facets={facets}
           initialType={initialType}
-          initialMunicipality={initialMunicipality}
+          initialComuna={initialComuna}
+          initialNeighborhood={initialNeighborhood}
         />
       </main>
     </div>

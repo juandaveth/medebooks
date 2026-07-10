@@ -7,7 +7,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "seed": "tsx scripts/seed-google-places.ts"
+    "seed": "tsx scripts/seed-google-places.ts",
+    "assign-barrios": "tsx scripts/assign-barrios.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

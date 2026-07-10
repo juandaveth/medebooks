@@ -38,7 +38,7 @@ export function PlaceCard({
           <p className="mt-0.5 text-xs uppercase tracking-wide text-ink-soft">
             {TYPE_LABEL[place.type]}
             {place.neighborhood ? ` · ${place.neighborhood}` : ""}
-            {place.municipality ? `, ${place.municipality}` : ""}
+            {place.comuna ? `, ${place.comuna}` : ""}
           </p>
           {tags && tags.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">

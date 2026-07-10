@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const place = await getPlaceBySlug(slug);
   if (!place) return { title: "Lugar no encontrado" };
-  const where = [place.neighborhood, place.municipality]
+  const where = [place.neighborhood, place.comuna, place.municipality]
     .filter(Boolean)
     .join(", ");
   const desc =
@@ -67,7 +67,9 @@ export default async function PlacePage({ params }: Props) {
   const place = await getPlaceBySlug(slug);
   if (!place) notFound();
 
-  const where = [place.neighborhood, place.municipality].filter(Boolean).join(", ");
+  const where = [place.neighborhood, place.comuna, place.municipality]
+    .filter(Boolean)
+    .join(", ");
   const tags = place.type === "libreria" ? place.specialties : place.services;
 
   return (

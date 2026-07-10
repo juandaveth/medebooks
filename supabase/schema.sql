@@ -19,7 +19,8 @@ create table if not exists places (
   slug            text unique not null,
   description     text,
   address         text,
-  neighborhood    text,
+  neighborhood    text,               -- barrio (Medellín: asignado por point-in-polygon)
+  comuna          text,               -- comuna/corregimiento de Medellín
   municipality    text,
   lat             double precision not null,
   lng             double precision not null,
@@ -47,6 +48,8 @@ create table if not exists places (
 create index if not exists places_location_idx     on places using gist (location);
 create index if not exists places_type_idx         on places (type);
 create index if not exists places_municipality_idx on places (municipality);
+create index if not exists places_comuna_idx       on places (comuna);
+create index if not exists places_neighborhood_idx on places (neighborhood);
 create index if not exists places_status_idx       on places (status);
 create index if not exists places_specialties_idx  on places using gin (specialties);
 create index if not exists places_subjects_idx     on places using gin (subjects);

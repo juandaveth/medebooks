@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { PlaceFilters, PlaceType } from "@/lib/types";
+import type { Facets } from "@/lib/queries";
 
 const TYPES: { value: PlaceType | "all"; label: string }[] = [
   { value: "all", label: "Todo" },
@@ -91,7 +92,7 @@ export function Filters({
   onRandomPick,
 }: {
   filters: PlaceFilters;
-  facets: { municipalities: string[]; specialties: string[]; subjects: string[] };
+  facets: Facets;
   count: number;
   onChange: (patch: Partial<PlaceFilters>) => void;
   sort: "alpha" | "random";
@@ -100,6 +101,9 @@ export function Filters({
 }) {
   const specialties = filters.specialties ?? [];
   const subjects = filters.subjects ?? [];
+
+  const comuna = filters.comuna ?? "all";
+  const barrios = comuna !== "all" ? facets.barriosByComuna[comuna] ?? [] : [];
 
   const toggle = (list: string[], value: string) =>
     list.includes(value) ? list.filter((x) => x !== value) : [...list, value];
@@ -135,20 +139,34 @@ export function Filters({
         className="w-full rounded-lg border border-line bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-soft/70 focus:border-ink focus:outline-none"
       />
 
-      {/* Municipio */}
+      {/* Comuna → barrio */}
       <div className="flex flex-wrap gap-2">
         <select
-          value={filters.municipality ?? "all"}
-          onChange={(e) => onChange({ municipality: e.target.value })}
+          value={comuna}
+          onChange={(e) => onChange({ comuna: e.target.value, neighborhood: "all" })}
           className="rounded-lg border border-line bg-paper px-3 py-2 text-sm text-ink focus:border-ink focus:outline-none"
         >
-          <option value="all">Todos los municipios</option>
-          {facets.municipalities.map((m) => (
-            <option key={m} value={m}>
-              {m}
+          <option value="all">Todas las comunas</option>
+          {facets.comunas.map((c) => (
+            <option key={c} value={c}>
+              {c}
             </option>
           ))}
         </select>
+        {comuna !== "all" && barrios.length > 0 && (
+          <select
+            value={filters.neighborhood ?? "all"}
+            onChange={(e) => onChange({ neighborhood: e.target.value })}
+            className="rounded-lg border border-line bg-paper px-3 py-2 text-sm text-ink focus:border-ink focus:outline-none"
+          >
+            <option value="all">Todos los barrios</option>
+            {barrios.map((b) => (
+              <option key={b} value={b}>
+                {b}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
 
       {/* Al azar + orden de la lista */}

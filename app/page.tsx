@@ -1,7 +1,5 @@
-import { getPlaces, getFacets } from "@/lib/queries";
-import { DirectoryShell } from "@/components/DirectoryShell";
+import { DirectoryPage } from "@/components/DirectoryPage";
 
-export default async function Home() {
-  const [places, facets] = await Promise.all([getPlaces(), getFacets()]);
-  return <DirectoryShell places={places} facets={facets} initialType="all" />;
+export default function Home() {
+  return <DirectoryPage type="all" />;
 }

@@ -4,8 +4,10 @@ import type { Place, PlaceFilters } from "./types";
 export function filterPlaces(places: Place[], f: PlaceFilters = {}): Place[] {
   let out = places;
   if (f.type && f.type !== "all") out = out.filter((p) => p.type === f.type);
-  if (f.municipality && f.municipality !== "all")
-    out = out.filter((p) => p.municipality === f.municipality);
+  if (f.comuna && f.comuna !== "all")
+    out = out.filter((p) => p.comuna === f.comuna);
+  if (f.neighborhood && f.neighborhood !== "all")
+    out = out.filter((p) => p.neighborhood === f.neighborhood);
   if (f.specialties && f.specialties.length > 0)
     out = out.filter((p) =>
       (p.specialties ?? []).some((s) => f.specialties!.includes(s)),
@@ -20,7 +22,7 @@ export function filterPlaces(places: Place[], f: PlaceFilters = {}): Place[] {
       (p) =>
         p.name.toLowerCase().includes(q) ||
         (p.neighborhood ?? "").toLowerCase().includes(q) ||
-        (p.municipality ?? "").toLowerCase().includes(q),
+        (p.comuna ?? "").toLowerCase().includes(q),
     );
   }
   return out;

@@ -6,10 +6,13 @@ import type { Place, PlaceFilters } from "./types";
 
 // Columnas que expone la vista/tabla y su mapeo al tipo Place.
 const SELECT = `
-  id, type, name, slug, description, address, neighborhood, municipality,
+  id, type, name, slug, description, address, neighborhood, comuna, municipality,
   lat, lng, phone, whatsapp, website, instagram, hours, specialties,
   is_free, services, entity, google_place_id, subjects, photo_url
 `;
+
+// v1 se enfoca SOLO en Medellín (los demás municipios quedan en la base para v3).
+const SCOPE_MUNICIPALITY = "Medellín";
 
 type Row = Record<string, unknown>;
 
@@ -22,6 +25,7 @@ function rowToPlace(r: Row): Place {
     description: (r.description as string) ?? null,
     address: (r.address as string) ?? null,
     neighborhood: (r.neighborhood as string) ?? null,
+    comuna: (r.comuna as string) ?? null,
     municipality: (r.municipality as string) ?? null,
     lat: Number(r.lat),
     lng: Number(r.lng),
@@ -48,10 +52,16 @@ export async function getPlaces(filters: PlaceFilters = {}): Promise<Place[]> {
     );
   }
 
-  let query = supabase.from("places").select(SELECT).eq("status", "published");
+  let query = supabase
+    .from("places")
+    .select(SELECT)
+    .eq("status", "published")
+    .eq("municipality", SCOPE_MUNICIPALITY);
   if (filters.type && filters.type !== "all") query = query.eq("type", filters.type);
-  if (filters.municipality && filters.municipality !== "all")
-    query = query.eq("municipality", filters.municipality);
+  if (filters.comuna && filters.comuna !== "all")
+    query = query.eq("comuna", filters.comuna);
+  if (filters.neighborhood && filters.neighborhood !== "all")
+    query = query.eq("neighborhood", filters.neighborhood);
   if (filters.specialties && filters.specialties.length > 0)
     query = query.overlaps("specialties", filters.specialties);
   if (filters.subjects && filters.subjects.length > 0)
@@ -82,21 +92,36 @@ export async function getPlaceBySlug(slug: string): Promise<Place | null> {
   return rowToPlace(data as Row);
 }
 
-/** Todas las librerías/bibliotecas (para poblar filtros de forma consistente). */
-export async function getFacets(): Promise<{
-  municipalities: string[];
+export type Facets = {
+  comunas: string[];
+  barriosByComuna: Record<string, string[]>;
   specialties: string[];
   subjects: string[];
-}> {
+};
+
+/** Facetas para poblar los filtros: comunas y barrios (por comuna) presentes en Medellín. */
+export async function getFacets(): Promise<Facets> {
   const all = await getPlaces();
-  const municipalities = [
-    ...new Set(all.map((p) => p.municipality).filter(Boolean) as string[]),
+  const comunas = [
+    ...new Set(all.map((p) => p.comuna).filter(Boolean) as string[]),
   ].sort((a, b) => a.localeCompare(b, "es"));
+
+  const barriosByComuna: Record<string, string[]> = {};
+  for (const p of all) {
+    if (!p.comuna || !p.neighborhood) continue;
+    (barriosByComuna[p.comuna] ??= []).push(p.neighborhood);
+  }
+  for (const c of Object.keys(barriosByComuna)) {
+    barriosByComuna[c] = [...new Set(barriosByComuna[c])].sort((a, b) =>
+      a.localeCompare(b, "es"),
+    );
+  }
+
   const specialties = [
     ...new Set(all.flatMap((p) => p.specialties ?? [])),
   ].sort((a, b) => a.localeCompare(b, "es"));
   // Materias ordenadas según el orden canónico de la taxonomía (MATERIAS).
   const present = new Set(all.flatMap((p) => p.subjects ?? []));
   const subjects = MATERIAS.filter((m) => present.has(m));
-  return { municipalities, specialties, subjects };
+  return { comunas, barriosByComuna, specialties, subjects };
 }

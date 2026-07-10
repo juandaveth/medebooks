@@ -8,6 +8,7 @@ export type Place = {
   description?: string | null;
   address?: string | null;
   neighborhood?: string | null; // barrio
+  comuna?: string | null; // comuna/corregimiento de Medellín
   municipality?: string | null; // Medellín, Envigado, Sabaneta...
   lat: number;
   lng: number;
@@ -67,7 +68,8 @@ export const MATERIAS: string[] = [
 
 export type PlaceFilters = {
   type?: PlaceType | "all";
-  municipality?: string | "all";
+  comuna?: string | "all"; // comuna de Medellín
+  neighborhood?: string | "all"; // barrio (dentro de la comuna)
   specialties?: string[]; // tipo de librería (OR): muestra lugares con cualquiera
   subjects?: string[]; // materias/temas (OR)
   query?: string;
