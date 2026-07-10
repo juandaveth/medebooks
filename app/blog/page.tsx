@@ -44,12 +44,18 @@ export default function BlogIndexPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-5 pb-24">
-      <header className="border-b border-line py-4">
+      <header className="flex items-center justify-between gap-4 border-b border-line py-4">
         <Link
           href="/"
           className="font-display text-2xl leading-none tracking-tight text-ink"
         >
           medebooks
+        </Link>
+        <Link
+          href="/"
+          className="text-sm font-medium text-accent hover:underline"
+        >
+          🗺️ Ir al mapa
         </Link>
       </header>
 

@@ -46,12 +46,14 @@ export default async function BlogPostPage({
         >
           medebooks
         </Link>
-        <Link
-          href="/blog"
-          className="text-sm text-ink-soft hover:text-ink hover:underline"
-        >
-          ← Blog
-        </Link>
+        <div className="flex items-center gap-4 text-sm">
+          <Link href="/blog" className="text-ink-soft hover:text-ink hover:underline">
+            ← Blog
+          </Link>
+          <Link href="/" className="font-medium text-accent hover:underline">
+            🗺️ Mapa
+          </Link>
+        </div>
       </header>
 
       <article className="pt-14">
@@ -82,12 +84,15 @@ export default async function BlogPostPage({
         />
       </article>
 
-      <footer className="mt-16 border-t border-line pt-8">
+      <footer className="mt-16 flex items-center justify-between gap-4 border-t border-line pt-8">
         <Link
           href="/blog"
           className="text-sm font-medium text-accent hover:underline"
         >
           ← Volver al blog
+        </Link>
+        <Link href="/" className="text-sm font-medium text-accent hover:underline">
+          🗺️ Ir al mapa
         </Link>
       </footer>
     </div>
