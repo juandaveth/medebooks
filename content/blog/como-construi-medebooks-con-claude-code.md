@@ -1,7 +1,7 @@
 ---
 title: "Cómo construí medebooks con Claude Code"
 date: 2026-07-10
-description: "Un directorio en mapa de las librerías y bibliotecas de Medellín, hecho con Claude Code y el modelo Opus 4.8. Pero el objetivo real es destilar un método de trabajo replicable con cualquier LLM. Estas son las decisiones, los tropiezos y el bug que lo resume todo."
+description: "Un directorio en mapa de las librerías y bibliotecas de Medellín, hecho con Claude Code y el modelo Opus 4.8. Pero el objetivo real es destilar un método de trabajo replicable con cualquier LLM. Estas son las decisiones, los tropiezos, y unas pinceladas de hacia dónde continúa el desarrollo."
 tag: "Construyendo en público"
 section: construyendo
 ---
@@ -100,7 +100,7 @@ El roadmap es largo, pero estos son los siguientes capítulos:
 - 🔍 **Búsqueda en lenguaje natural.** Escribir *"libros usados en La Floresta"* y que el sistema entienda la intención, no solo el texto — con ayuda de un LLM.
 - 📴 Y lo más inmediato: **modo offline** y **más cobertura** por comuna (hoy está concentrado en Laureles y el Centro).
 
-Si algo me llevo de construir esto con Claude Code, es que la parte difícil sigue siendo humana: decidir qué construir, entrevistarse a uno mismo antes de empezar, y saber leer un error cuando la pantalla se pone negra. El modelo hace el resto rápido —pero el rumbo lo pones tú.
+Si algo me llevo de construir esto con Claude Code, es que la parte difícil sigue siendo humana: decidir qué construir, entrevistarse a uno mismo antes de empezar, y saber leer un error cuando la pantalla se pone negra. El modelo hace el resto rápido —pero el rumbo lo pones tú. Es un poco como esa propaganda de Milo: "Milo te da energía, la meta la pones tú".
 
 ## Lo que costó, en tokens y en tiempo
 
