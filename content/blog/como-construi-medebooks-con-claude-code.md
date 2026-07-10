@@ -1,14 +1,14 @@
 ---
 title: "Cómo construí medebooks con Claude Code"
 date: 2026-07-10
-description: "Un directorio en mapa de las librerías y bibliotecas de Medellín, hecho con Claude Code y el modelo Fable 5. Pero el objetivo real es destilar un método de trabajo replicable con cualquier LLM. Estas son las decisiones, los tropiezos y el bug que lo resume todo."
+description: "Un directorio en mapa de las librerías y bibliotecas de Medellín, hecho con Claude Code y el modelo Opus 4.8. Pero el objetivo real es destilar un método de trabajo replicable con cualquier LLM. Estas son las decisiones, los tropiezos y el bug que lo resume todo."
 tag: "Construyendo en público"
 section: construyendo
 ---
 
 En Medellín hay decenas de librerías y bibliotecas, pero no hay un solo lugar donde verlas todas. Uno se entera de la librería de usados del barrio por casualidad, o descubre un Parque Biblioteca años después de que lo inauguraran. Esa fue la idea de **medebooks**: reunirlas todas en un mapa, por barrio.
 
-Lo construí con **Claude Code**, usando el modelo **Fable 5**. No fue "dictarle a una IA y copiar-pegar": fue un proceso con decisiones reales, retos técnicos que se fueron resolviendo y un par de bugs que enseñan más que cualquier tutorial. Si estás aprendiendo a construir con estas herramientas, esto es lo que he venido haciendo y quiero compartírtelo tal como fue, por dentro.
+Lo construí con **Claude Code**, usando el modelo **Opus 4.8**. No fue "dictarle a una IA y copiar-pegar": fue un proceso con decisiones reales, retos técnicos que se fueron resolviendo y un par de bugs que enseñan más que cualquier tutorial. Si estás aprendiendo a construir con estas herramientas, esto es lo que he venido haciendo y quiero compartírtelo tal como fue, por dentro.
 
 Pero, más allá de este directorio, lo que de verdad busco es destilar un **método de trabajo replicable con cualquier LLM** — que no dependa de una herramienta o un modelo en particular. medebooks es el primer ejercicio; el siguiente ya está en la mira: un directorio parecido pero para **ciclistas en Medellín**, que pienso construir con otra inteligencia artificial. Por eso voy documentando este método paso a paso: para que sea replicable y fácil de repetir con otras herramientas.
 
@@ -102,10 +102,43 @@ El roadmap es largo, pero estos son los siguientes capítulos:
 
 Si algo me llevo de construir esto con Claude Code, es que la parte difícil sigue siendo humana: decidir qué construir, entrevistarse a uno mismo antes de empezar, y saber leer un error cuando la pantalla se pone negra. El modelo hace el resto rápido —pero el rumbo lo pones tú.
 
-## Una nota para el semillero
+## Lo que costó, en tokens y en tiempo
+
+Construir en público también es mostrar la factura. Un aviso primero: medebooks se hizo a lo largo de **varias sesiones** de Claude Code (el sembrado inicial, el mapa, los filtros…). Los números de abajo son de la **sesión más reciente e intensa** —el reencuadre a barrios, el panel de administrador y esta misma PWA y este blog—, no del proyecto entero.
+
+**⏱️ Tiempo**
+
+- 🗓️ Esa sesión abarcó del 9 al 10 de julio: **~36 horas** de reloj, pero con pausas.
+- ⚡ Tiempo **activo** de trabajo, descontando las pausas: **~8 horas**.
+
+**🔤 Tokens**
+
+- ✍️ Generados por el modelo: **1,8 millones**.
+- 📚 Procesados en total: **421 millones** — la enorme mayoría, lecturas de caché.
+- 🔁 Intercambios modelo ↔ herramientas: **2.059**.
+
+**💵 Costo** (estimado a precios de API de Opus 4.8)
+
+- 💸 ≈ **US$ 280**, dominado por las lecturas de caché.
+
+Ahora bien, una aclaración importante: **yo no pagué esos US$280**. Ese número es un estimado a precios de la API; en la práctica trabajo con una **membresía Pro**, así que todo ese consumo ya va incluido en la mensualidad fija. La cifra en dólares sirve para dimensionar *cuánto trabajo* representó, no como una factura que me haya llegado.
+
+Lo que sí sentí en carne propia no fue el dinero, sino los **límites de uso**. Con el plan Pro, cada cierto tiempo —más o menos cada cuatro horas— la sesión llegaba a su tope y tocaba **esperar a que se reiniciara** para poder seguir. Eso marcó el ritmo del proyecto: avanzar en tandas, hacer una pausa y retomar. Es, de paso, otro empujón hacia trabajar en sesiones cortas y enfocadas.
+
+**¿Por qué tanta caché?** La API no recuerda nada: en cada uno de los 2.059 turnos, Claude Code le reenvía toda la conversación —instrucciones, historial, archivos leídos, todo—. La caché hace que ese texto repetido cueste una décima parte; sin ella, esos 414 millones de tokens no habrían costado ~US$207 sino cerca de **US$2.000**. Así que la caché no fue el gasto: fue el descuento.
+
+Y ahí está la lección práctica. El número creció tanto no por "usar mucha caché", sino porque fue **una sola sesión larguísima**: mientras más avanza, más grande se vuelve el contexto, y cada turno tiene que releerlo entero. La palanca para gastar menos no es evitar la caché —eso encarece—, sino trabajar en **sesiones más cortas y enfocadas**. Cuando termino una tarea (por ejemplo, el panel de administrador) y voy a empezar otra distinta (este blog), conviene cerrar y arrancar limpio: así cada sesión carga poco contexto y cada turno relee poco. Claude Code además compacta el historial solo cuando crece demasiado, pero uno puede ayudarle —una sesión por tarea concreta le gana a un maratón de 36 horas que lo acumula todo.
+
+Pero hay algo más grande detrás de estos números. Estamos en un momento peculiar: **construir con IA hoy es barato** —a veces sospechosamente barato—. Con Andrés lo hemos comparado con los primeros años de Uber, cuando la app casi te pagaba por usarla mientras levantaba su red de usuarios. Hoy pasa algo parecido: los tokens cuestan poco y las mensualidades subsidian una cantidad enorme de cómputo. Nunca antes había sido tan accesible construir así.
+
+## Reflexiones para el Semillero
 
 Si este texto existe es por una convicción que en el **[semillero de VibeCoding de la Universidad de Antioquia](https://github.com/cold-briu/vibe-coding-udea)** compartimos: **documentar lo que hacemos y abrirlo a la comunidad**. Escribir el proceso —no solo el resultado— es lo que lo vuelve replicable: le permite a otra persona tomar este método y llevarlo a otro escenario, con otros retos, sin empezar de cero.
 
 Es justo lo que promueve el profe **Edison Montoya**: construir, documentar y compartir en abierto, para que el conocimiento circule y cada ejercicio deje una huella que otros puedan seguir. medebooks es mi manera de practicarlo. Ojalá te anime a documentar el tuyo.
 
-Gracias a **Andrés** por crear este espacio e invitarme a construir en comunidad, y al **[semillero de VibeCoding de la Universidad de Antioquia](https://github.com/cold-briu/vibe-coding-udea)** por la comunidad y el empujón para escribir esto. 🙏
+Y quiero cerrar con una pregunta abierta, de esas que da gusto discutir en el semillero: si hoy la IA es tan barata, **¿qué pasa cuando deje de serlo?** ¿Qué de lo que construimos en esta época barata seguirá en pie cuando el cómputo cueste lo que de verdad cuesta? No tengo la respuesta, pero sí una apuesta: quedarme con el **método, no con la herramienta**. Por eso el siguiente ejercicio ya está en camino —un directorio parecido, pero para **ciclistas en Medellín**, que pienso construir con otra inteligencia artificial—. Si el método aguanta el cambio de modelo y de tema, entonces sirve más allá de este momento. Y si logramos replicarlo, entre varios, para distintas comunidades de la ciudad, mejor todavía.
+
+Y dejo un reto más, esta vez técnico, para explorar juntos: **cómo apoyarnos en modelos locales** —que corren en la propia máquina y no truncan el desarrollo cuando se acaban los cupos— y **cómo orquestar distintos modelos** en un mismo proyecto. Si me consumí los tokens de Opus a mitad de una tarea, ¿cómo salto a seguir *ese mismo* trabajo con, por ejemplo, Gemini, sin perder el hilo? Un proyecto que **vive en git** da una pista: el estado está en el repositorio, así que en teoría uno debería poder pasarle la posta de un modelo a otro y continuar donde quedó. Ese es justo el tipo de problema que da gusto resolver en comunidad.
+
+Gracias a **Andrés** por crear este espacio e invitarme a construir en comunidad, a **SantIAgo** por ser uno de esos miembros constantes con quienes he compartido en el semillero, y al **[semillero de VibeCoding de la Universidad de Antioquia](https://github.com/cold-briu/vibe-coding-udea)** por la comunidad y el empujón para escribir esto. 🙏
