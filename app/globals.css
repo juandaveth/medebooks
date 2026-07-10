@@ -99,14 +99,19 @@ body {
   font-weight: 650;
   color: var(--ink);
 }
-.prose ul,
 .prose ol {
   padding-left: 1.3em;
+}
+/* Listas con viñeta: el emoji al inicio de cada ítem hace de marcador, así que
+   quitamos el bullet por defecto y dejamos solo una ligera sangría. */
+.prose ul {
+  list-style: none;
+  padding-left: 1.2em;
 }
 .prose li + li {
   margin-top: 0.4em;
 }
-.prose ul > li::marker {
+.prose ol > li::marker {
   color: var(--accent);
 }
 .prose blockquote {

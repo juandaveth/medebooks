@@ -59,8 +59,14 @@ Este archivo recoge lo que sigue; no es compromiso de fechas, es orden de intenc
 - **Clubes de lectura y eventos** ⭐ (pedido explícito, para más adelante).
   - Qué: poder registrar y descubrir **clubes de lectura** y **eventos** (lecturas, lanzamientos,
     talleres, ferias) asociados a las librerías/bibliotecas — y quizá también independientes.
+  - **Integrar con el ecosistema de eventos de lectura de Medellín** ⭐ (necesidad explícita):
+    la ciudad tiene una agenda literaria muy viva —la **Fiesta del Libro y la Cultura**, ferias,
+    lanzamientos, tertulias, clubes de lectura en bibliotecas y librerías— hoy dispersa en muchos
+    lados. medebooks puede ser el lugar que la reúna: una agenda única de "qué pasa alrededor de
+    los libros en Medellín". A futuro, ver si esos eventos se pueden traer de fuentes públicas
+    (agenda cultural de la Alcaldía / Fiesta del Libro) además del aporte de comunidad.
   - Por qué: pasar de "dónde conseguir libros" a "dónde pasan cosas alrededor de los libros";
-    fideliza y da vida al directorio.
+    fideliza, da vida al directorio y lo conecta con la vida cultural real de la ciudad.
   - Modelo de datos (borrador):
     - `events` (`id`, `place_id?` [opcional si es en otro lugar], `title`, `description`,
       `starts_at`, `ends_at?`, `recurrence?` [para clubes periódicos], `url?`, `organizer?`,
