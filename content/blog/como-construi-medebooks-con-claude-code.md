@@ -108,4 +108,4 @@ Si este texto existe es por una convicción que en el **[semillero de VibeCoding
 
 Es justo lo que promueve el profe **Edison Montoya**: construir, documentar y compartir en abierto, para que el conocimiento circule y cada ejercicio deje una huella que otros puedan seguir. medebooks es mi manera de practicarlo. Ojalá te anime a documentar el tuyo.
 
-Gracias al **[semillero de VibeCoding de la Universidad de Antioquia](https://github.com/cold-briu/vibe-coding-udea)** por el espacio, la comunidad y el empujón para escribir esto. 🙏
+Gracias a **Andrés** por crear este espacio e invitarme a construir en comunidad, y al **[semillero de VibeCoding de la Universidad de Antioquia](https://github.com/cold-briu/vibe-coding-udea)** por la comunidad y el empujón para escribir esto. 🙏
