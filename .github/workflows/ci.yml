@@ -1,0 +1,37 @@
+name: CI
+
+# Corre en cada Pull Request hacia main y en cada push a main.
+# Es el filtro que evita romper producción: si algo falla aquí, no se mergea.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Lint · Typecheck · Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install (npm ci)
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Build de producción (webpack, obligatorio por el worker de MapLibre).
+      # Sin secretos: las páginas estáticas caen al fallback de datos de muestra.
+      - name: Build
+        run: npm run build

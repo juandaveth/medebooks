@@ -55,11 +55,17 @@ export function Directory({
   const filtered = useMemo(() => filterPlaces(places, filters), [places, filters]);
 
   // Ranking aleatorio estable durante la sesión; se rebaraja al pulsar "Aleatorio".
+  // Hash determinista de (id + semilla) → [0,1): puro y reproducible, sin Math.random en render.
   const randomRank = useMemo(() => {
     const m = new Map<string, number>();
-    for (const p of places) m.set(p.id, Math.random());
+    for (const p of places) {
+      let h = (2166136261 ^ shuffleSeed) >>> 0;
+      for (let i = 0; i < p.id.length; i++) {
+        h = Math.imul(h ^ p.id.charCodeAt(i), 16777619);
+      }
+      m.set(p.id, (h >>> 0) / 4294967296);
+    }
     return m;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [places, shuffleSeed]);
 
   const ordered = useMemo(() => {
