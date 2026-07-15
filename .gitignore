@@ -41,5 +41,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Borrador de bitácora para el post (no publicar)
+# Documentos de trabajo (no publicar)
 BITACORA.md
+PRESENTACION-SEMINARIO.md
