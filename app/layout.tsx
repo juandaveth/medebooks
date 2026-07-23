@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter } from "next/font/google";
+import { SessionProvider } from "@/components/SessionProvider";
 import "./globals.css";
 
 // Display expresiva de alto contraste para titulares (carácter editorial).
@@ -48,7 +49,9 @@ export default function RootLayout({
       className={`${fraunces.variable} ${inter.variable} h-full`}
       data-scroll-behavior="smooth"
     >
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+          <SessionProvider>{children}</SessionProvider>
+        </body>
     </html>
   );
 }

@@ -50,7 +50,7 @@ export function LoginForm() {
     <div className="mx-auto mt-24 max-w-sm px-5">
       <h1 className="font-display text-3xl text-ink">Ingresar</h1>
       <p className="mt-2 text-sm text-ink-soft">
-        Acceso para administración de medebooks.
+        Ingresa para guardar favoritos y contribuir al directorio.
       </p>
 
       {hadError && (
