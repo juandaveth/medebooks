@@ -200,14 +200,18 @@ export function Directory({
             </div>
           )}
 
-          {/* Derecha: Mi mapa */}
+          {/* Derecha: Mi mapa — icono en mobile */}
           <button
             onClick={toggleMyMapMobile}
-            className={`font-display inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors ${
+            aria-label="Mi mapa"
+            className={`inline-flex shrink-0 items-center justify-center rounded-full border p-1.5 transition-colors ${
               myMap ? myMapActive : myMapInactive
             }`}
           >
-            {myMap ? "✕" : "🗺"} Mi mapa
+            {myMap
+              ? <span className="text-sm leading-none">✕</span>
+              : <img src="/icon.svg" alt="" width={22} height={22} className="shrink-0" />
+            }
           </button>
         </div>
       </div>
