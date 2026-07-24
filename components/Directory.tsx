@@ -269,7 +269,7 @@ export function Directory({
                       nocheMode ? nocheActive : nocheInactive
                     }`}
                   >
-                    🌙 Esta noche
+                    🌙 Noche
                   </button>
                 )}
                 {hasUserPlaces && (
