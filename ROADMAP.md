@@ -13,24 +13,22 @@ Este archivo recoge lo que sigue; no es compromiso de fechas, es orden de intenc
   en la búsqueda de librerías de Google. Reclasificar (heurística por nombre/entidad + revisión).
 - **Fotos faltantes**: 24 de 172 sin foto destacada.
 
-## v2 — Comunidad y contexto
-- **Videos/Reels de la comunidad en cada ficha** ⭐ (nuevo, pedido explícito).
-  - Qué: sección en la ficha de cada lugar (librería y biblioteca) con **videos cortos**
-    de creadores que ya visitaron el sitio y explican qué ofrece, cómo llegar, ambiente, etc.
-    Más que reseñas de texto: contenido en video de redes (Instagram Reels, TikTok, YouTube Shorts).
-  - Por qué: da contexto real y confianza; aprovecha contenido que ya existe en redes.
-  - Modelo de datos (borrador): tabla `place_videos` (`place_id`, `url`, `platform`
-    ['instagram'|'tiktok'|'youtube'], `author_handle`, `title`, `thumbnail_url`, `added_by`,
-    `status` ['published'|'pending'], `created_at`). Un lugar puede tener varios videos.
-  - Cómo (opciones técnicas a decidir):
-    - Enlazar con miniatura + "ver en Instagram/TikTok" (ligero, evita scripts pesados y
-      problemas de rendimiento/consentimiento). Miniatura vía oEmbed cuando exista.
-    - o Embeber con el script oficial de cada plataforma (más rico, más peso y cookies).
-  - Curación: aporte de comunidad + moderación (`status='pending'` → aprobar). Respetar
-    derechos/atribución del creador (mostrar autor y enlazar al original).
-- Login con Google (Supabase Auth).
-- Favoritos / "quiero visitar".
-- Reseñas y calificación (texto), complementarias a los videos.
+## v2 — Login y comunidad (en producción ✅)
+- **Login con Google + magic link** (Supabase Auth) — abierto a todos los lectores.
+- **3 roles**:
+  - `lector` — rol por defecto de cualquier usuario autenticado.
+  - `admin de librería / admin de biblioteca` — asignado por el super-admin vía `place_roles`; badge dinámico en el perfil según el tipo del lugar que administra.
+  - `super-admin` — controlado por `ADMIN_EMAILS` (env var).
+- **Quiero visitar / Ya visité** — botones en cada ficha con optimistic UI; tabla `user_places` con RLS.
+- **`/perfil`** — muestra avatar, rol, nombre del lugar administrado (si aplica) y las dos listas de lugares guardados.
+- **`medebooks.app`** — dominio propio conectado a Vercel; SSL activo; redirect de apex a www.
+
+### Pendiente de v2 (próximos sprints)
+- **Videos/Reels de la comunidad en cada ficha** ⭐
+  - Sección con videos cortos de creadores (Instagram Reels, TikTok, YouTube Shorts) sobre cada lugar.
+  - Modelo: tabla `place_videos` (`place_id`, `url`, `platform`, `author_handle`, `thumbnail_url`, `status`).
+  - Curación: aporte de comunidad + moderación por el admin del lugar o el super-admin.
+- Reseñas y calificación (texto).
 - Fotos propias (Supabase Storage).
 
 ## v3 — Aportes y moderación
