@@ -6,7 +6,7 @@ tag: "Vida cultural"
 section: resenas
 ---
 
-Esta noche, Medellín hace lo que mejor sabe hacer: llenar sus librerías. La **Noche de Librerías** es una de esas ocasiones en que los libros se salen a la calle, los escaparates se iluminan un poco más y la gente recorre los barrios buscando ese lugar que no conocía. Es exactamente el momento para el que nació medebooks.
+Esta noche Medellín hace lo mejor que sabe hacer: llenar sus librerías. Una colaboración surge para el 24 de julio para parchar y conocer las librerías de la ciudad.
 
 Si llegaste aquí desde el evento — o si alguien te pasó el enlace — gracias por estar. Lo que vas a encontrar es un **prototipo**: un mapa de las librerías y bibliotecas de Medellín con sus barrios, sus fotos y la posibilidad de guardar las que quieras visitar.
 
