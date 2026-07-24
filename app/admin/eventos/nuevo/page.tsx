@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { createEvent } from "../actions";
+import { PlaceSelector } from "../PlaceSelector";
 
 export const metadata: Metadata = { title: "Nuevo evento — Admin", robots: { index: false } };
 
@@ -17,7 +18,7 @@ export default async function NuevoEventoPage() {
     .order("name");
 
   // Agrupar por comuna para los <optgroup>
-  const byComuna: Record<string, typeof places> = {};
+  const byComuna: Record<string, { id: string; name: string; type: string }[]> = {};
   for (const p of places ?? []) {
     const key = p.comuna ?? "Sin comuna";
     (byComuna[key] ??= []).push(p);
@@ -31,25 +32,7 @@ export default async function NuevoEventoPage() {
       <h1 className="font-display mt-4 text-3xl text-ink">Nuevo evento</h1>
 
       <form action={createEvent} className="mt-6 space-y-4">
-        <label className="block">
-          <span className="text-xs uppercase tracking-wide text-ink-soft">Lugar *</span>
-          <select
-            name="place_id"
-            required
-            className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2 text-sm text-ink focus:border-ink focus:outline-none"
-          >
-            <option value="">Seleccionar lugar…</option>
-            {Object.entries(byComuna).map(([comuna, items]) => (
-              <optgroup key={comuna} label={comuna}>
-                {(items ?? []).map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name} ({p.type === "libreria" ? "Librería" : "Biblioteca"})
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </label>
+        <PlaceSelector byComuna={byComuna} />
 
         <label className="block">
           <span className="text-xs uppercase tracking-wide text-ink-soft">Título *</span>

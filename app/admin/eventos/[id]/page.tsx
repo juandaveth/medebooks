@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { updateEvent, deleteEvent } from "../actions";
+import { PlaceSelector } from "../PlaceSelector";
 
 export const metadata: Metadata = { title: "Editar evento — Admin", robots: { index: false } };
 
@@ -23,11 +24,14 @@ export default async function EditEventoPage({
 
   if (!event) notFound();
 
-  const byComuna: Record<string, typeof places> = {};
+  const byComuna: Record<string, { id: string; name: string; type: string; comuna: string | null }[]> = {};
   for (const p of places ?? []) {
     const key = p.comuna ?? "Sin comuna";
     (byComuna[key] ??= []).push(p);
   }
+  // Detectar la comuna del lugar actual para pre-seleccionarla
+  const currentPlace = (places ?? []).find((p) => p.id === event.place_id);
+  const defaultComuna = currentPlace?.comuna ?? "Sin comuna";
 
   return (
     <div className="mx-auto max-w-xl px-5 py-8">
@@ -39,26 +43,11 @@ export default async function EditEventoPage({
       <form action={updateEvent} className="mt-6 space-y-4">
         <input type="hidden" name="id" value={event.id} />
 
-        <label className="block">
-          <span className="text-xs uppercase tracking-wide text-ink-soft">Lugar *</span>
-          <select
-            name="place_id"
-            required
-            defaultValue={event.place_id}
-            className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2 text-sm text-ink focus:border-ink focus:outline-none"
-          >
-            <option value="">Seleccionar lugar…</option>
-            {Object.entries(byComuna).map(([comuna, items]) => (
-              <optgroup key={comuna} label={comuna}>
-                {(items ?? []).map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name} ({p.type === "libreria" ? "Librería" : "Biblioteca"})
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </label>
+        <PlaceSelector
+          byComuna={byComuna}
+          defaultPlaceId={event.place_id}
+          defaultComuna={defaultComuna}
+        />
 
         <label className="block">
           <span className="text-xs uppercase tracking-wide text-ink-soft">Título *</span>
