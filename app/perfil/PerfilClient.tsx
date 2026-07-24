@@ -106,8 +106,9 @@ export function PerfilClient({
       <div className="flex items-center justify-between">
         <Link
           href="/"
-          className="font-display text-2xl leading-none tracking-tight text-ink"
+          className="flex items-center gap-2 font-display text-2xl leading-none tracking-tight text-ink"
         >
+          <img src="/icon.svg" alt="" width={28} height={28} className="shrink-0" />
           medebooks
         </Link>
         <Link

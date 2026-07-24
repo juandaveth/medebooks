@@ -54,11 +54,12 @@ export async function DirectoryShell({
       {/* Masthead editorial */}
       <header className="shrink-0 border-b border-line px-5 py-3">
         <div className="flex items-center justify-between gap-4">
-          <div className="flex items-baseline gap-3">
+          <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="font-display text-2xl leading-none tracking-tight text-ink"
+              className="flex items-center gap-2 font-display text-2xl leading-none tracking-tight text-ink"
             >
+              <img src="/icon.svg" alt="" width={28} height={28} className="shrink-0" />
               medebooks
             </Link>
             <p className="hidden text-sm text-ink-soft sm:block">

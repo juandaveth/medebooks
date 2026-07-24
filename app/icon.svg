@@ -1,8 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="12" fill="#f6f1e7"/>
-  <!-- lomo de libro -->
-  <rect x="18" y="14" width="12" height="36" rx="2" fill="#b8432a"/>
-  <rect x="32" y="14" width="12" height="36" rx="2" fill="#2f5d50"/>
-  <line x1="24" y1="20" x2="24" y2="44" stroke="#f6f1e7" stroke-width="1.5"/>
-  <line x1="38" y1="20" x2="38" y2="44" stroke="#f6f1e7" stroke-width="1.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Page-line patterns for each book height -->
+    <pattern id="pl24" patternUnits="userSpaceOnUse" x="0" y="302" width="15" height="1.333">
+      <line x1="0" y1="0" x2="15" y2="0" stroke="rgba(190,178,160,0.55)" stroke-width="0.6"/>
+    </pattern>
+    <pattern id="pl21a" patternUnits="userSpaceOnUse" x="0" y="278" width="15" height="1.167">
+      <line x1="0" y1="0" x2="15" y2="0" stroke="rgba(190,178,160,0.55)" stroke-width="0.6"/>
+    </pattern>
+    <pattern id="pl21b" patternUnits="userSpaceOnUse" x="0" y="254" width="15" height="1.167">
+      <line x1="0" y1="0" x2="15" y2="0" stroke="rgba(190,178,160,0.55)" stroke-width="0.6"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" rx="64" fill="#FF6719"/>
+
+  <!-- "m" — bold serif, lowercase, baseline at y=233 -->
+  <text x="200" y="233"
+    font-family="Georgia, 'Times New Roman', Palatino, serif"
+    font-size="255"
+    font-weight="bold"
+    text-anchor="middle"
+    fill="#f6f1e7">m</text>
+
+  <!-- ── Book 1 (bottom, widest, darkest) — y 302–326, w 192, cx 200 ── -->
+  <rect x="104" y="302" width="7"   height="24" fill="#1e1a15"/>
+  <rect x="111" y="302" width="170" height="24" fill="#2d2620"/>
+  <rect x="281" y="302" width="15"  height="24" fill="#ede5d8"/>
+  <rect x="281" y="302" width="15"  height="24" fill="url(#pl24)"/>
+  <rect x="281" y="302" width="15"  height="24" fill="none" stroke="rgba(160,145,125,0.8)" stroke-width="0.8"/>
+  <rect x="104" y="302" width="192" height="24" fill="none" stroke="rgba(246,241,231,0.25)" stroke-width="0.5"/>
+
+  <!-- ── Book 2 (middle, tan) — y 278–299, w 174, cx 200 ── -->
+  <rect x="113" y="278" width="7"   height="21" fill="#a8906e"/>
+  <rect x="120" y="278" width="152" height="21" fill="#c4ab8c"/>
+  <rect x="272" y="278" width="15"  height="21" fill="#ede5d8"/>
+  <rect x="272" y="278" width="15"  height="21" fill="url(#pl21a)"/>
+  <rect x="272" y="278" width="15"  height="21" fill="none" stroke="rgba(160,145,125,0.8)" stroke-width="0.8"/>
+  <rect x="113" y="278" width="174" height="21" fill="none" stroke="rgba(246,241,231,0.25)" stroke-width="0.5"/>
+
+  <!-- ── Book 3 (top, lightest) — y 254–275, w 152, cx 200 ── -->
+  <rect x="124" y="254" width="7"   height="21" fill="#c4b5a0"/>
+  <rect x="131" y="254" width="130" height="21" fill="#e8ddd0"/>
+  <rect x="261" y="254" width="15"  height="21" fill="#ede5d8"/>
+  <rect x="261" y="254" width="15"  height="21" fill="url(#pl21b)"/>
+  <rect x="261" y="254" width="15"  height="21" fill="none" stroke="rgba(160,145,125,0.8)" stroke-width="0.8"/>
+  <rect x="124" y="254" width="152" height="21" fill="none" stroke="rgba(246,241,231,0.25)" stroke-width="0.5"/>
 </svg>
