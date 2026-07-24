@@ -72,7 +72,7 @@ export function getPost(slug: string): Post | null {
     tag: data.tag,
     section: data.section === "resenas" ? "resenas" : "construyendo",
     readingMinutes: Math.max(1, Math.round(words / 200)),
-    html: marked.parse(body, { async: false }) as string,
+    html: stylizeMedebooks(marked.parse(body, { async: false }) as string),
   };
 }
 
@@ -83,6 +83,16 @@ export function getAllPosts(): PostMeta[] {
     .filter((p): p is Post => p !== null)
     .sort((a, b) => (a.date < b.date ? 1 : -1))
     .map(({ html: _html, ...meta }) => meta);
+}
+
+// Reemplaza "medebooks" en texto (no en URLs como medebooks.app) con el
+// estilo de marca: Fraunces + naranja #FF6719.
+const MEDEBOOKS_SPAN =
+  '<span style="font-family:\'Fraunces\',serif;color:#FF6719;font-weight:600;">medebooks</span>';
+
+function stylizeMedebooks(html: string): string {
+  // Solo reemplaza "medebooks" no seguido de "." para no tocar "medebooks.app"
+  return html.replace(/medebooks(?!\.)/g, MEDEBOOKS_SPAN);
 }
 
 // Fecha legible en español: "10 de julio de 2026".
