@@ -8,11 +8,14 @@ export const metadata: Metadata = {
 };
 
 const NOCHE_PLACES = [
-  "Librería Taller de Edición",
-  "Librería Wilborada",
-  "Antimateria",
-  "El Ático",
-  "Librería Aquelarre",
+  "Librería Ojo de Agua",
+  "Ítaca Librería-Bar",
+  "Librería Delfos",
+  "Librería Grámmata y Palinuro",
+  "Librería El Remanso de las Letras",
+  "Antimateria Libros y Café",
+  "Las Letras del Jaguar",
+  "Librería de la Pascasia",
 ];
 
 export default async function LeamosPage({

@@ -7,50 +7,91 @@ import { ShareButton } from "./ShareButton";
 export const metadata: Metadata = {
   title: "Noche de las Librerías · medebooks",
   description:
-    "Esta noche las librerías de Antioquia abren sus puertas. Guarda tu ruta y compártela con tus compas de lectura.",
+    "8 librerías de Antioquia abren sus puertas esta noche con conversaciones, talleres, música y lecturas. Arma tu ruta.",
   openGraph: {
     title: "Noche de las Librerías · medebooks",
     description:
-      "Esta noche las librerías de Antioquia abren sus puertas. Guarda tu ruta y compártela con tus compas de lectura.",
+      "8 librerías de Antioquia abren sus puertas esta noche con conversaciones, talleres, música y lecturas. Arma tu ruta.",
   },
 };
 
-// Librerías participantes — actualizar con los datos del screenshot
 const NOCHE_PLACES = [
   {
-    name: "Librería Taller de Edición",
-    neighborhood: "El Poblado",
-    description: "Libros de arte, diseño y arquitectura.",
-    slug: "libreria-taller-de-edicion",
-    hours: "6 pm – 10 pm",
+    nombre: "Librería Ojo de Agua",
+    direccion: "Calle 40 # 73-94, Beminimal Hotel",
+    eventos: [
+      { hora: "6:30 p.m.", titulo: 'La historia detrás de "Los muertos no eran tantos"', descripcion: "Conversación con la autora. Al final, espacio para firmas." },
+      { hora: "7:45 p.m.", titulo: "Formas de narrar un vuelo", descripcion: "Teatro para descubrir cómo las historias también pueden habitar el cuerpo, la voz y la escena." },
+      { hora: "9:00 p.m.", titulo: "Lo que también habita la noche", descripcion: "Una lectura compartida de cuentos de terror." },
+      { hora: "7:00 p.m. – 12:00 a.m.", titulo: "Lanza el anzuelo", descripcion: "Lo que encuentres en el agua será tuyo. Pesca una frase, un libro o una sorpresa." },
+    ],
   },
   {
-    name: "Librería Wilborada",
-    neighborhood: "Laureles",
-    description: "Literatura y humanidades. Cafetería.",
-    slug: "libreria-wilborada",
-    hours: "6 pm – 10 pm",
+    nombre: "Ítaca Librería-Bar",
+    direccion: "Circular 5 # 70-127",
+    eventos: [
+      { hora: "6:30 p.m. – 12:00 a.m.", titulo: "Polaroids en la ventana", descripcion: null },
+      { hora: "7:00 p.m.", titulo: "¿El bosque cabe en un libro?", descripcion: null },
+      { hora: "7:30 p.m.", titulo: "Aplasta flores, no corazones", descripcion: "Taller de separadores con flores prensadas." },
+      { hora: "8:20 p.m.", titulo: "Los viernes también me pongo nostálgica", descripcion: "Poemas pa' aligerar la noche." },
+      { hora: "9:20 p.m.", titulo: "Mis librerías preferidas", descripcion: "Imágenes de librerías que deslumbran, con dibujo en vivo." },
+      { hora: "10:10 p.m.", titulo: "Dime, ¿cuál -primera página- me recomienda?", descripcion: null },
+      { hora: "10:40 p.m.", titulo: "Sesiones desde el balcón", descripcion: null, destacado: true },
+    ],
   },
   {
-    name: "Antimateria",
-    neighborhood: "Laureles",
-    description: "Libros de autor, revistas independientes.",
-    slug: "antimateria",
-    hours: "6 pm – 11 pm",
+    nombre: "Librería Delfos",
+    direccion: "Carrera 79 # 52A-34",
+    eventos: [
+      { hora: "6:00 – 8:00 p.m.", titulo: 'Café filosófico: "Lo propio en lo extraño"', descripcion: "¿Qué hay de malo con la meritocracia? Conversan Juan David Gómez Osorio y Yeison Lopera Varela." },
+      { hora: "8:00 – 11:00 p.m.", titulo: "Palabra, imagen y estampa", descripcion: "Laboratorio de expresión gráfica.", destacado: true },
+    ],
   },
   {
-    name: "El Ático",
-    neighborhood: "El Centro",
-    description: "Libros usados, raros y de colección.",
-    slug: "el-atico",
-    hours: "5 pm – 10 pm",
+    nombre: "Librería Grámmata y Palinuro, Libros Leídos",
+    direccion: "Calle 49B # 75-33",
+    eventos: [
+      { hora: "3:00 p.m.", titulo: "Colorea con piglander", descripcion: "Para adultos y niños." },
+      { hora: "5:30 p.m.", titulo: "Homenaje a Raúl Gómez Jatín", descripcion: "Conversan Luis Germán Sierra, escritor, y Bárbara Lins, poeta." },
+      { hora: "7:00 p.m.", titulo: 'Presentación de "Una cosa salvaje que conoce la muerte"', descripcion: "De Lina María Parra. La autora conversa con Santiago Piedrahita, escritor." },
+      { hora: "7:00 p.m. – 12:00 a.m.", titulo: "Mercado collagero", descripcion: "Con Juliana Arango.", destacado: true },
+      { hora: "7:00 p.m. – 12:00 a.m.", titulo: "Serendipia", descripcion: "Exposición de fotografía experimental." },
+      { hora: "9:00 p.m.", titulo: "Concierto Pala", descripcion: "Poemas y canciones." },
+    ],
   },
   {
-    name: "Librería Aquelarre",
-    neighborhood: "El Centro",
-    description: "Feminismo, identidades y pensamiento crítico.",
-    slug: "libreria-aquelarre",
-    hours: "6 pm – 10 pm",
+    nombre: "Librería El Remanso de las Letras",
+    direccion: "Calle 10 # 13-167, Entrerríos, Antioquia",
+    eventos: [
+      { hora: "7:00 p.m. – 12:00 a.m.", titulo: "Laboratorio de escucha literaria", descripcion: "Entre García Márquez y Rubén Blades. Una experiencia sensorial para descubrir cómo dialogan la literatura y la música.", destacado: true },
+    ],
+  },
+  {
+    nombre: "Antimateria Libros y Café",
+    direccion: "Calle 45E # 72-09",
+    eventos: [
+      { hora: "5:00 – 7:00 p.m.", titulo: "Club de lectura en voz alta", descripcion: '"Las estrellas son negras", de Arnoldo Palacios.' },
+      { hora: "8:00 – 9:30 p.m.", titulo: "Performance ambient-noise-drone", descripcion: "Dueto de Mila Ortiz y analogue_ghost." },
+      { hora: "9:30 p.m. – 12:00 a.m.", titulo: "Parchecito musical tranqui", descripcion: "En el jardín de la librería.", destacado: true },
+    ],
+  },
+  {
+    nombre: "Las Letras del Jaguar",
+    direccion: "Calle 53 # 47-43",
+    eventos: [
+      { hora: "7:00 – 8:00 p.m.", titulo: "La vida se dañó, el libro salió bien", descripcion: "Literatura, anécdotas y confesiones de escritura." },
+      { hora: "8:00 – 8:45 p.m.", titulo: "La voz de las Oropéndolas", descripcion: "El coro de mujeres Oropéndola le regala una serenata a las librerías en su noche." },
+      { hora: "9:00 p.m. – 12:00 a.m.", titulo: "Lecturas borrachas", descripcion: "Textos leídos en voz alta, tragos y canciones elegidas por los lectores.", destacado: true },
+    ],
+  },
+  {
+    nombre: "Librería de la Pascasia",
+    direccion: "Calle 47 # 43-88",
+    eventos: [
+      { hora: "7:00 p.m.", titulo: "Hablando al garete: ¿vivirá el reggaetón para siempre?", descripcion: "Alejandro Cardona, dj, y Andrea Yepes, periodista, conversan con José Julián Villa." },
+      { hora: "8:00 p.m. – 12:00 a.m.", titulo: "Tienda de calcas", descripcion: "Una papelería de barrio para que compres los útiles y las calcas para engallar tus libretas." },
+      { hora: "8:00 p.m. – 12:00 a.m.", titulo: "Libreras invitadas", descripcion: "Elizabeth Builes y Sara Rodas te acompañan a encontrar tus próximos libros favoritos.", destacado: true },
+    ],
   },
 ];
 
@@ -89,80 +130,94 @@ export default async function NocheLibreriasPage() {
       <main className="mx-auto max-w-2xl px-5 pb-24 pt-12">
         {/* Pill de evento */}
         <span className="inline-block rounded-full border border-[#FF6719]/40 bg-[#FF6719]/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-[#FF6719]">
-          🔥 Esta noche · 24 de julio de 2026
+          Esta noche · 24 de julio
         </span>
 
         <h1 className="font-display mt-4 text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl">
           Noche de las Librerías
         </h1>
         <p className="mt-4 max-w-prose text-base leading-relaxed text-ink-soft">
-          Una noche para recorrer la ciudad estante por estante. Las librerías
-          de Antioquia abren sus puertas, con actividades, lecturas y sorpresas.
-          Guarda los lugares que quieres visitar y comparte la ruta con tus
-          compas de lectura.
+          8 librerías de Antioquia abren sus puertas con conversaciones, talleres,
+          música y lecturas en voz alta. Arma tu ruta y compártela con tus compas.
         </p>
 
-        {/* Botón de compartir (dinámico, client) */}
-        {inviteCode && (
+        {/* Compartir / CTA */}
+        {inviteCode ? (
           <div className="mt-6">
             <ShareButton inviteCode={inviteCode} />
           </div>
-        )}
-
-        {!user && (
+        ) : (
           <Link
             href="/login?next=/noche-librerias"
             className="mt-6 inline-flex items-center gap-2 rounded-xl border border-[#FF6719]/40 bg-[#FF6719]/10 px-5 py-3 text-sm font-medium text-[#FF6719] transition-colors hover:bg-[#FF6719]/20"
           >
-            Ingresar para guardar tu ruta →
+            Ingresar para invitar compas →
           </Link>
         )}
 
-        {/* Librerías de la Noche */}
-        <section className="mt-12">
+        {/* Programación */}
+        <section className="mt-12 space-y-6">
           <h2 className="font-display text-2xl tracking-tight text-ink">
-            Librerías participantes
+            Programación
+            <span className="ml-2 font-sans text-sm font-normal text-ink-soft">
+              {NOCHE_PLACES.length} espacios
+            </span>
           </h2>
-          <p className="mt-2 text-sm text-ink-soft">
-            {NOCHE_PLACES.length} espacios abren esta noche
-          </p>
 
-          <div className="mt-6 space-y-3">
-            {NOCHE_PLACES.map((place) => (
-              <Link
-                key={place.slug}
-                href={`/lugar/${place.slug}`}
-                className="group flex items-start gap-4 rounded-xl border border-line bg-paper p-4 transition-colors hover:border-[#FF6719]/40"
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#FF6719]/10 text-lg">
+          {NOCHE_PLACES.map((place) => (
+            <div
+              key={place.nombre}
+              className="rounded-xl border border-line bg-paper"
+            >
+              {/* Cabecera de la librería */}
+              <div className="flex items-start gap-3 border-b border-line px-4 py-4">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF6719]/10 text-base">
                   📕
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="font-display text-base leading-tight text-ink group-hover:text-[#FF6719]">
-                    {place.name}
+                <div>
+                  <p className="font-display text-base leading-tight text-ink">
+                    {place.nombre}
                   </p>
-                  <p className="mt-0.5 text-xs text-ink-soft">
-                    {place.neighborhood} · {place.hours}
-                  </p>
-                  <p className="mt-1 text-sm text-ink-soft">{place.description}</p>
+                  <p className="mt-0.5 text-xs text-ink-soft">{place.direccion}</p>
                 </div>
-                <span className="shrink-0 text-xs text-ink-soft/60 transition-transform group-hover:translate-x-0.5">
-                  →
-                </span>
-              </Link>
-            ))}
-          </div>
+              </div>
+
+              {/* Eventos */}
+              <ul className="divide-y divide-line">
+                {place.eventos.map((ev, i) => (
+                  <li key={i} className="flex items-start gap-3 px-4 py-3">
+                    <span className="mt-0.5 w-28 shrink-0 text-xs tabular-nums text-ink-soft">
+                      {ev.hora}
+                    </span>
+                    <div className="min-w-0">
+                      <p className={`text-sm leading-snug ${ev.destacado ? "font-medium text-ink" : "text-ink"}`}>
+                        {ev.titulo}
+                        {ev.destacado && (
+                          <span className="ml-1.5 inline-block rounded-full bg-[#FF6719]/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-[#FF6719]">
+                            destacado
+                          </span>
+                        )}
+                      </p>
+                      {ev.descripcion && (
+                        <p className="mt-0.5 text-xs leading-relaxed text-ink-soft">
+                          {ev.descripcion}
+                        </p>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </section>
 
         {/* CTA final para no autenticados */}
         {!user && (
-          <div className="mt-12 rounded-xl border border-line bg-paper-2 p-6">
-            <p className="font-display text-lg text-ink">
-              Guarda tu ruta de esta noche
-            </p>
+          <div className="mt-10 rounded-xl border border-line bg-paper-2 p-6">
+            <p className="font-display text-lg text-ink">Invita a tus compas</p>
             <p className="mt-2 text-sm text-ink-soft">
-              Créate una cuenta gratuita para guardar las librerías que quieres
-              visitar y conectar con tus compas de lectura.
+              Créate una cuenta gratuita para compartir la ruta de esta noche con
+              tus amigos lectores.
             </p>
             <Link
               href="/login?next=/noche-librerias"
