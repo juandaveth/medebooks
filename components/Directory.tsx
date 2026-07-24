@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { Place, PlaceFilters, PlaceType } from "@/lib/types";
 import type { Facets } from "@/lib/queries";
 import type { UserPlaceStatus } from "@/lib/userPlaces";
@@ -47,16 +48,16 @@ export function Directory({
 }) {
   const [myMap, setMyMap] = useState(false);
   const hasUserPlaces = Object.keys(userPlaces).length > 0;
+  const searchParams = useSearchParams();
 
-  // Si llega con ?mymapa=1 (desde el menú de usuario), activa el modo y limpia la URL.
+  // Activa Mi mapa cuando llega ?mymapa=1 (desde el menú de usuario).
+  // useSearchParams reacciona también a navegaciones client-side desde la misma página.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.has("mymapa") && hasUserPlaces) {
+    if (searchParams.get("mymapa") === "1" && hasUserPlaces) {
       setMyMap(true);
       window.history.replaceState(null, "", window.location.pathname);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchParams, hasUserPlaces]);
 
   const [filters, setFilters] = useState<PlaceFilters>({
     type: initialType,

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import type { Place, PlaceType } from "@/lib/types";
 import type { Facets } from "@/lib/queries";
@@ -85,14 +86,16 @@ export async function DirectoryShell({
       </header>
 
       <main className="min-h-0 flex-1">
-        <Directory
-          places={places}
-          facets={facets}
-          initialType={initialType}
-          initialComuna={initialComuna}
-          initialNeighborhood={initialNeighborhood}
-          userPlaces={userPlaces}
-        />
+        <Suspense>
+          <Directory
+            places={places}
+            facets={facets}
+            initialType={initialType}
+            initialComuna={initialComuna}
+            initialNeighborhood={initialNeighborhood}
+            userPlaces={userPlaces}
+          />
+        </Suspense>
       </main>
     </div>
   );
