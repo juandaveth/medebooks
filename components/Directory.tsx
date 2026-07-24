@@ -54,6 +54,7 @@ export function Directory({
   // useSearchParams reacciona también a navegaciones client-side desde la misma página.
   useEffect(() => {
     if (searchParams.get("mymapa") === "1" && hasUserPlaces) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMyMap(true);
       window.history.replaceState(null, "", window.location.pathname);
     }
