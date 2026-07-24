@@ -68,7 +68,7 @@ Si eres dueño de una librería, trabajas en una biblioteca o simplemente cuidas
 
 medebooks existe para que más personas encuentren lo que tú haces. Hoy el directorio tiene más de 40 espacios en Medellín, con fotos, barrios y comunas. Pero los datos vienen de Google Maps, y no siempre están bien: un nombre en mayúsculas, un horario desactualizado, una foto que no representa el lugar.
 
-Quiero que cada espacio en el directorio se vea como realmente es. Si el tuyo está aquí y quieres actualizar algo, escríbeme. Y si tu espacio no aparece todavía, también cuéntame.
+Quiero que cada espacio en el directorio se vea como realmente es. Si el tuyo está aquí y quieres actualizar algo, escríbeme por [Instagram](https://www.instagram.com/juandavid.xyz). Y si tu espacio no aparece todavía, también cuéntame.
 
 ---
 
