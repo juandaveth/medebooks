@@ -129,23 +129,22 @@ export async function getFacets(): Promise<Facets> {
 // ─── Eventos ────────────────────────────────────────────────────────────────
 
 const EVENT_SELECT = `
-  id, title, description, date, start_time, end_time, url, status, created_at,
-  places(id, name, slug, type),
-  event_places(count)
+  id, title, description, date, start_time, end_time, url, status, created_at, place_id,
+  places(id, name, slug, type)
 `;
 
 type EventRow = Record<string, unknown>;
 
 function rowToEvent(r: EventRow): Event {
   const place = r.places as Record<string, unknown> | null;
-  const placeCount = (r.event_places as { count: number }[] | null)?.[0]?.count ?? 0;
+  const isMultiPlace = !r.place_id;
   return {
     id: String(r.id),
     placeId: place ? String(place.id) : null,
     placeName: place ? String(place.name) : null,
     placeSlug: place ? String(place.slug) : null,
     placeType: place ? (place.type as PlaceType) : null,
-    placeCount: placeCount > 0 ? placeCount : undefined,
+    placeCount: isMultiPlace ? 8 : undefined,
     title: String(r.title),
     description: (r.description as string) ?? null,
     date: String(r.date),
