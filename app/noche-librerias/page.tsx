@@ -157,7 +157,7 @@ export default async function NocheLibreriasPage() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 rounded-full border border-line px-3.5 py-1.5 text-xs text-ink-soft transition-colors hover:border-ink hover:text-ink"
           >
-            <span>📸</span> Instagram · info en tiempo real
+            <span>📸</span> Instagram
           </a>
           <a
             href="https://www.elcolombiano.com/cultura/literatura/noche-librerias-2026-librerias-antioquia-abiertas-medianoche-ON39168431"
