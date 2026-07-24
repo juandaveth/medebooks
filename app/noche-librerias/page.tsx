@@ -152,7 +152,7 @@ export default async function NocheLibreriasPage() {
         {/* Links externos */}
         <div className="mt-5 flex flex-wrap gap-3">
           <a
-            href="https://www.instagram.com/p/DaDyM_ECcK8/"
+            href="https://www.instagram.com/p/DanzR1fEarf/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 rounded-full border border-line px-3.5 py-1.5 text-xs text-ink-soft transition-colors hover:border-ink hover:text-ink"

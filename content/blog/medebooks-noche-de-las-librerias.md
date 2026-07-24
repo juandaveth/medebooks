@@ -24,7 +24,7 @@ Ocho librerías de Antioquia abren sus puertas hasta la medianoche con conversac
 - **Las Letras del Jaguar** — lecturas borrachas: textos en voz alta, tragos y canciones elegidas por los lectores
 - **Librería de la Pascasia** — tienda de calcas y libreras invitadas para encontrar tu próximo libro favorito
 
-La programación completa está en [medebooks.app/noche-librerias](/noche-librerias) y en [El Colombiano](https://www.elcolombiano.com/cultura/literatura/noche-librerias-2026-librerias-antioquia-abiertas-medianoche-ON39168431). Para ver las actualizaciones en tiempo real, el Instagram de la Noche es [@nochelibrerias](https://www.instagram.com/p/DaDyM_ECcK8/).
+La programación completa está en [medebooks.app/noche-librerias](/noche-librerias) y en [El Colombiano](https://www.elcolombiano.com/cultura/literatura/noche-librerias-2026-librerias-antioquia-abiertas-medianoche-ON39168431). Para ver las actualizaciones en tiempo real, el Instagram de la Noche es [@nochelibrerias](https://www.instagram.com/p/DanzR1fEarf/).
 
 ---
 
