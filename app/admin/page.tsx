@@ -28,6 +28,11 @@ export default async function AdminPage({
   const { data: usersData } = await supabase.auth.admin.listUsers({ perPage: 1 });
   const userCount = (usersData as { total?: number } | null)?.total ?? 0;
 
+  // Conteo de lugares guardados.
+  const { count: savedCount } = await supabase
+    .from("user_places")
+    .select("*", { count: "exact", head: true });
+
   // Municipios presentes (para el filtro rápido de limpieza).
   const { data: allMunis } = await supabase.from("places").select("municipality");
   const municipios = [
@@ -65,6 +70,10 @@ export default async function AdminPage({
         <div className="rounded-xl border border-line bg-paper px-5 py-4">
           <p className="text-xs uppercase tracking-wide text-ink-soft">Lugares</p>
           <p className="font-display text-3xl text-ink">{places?.length ?? 0}</p>
+        </div>
+        <div className="rounded-xl border border-line bg-paper px-5 py-4">
+          <p className="text-xs uppercase tracking-wide text-ink-soft">Guardados</p>
+          <p className="font-display text-3xl text-ink">{savedCount ?? 0}</p>
         </div>
       </div>
 
