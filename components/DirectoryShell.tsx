@@ -54,19 +54,25 @@ export async function DirectoryShell({
       {/* Masthead editorial */}
       <header className="shrink-0 border-b border-line">
 
-        {/* Mobile: logo · agenda · usuario */}
+        {/* Mobile: marca izquierda · agenda + usuario derecha */}
         <div className="flex items-center justify-between px-5 py-3 md:hidden">
-          <Link href="/" aria-label="medebooks">
-            <img src="/icon.svg" alt="medebooks" width={32} height={32} className="shrink-0" />
-          </Link>
           <Link
-            href="/agenda"
-            className="flex flex-col items-center gap-0.5 text-ink-soft transition-colors hover:text-ink"
+            href="/"
+            className="flex items-center gap-2 font-display text-xl leading-none tracking-tight text-ink"
           >
-            <span className="text-xl leading-none">🗓</span>
-            <span className="font-display text-[10px] uppercase tracking-wide">Agenda</span>
+            <img src="/icon.svg" alt="" width={28} height={28} className="shrink-0" />
+            medebooks
           </Link>
-          <UserMenu />
+          <div className="flex items-center gap-4">
+            <Link
+              href="/agenda"
+              className="flex flex-col items-center gap-0.5 text-ink-soft transition-colors hover:text-ink"
+            >
+              <span className="text-lg leading-none">🗓</span>
+              <span className="font-display text-[10px] uppercase tracking-wide">Agenda</span>
+            </Link>
+            <UserMenu />
+          </div>
         </div>
 
         {/* Desktop: logo + subtítulo + nav + usuario */}
