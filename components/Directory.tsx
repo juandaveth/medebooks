@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { Place, PlaceFilters, PlaceType } from "@/lib/types";
 import type { Facets } from "@/lib/queries";
+import type { UserPlaceStatus } from "@/lib/userPlaces";
 import { filterPlaces } from "@/lib/filter";
 import { geoSlug } from "@/lib/medellin";
 import { Filters } from "./Filters";
@@ -35,13 +37,28 @@ export function Directory({
   initialType = "all",
   initialComuna,
   initialNeighborhood,
+  userPlaces = {},
 }: {
   places: Place[];
   facets: Facets;
   initialType?: PlaceType | "all";
   initialComuna?: string;
   initialNeighborhood?: string;
+  userPlaces?: Record<string, NonNullable<UserPlaceStatus>>;
 }) {
+  const [myMap, setMyMap] = useState(false);
+  const hasUserPlaces = Object.keys(userPlaces).length > 0;
+  const searchParams = useSearchParams();
+
+  // Activa Mi mapa cuando llega ?mymapa=1 (desde el menú de usuario).
+  // useSearchParams reacciona también a navegaciones client-side desde la misma página.
+  useEffect(() => {
+    if (searchParams.get("mymapa") === "1" && hasUserPlaces) {
+      setMyMap(true);
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  }, [searchParams, hasUserPlaces]);
+
   const [filters, setFilters] = useState<PlaceFilters>({
     type: initialType,
     comuna: initialComuna ?? "all",
@@ -69,12 +86,15 @@ export function Directory({
   }, [places, shuffleSeed]);
 
   const ordered = useMemo(() => {
-    if (sort === "random")
-      return [...filtered].sort(
-        (a, b) => (randomRank.get(a.id) ?? 0) - (randomRank.get(b.id) ?? 0),
-      );
-    return filtered; // ya viene alfabético desde la consulta
-  }, [filtered, sort, randomRank]);
+    const base =
+      sort === "random"
+        ? [...filtered].sort(
+            (a, b) => (randomRank.get(a.id) ?? 0) - (randomRank.get(b.id) ?? 0),
+          )
+        : filtered;
+    if (myMap) return base.filter((p) => userPlaces[p.id]);
+    return base;
+  }, [filtered, sort, randomRank, myMap, userPlaces]);
 
   // Refleja el filtro tipo+municipio en la URL (sin recargar) para que sea compartible
   // y el usuario descubra la ruta específica del municipio.
@@ -132,12 +152,27 @@ export function Directory({
           <Filters
             filters={filters}
             facets={facets}
-            count={filtered.length}
+            count={myMap ? ordered.length : filtered.length}
             onChange={patch}
             sort={sort}
             onSort={changeSort}
             onRandomPick={pickRandom}
           />
+          {hasUserPlaces && (
+            <div className="mt-3">
+              <button
+                onClick={() => setMyMap((v) => !v)}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                  myMap
+                    ? "border-ink bg-ink text-paper"
+                    : "border-line text-ink-soft hover:border-ink hover:text-ink"
+                }`}
+              >
+                <span>{myMap ? "✕" : "🗺"}</span>
+                Mi mapa
+              </button>
+            </div>
+          )}
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto">
           <PlaceList places={ordered} activeId={activeId} onSelect={select} />
@@ -162,6 +197,8 @@ export function Directory({
               ? filters.neighborhood
               : undefined
           }
+          userPlaces={userPlaces}
+          myMapMode={myMap}
         />
       </div>
 

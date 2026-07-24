@@ -1,7 +1,10 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import type { Place, PlaceType } from "@/lib/types";
 import type { Facets } from "@/lib/queries";
 import { hasSupabase } from "@/lib/supabase";
+import { createSupabaseServer } from "@/lib/supabase/server";
+import { getUserPlaceStatuses } from "@/lib/userPlaces";
 import { Directory } from "./Directory";
 import { UserMenu } from "./UserMenu";
 
@@ -29,7 +32,7 @@ function subtitleFor(
   return `${kind} en ${where}`;
 }
 
-export function DirectoryShell({
+export async function DirectoryShell({
   places,
   facets,
   initialType = "all",
@@ -42,6 +45,10 @@ export function DirectoryShell({
   initialComuna?: string;
   initialNeighborhood?: string;
 }) {
+  const supabase = await createSupabaseServer();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userPlaces = user ? await getUserPlaceStatuses(user.id) : {};
+
   return (
     <div className="flex h-[100dvh] flex-col">
       {/* Masthead editorial */}
@@ -79,13 +86,16 @@ export function DirectoryShell({
       </header>
 
       <main className="min-h-0 flex-1">
-        <Directory
-          places={places}
-          facets={facets}
-          initialType={initialType}
-          initialComuna={initialComuna}
-          initialNeighborhood={initialNeighborhood}
-        />
+        <Suspense>
+          <Directory
+            places={places}
+            facets={facets}
+            initialType={initialType}
+            initialComuna={initialComuna}
+            initialNeighborhood={initialNeighborhood}
+            userPlaces={userPlaces}
+          />
+        </Suspense>
       </main>
     </div>
   );

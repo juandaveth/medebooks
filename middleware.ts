@@ -33,7 +33,9 @@ export async function middleware(request: NextRequest) {
   return response;
 }
 
-// Solo corre en las rutas que dependen de la sesión.
+// Corre en todas las rutas excepto assets estáticos y _next internals.
 export const config = {
-  matcher: ["/admin/:path*", "/login", "/auth/:path*", "/perfil/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|apple-icon.png|icon.svg|manifest.webmanifest|.*\\.(?:png|jpg|jpeg|gif|webp|svg|ico|geojson)).*)",
+  ],
 };
