@@ -42,7 +42,7 @@ export default async function BlogPostPage({
       <header className="flex items-center justify-between border-b border-line py-4">
         <Link
           href="/"
-          className="font-display text-xl leading-none tracking-tight text-ink"
+          className="font-display text-xl leading-none tracking-tight text-[#FF6719]"
         >
           medebooks
         </Link>

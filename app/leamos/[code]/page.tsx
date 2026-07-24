@@ -35,7 +35,7 @@ export default async function LeamosPage({
           className="flex items-center gap-2 font-display text-xl leading-none tracking-tight text-ink"
         >
           <img src="/icon.svg" alt="" width={28} height={28} className="shrink-0" />
-          medebooks
+          <span className="text-[#FF6719]">medebooks</span>
         </Link>
       </header>
 

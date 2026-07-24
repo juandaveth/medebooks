@@ -47,7 +47,7 @@ export default function BlogIndexPage() {
       <header className="flex items-center justify-between gap-4 border-b border-line py-4">
         <Link
           href="/"
-          className="font-display text-2xl leading-none tracking-tight text-ink"
+          className="font-display text-2xl leading-none tracking-tight text-[#FF6719]"
         >
           medebooks
         </Link>

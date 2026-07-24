@@ -63,7 +63,7 @@ export async function DirectoryShell({
             className="flex items-center gap-2 font-display text-xl leading-none tracking-tight text-ink"
           >
             <img src="/icon.svg" alt="" width={28} height={28} className="shrink-0" />
-            medebooks
+            <span className="text-[#FF6719]">medebooks</span>
           </Link>
           <div className="flex items-center gap-4">
             <Link
@@ -85,7 +85,7 @@ export async function DirectoryShell({
               className="flex items-center gap-2 font-display text-2xl leading-none tracking-tight text-ink"
             >
               <img src="/icon.svg" alt="" width={28} height={28} className="shrink-0" />
-              medebooks
+              <span className="text-[#FF6719]">medebooks</span>
             </Link>
             <p className="hidden text-sm text-ink-soft sm:block">
               {subtitleFor(initialType, initialComuna, initialNeighborhood)}

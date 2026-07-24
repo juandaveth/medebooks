@@ -64,7 +64,7 @@ export function LoginForm() {
 
       <div className="mt-8 flex items-center gap-2">
         <img src="/icon.svg" alt="" width={36} height={36} className="shrink-0" />
-        <span className="font-display text-2xl leading-none tracking-tight text-ink">
+        <span className="font-display text-2xl leading-none tracking-tight text-[#FF6719]">
           medebooks
         </span>
       </div>
