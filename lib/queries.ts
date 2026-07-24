@@ -197,18 +197,48 @@ export async function getFeaturedPlaceIds(): Promise<string[]> {
   return (links ?? []).map((l) => l.place_id as string);
 }
 
-/** Próximos eventos de un lugar concreto. */
+/** Próximos eventos de un lugar concreto (directos + multi-lugar vía event_places). */
 export async function getEventsByPlace(placeId: string): Promise<Event[]> {
   const supabase = getSupabase();
   if (!supabase) return [];
   const today = new Date().toISOString().split("T")[0];
-  const { data } = await supabase
+
+  // Eventos vinculados directamente por place_id
+  const { data: direct } = await supabase
     .from("events")
-    .select(`id, title, description, date, start_time, end_time, url, status, created_at,
+    .select(`id, title, description, date, start_time, end_time, url, status, created_at, place_id,
              places!place_id(id, name, slug, type)`)
     .eq("place_id", placeId)
     .eq("status", "published")
     .gte("date", today)
     .order("date", { ascending: true });
-  return (data ?? []).map(rowToEvent);
+
+  // IDs de eventos multi-lugar que incluyen este lugar
+  const { data: links } = await supabase
+    .from("event_places")
+    .select("event_id")
+    .eq("place_id", placeId);
+
+  const multiIds = (links ?? []).map((l) => l.event_id as string);
+  let multi: EventRow[] = [];
+  if (multiIds.length > 0) {
+    const { data } = await supabase
+      .from("events")
+      .select(`id, title, description, date, start_time, end_time, url, status, created_at, place_id,
+               places!place_id(id, name, slug, type)`)
+      .in("id", multiIds)
+      .eq("status", "published")
+      .gte("date", today)
+      .order("date", { ascending: true });
+    multi = (data ?? []) as EventRow[];
+  }
+
+  // Combinar y deduplicar por id
+  const seen = new Set<string>();
+  const all: Event[] = [];
+  for (const row of [...(direct ?? []), ...multi]) {
+    const e = rowToEvent(row as EventRow);
+    if (!seen.has(e.id)) { seen.add(e.id); all.push(e); }
+  }
+  return all.sort((a, b) => a.date.localeCompare(b.date));
 }
