@@ -73,27 +73,31 @@ export async function getInviterByCode(code: string): Promise<CompanionProfile |
 /** Devuelve los compañeros de lectura del usuario. */
 export async function getCompanions(userId: string): Promise<CompanionProfile[]> {
   const admin = createSupabaseAdmin();
-  const { data } = await admin
+
+  // Paso 1: obtener los IDs de los compañeros
+  const { data: rows } = await admin
     .from("reading_companions")
-    .select("user_a, user_b, profiles!reading_companions_user_a_fkey(user_id, display_name, avatar_url, invite_code), profiles!reading_companions_user_b_fkey(user_id, display_name, avatar_url, invite_code)")
+    .select("user_a, user_b")
     .or(`user_a.eq.${userId},user_b.eq.${userId}`);
 
-  if (!data) return [];
+  if (!rows || rows.length === 0) return [];
 
-  return data.map((row) => {
-    // El compañero es el que NO soy yo
-    const isA = row.user_a === userId;
-    const profile = isA
-      ? (row as Record<string, unknown>)["profiles!reading_companions_user_b_fkey"] as Record<string, unknown>
-      : (row as Record<string, unknown>)["profiles!reading_companions_user_a_fkey"] as Record<string, unknown>;
+  const companionIds = rows.map((r) => (r.user_a === userId ? r.user_b : r.user_a));
 
-    return {
-      userId: String(profile?.user_id ?? ""),
-      displayName: String(profile?.display_name ?? "Lector"),
-      avatarUrl: (profile?.avatar_url as string | null) ?? null,
-      inviteCode: String(profile?.invite_code ?? ""),
-    };
-  });
+  // Paso 2: obtener los perfiles de esos IDs
+  const { data: profiles } = await admin
+    .from("profiles")
+    .select("user_id, display_name, avatar_url, invite_code")
+    .in("user_id", companionIds);
+
+  if (!profiles) return [];
+
+  return profiles.map((p) => ({
+    userId: p.user_id,
+    displayName: p.display_name ?? "Lector",
+    avatarUrl: p.avatar_url ?? null,
+    inviteCode: p.invite_code,
+  }));
 }
 
 /** Vincula dos usuarios como compañeros de lectura (idempotente). */
