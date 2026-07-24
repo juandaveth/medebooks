@@ -79,3 +79,37 @@ export const TYPE_LABEL: Record<PlaceType, string> = {
   libreria: "Librería",
   biblioteca: "Biblioteca",
 };
+
+export type Event = {
+  id: string;
+  placeId: string;
+  placeName: string;
+  placeSlug: string;
+  placeType: PlaceType;
+  title: string;
+  description?: string | null;
+  date: string; // YYYY-MM-DD
+  startTime?: string | null;
+  endTime?: string | null;
+  url?: string | null;
+  status: "draft" | "published";
+  createdAt: string;
+};
+
+/** Formatea fecha + hora opcional en español para mostrar en UI. */
+export function formatEventDate(date: string, startTime?: string | null): string {
+  // Forzar interpretación local (sin desfase UTC) añadiendo hora fija.
+  const d = new Date(`${date}T12:00:00`);
+  const datePart = d.toLocaleDateString("es-CO", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  if (!startTime) return datePart;
+  const [h, m] = startTime.split(":");
+  const t = new Date();
+  t.setHours(Number(h), Number(m));
+  const timePart = t.toLocaleTimeString("es-CO", { hour: "numeric", minute: "2-digit" });
+  return `${datePart} · ${timePart}`;
+}

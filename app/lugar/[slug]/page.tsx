@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPlaceBySlug } from "@/lib/queries";
-import { TYPE_LABEL } from "@/lib/types";
+import { getPlaceBySlug, getEventsByPlace } from "@/lib/queries";
+import { TYPE_LABEL, formatEventDate } from "@/lib/types";
 import { typeColor } from "@/components/PlaceCard";
 import { ShareButton } from "@/components/ShareButton";
 import { MapView } from "@/components/MapView";
@@ -74,7 +74,10 @@ export default async function PlacePage({ params }: Props) {
   if (!place) notFound();
 
   const { data: { user } } = await supabase.auth.getUser();
-  const initialStatus = user ? await getUserPlaceStatus(place.id) : null;
+  const [initialStatus, events] = await Promise.all([
+    user ? getUserPlaceStatus(place.id) : Promise.resolve(null),
+    getEventsByPlace(place.id),
+  ]);
 
   const where = [place.neighborhood, place.comuna, place.municipality]
     .filter(Boolean)
@@ -230,6 +233,36 @@ export default async function PlacePage({ params }: Props) {
           />
         )}
       </div>
+
+      {/* Próximos eventos */}
+      {events.length > 0 && (
+        <div className="mt-10">
+          <h2 className="font-display text-2xl text-ink">Próximos eventos</h2>
+          <div className="mt-4 space-y-px">
+            {events.map((event) => (
+              <div key={event.id} className="border-b border-line py-4 first:border-t">
+                <p className="text-xs uppercase tracking-wide text-ink-soft">
+                  {formatEventDate(event.date, event.startTime)}
+                </p>
+                <p className="font-display mt-1 text-lg text-ink">{event.title}</p>
+                {event.description && (
+                  <p className="mt-1 text-sm text-ink-soft leading-relaxed">{event.description}</p>
+                )}
+                {event.url && (
+                  <a
+                    href={event.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-block text-sm text-accent underline-offset-2 hover:underline"
+                  >
+                    Más información ↗
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

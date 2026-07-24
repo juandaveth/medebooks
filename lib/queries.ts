@@ -2,7 +2,7 @@ import { getSupabase } from "./supabase";
 import { SAMPLE_PLACES } from "./sampleData";
 import { filterPlaces } from "./filter";
 import { MATERIAS } from "./types";
-import type { Place, PlaceFilters } from "./types";
+import type { Place, PlaceFilters, Event, PlaceType } from "./types";
 
 // Columnas que expone la vista/tabla y su mapeo al tipo Place.
 const SELECT = `
@@ -124,4 +124,63 @@ export async function getFacets(): Promise<Facets> {
   const present = new Set(all.flatMap((p) => p.subjects ?? []));
   const subjects = MATERIAS.filter((m) => present.has(m));
   return { comunas, barriosByComuna, specialties, subjects };
+}
+
+// ─── Eventos ────────────────────────────────────────────────────────────────
+
+const EVENT_SELECT = `
+  id, title, description, date, start_time, end_time, url, status, created_at,
+  places!inner(id, name, slug, type)
+`;
+
+type EventRow = Record<string, unknown>;
+
+function rowToEvent(r: EventRow): Event {
+  const place = r.places as Record<string, unknown>;
+  return {
+    id: String(r.id),
+    placeId: String(place.id),
+    placeName: String(place.name),
+    placeSlug: String(place.slug),
+    placeType: place.type as PlaceType,
+    title: String(r.title),
+    description: (r.description as string) ?? null,
+    date: String(r.date),
+    startTime: (r.start_time as string) ?? null,
+    endTime: (r.end_time as string) ?? null,
+    url: (r.url as string) ?? null,
+    status: r.status as Event["status"],
+    createdAt: String(r.created_at),
+  };
+}
+
+/** Próximos eventos (hoy en adelante), ordenados por fecha. */
+export async function getUpcomingEvents(): Promise<Event[]> {
+  const supabase = getSupabase();
+  if (!supabase) return [];
+  const today = new Date().toISOString().split("T")[0];
+  const { data } = await supabase
+    .from("events")
+    .select(EVENT_SELECT)
+    .eq("status", "published")
+    .gte("date", today)
+    .order("date", { ascending: true })
+    .order("start_time", { ascending: true, nullsFirst: true });
+  return (data ?? []).map(rowToEvent);
+}
+
+/** Próximos eventos de un lugar concreto. */
+export async function getEventsByPlace(placeId: string): Promise<Event[]> {
+  const supabase = getSupabase();
+  if (!supabase) return [];
+  const today = new Date().toISOString().split("T")[0];
+  const { data } = await supabase
+    .from("events")
+    .select(`id, title, description, date, start_time, end_time, url, status, created_at,
+             places!inner(id, name, slug, type)`)
+    .eq("place_id", placeId)
+    .eq("status", "published")
+    .gte("date", today)
+    .order("date", { ascending: true });
+  return (data ?? []).map(rowToEvent);
 }

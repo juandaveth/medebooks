@@ -67,7 +67,10 @@ export async function DirectoryShell({
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <div className="hidden items-center gap-3 text-xs uppercase tracking-wide text-ink-soft sm:flex">
+            <div className="hidden items-center gap-4 text-xs uppercase tracking-wide text-ink-soft sm:flex">
+              <Link href="/eventos" className="hover:text-ink transition-colors">
+                Eventos
+              </Link>
               <span className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-accent" /> Librería
               </span>

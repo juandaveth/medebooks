@@ -38,6 +38,9 @@ export default async function AdminPage({
           <p className="text-sm text-ink-soft">{user.email}</p>
         </div>
         <div className="flex items-center gap-3 text-sm">
+          <Link href="/admin/eventos" className="text-ink-soft hover:text-ink">
+            Eventos
+          </Link>
           <Link href="/" className="text-ink-soft hover:text-ink">
             Ver sitio
           </Link>
