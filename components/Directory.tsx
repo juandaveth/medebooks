@@ -154,24 +154,59 @@ export function Directory({
   return (
     <div className="flex h-full flex-col">
 
-      {/* ── Sub-header mobile: filtro por tipo (solo en modo mapa) ── */}
-      <div className={`shrink-0 border-b border-line px-4 py-2 md:hidden ${mobileView !== "map" ? "hidden" : ""}`}>
-        <div className="inline-flex rounded-full border border-line bg-paper p-0.5">
-          {([
-            { value: "all",        label: "Todo",        on: "bg-[#FF6719] text-white",  off: "text-[#FF6719]"  },
-            { value: "libreria",   label: "Librerías",   on: "bg-accent text-paper",     off: "text-accent"     },
-            { value: "biblioteca", label: "Bibliotecas", on: "bg-accent-2 text-paper",   off: "text-accent-2"   },
-          ] as const).map((t) => (
-            <button
-              key={t.value}
-              onClick={() => patch({ type: t.value })}
-              className={`font-display rounded-full px-4 py-1.5 text-sm transition-colors ${
-                (filters.type ?? "all") === t.value ? t.on : `${t.off} hover:opacity-80`
-              }`}
-            >
-              {t.label}
-            </button>
-          ))}
+      {/* ── Sub-header mobile: siempre visible ── */}
+      <div className="shrink-0 border-b border-line px-4 py-2 md:hidden">
+        <div className="flex items-center justify-between gap-2">
+
+          {/* Izquierda: pills de tipo ↔ sub-filtros de Mi mapa */}
+          <div className="inline-flex rounded-full border border-line bg-paper p-0.5">
+            {myMap ? (
+              <>
+                <button
+                  onClick={() => setMyMapFilter(myMapFilter === "want_to_visit" ? "all" : "want_to_visit")}
+                  className={`font-display rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+                    myMapFilter === "want_to_visit" ? activePill : "text-ink-soft hover:opacity-80"
+                  }`}
+                >
+                  🔖 Quiero visitar
+                </button>
+                <button
+                  onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}
+                  className={`font-display rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+                    myMapFilter === "visited" ? activePill : "text-ink-soft hover:opacity-80"
+                  }`}
+                >
+                  ✓ Visitadas
+                </button>
+              </>
+            ) : (
+              ([
+                { value: "all",        label: "Todo",        on: "bg-[#FF6719] text-white",  off: "text-[#FF6719]"  },
+                { value: "libreria",   label: "Librerías",   on: "bg-accent text-paper",     off: "text-accent"     },
+                { value: "biblioteca", label: "Bibliotecas", on: "bg-accent-2 text-paper",   off: "text-accent-2"   },
+              ] as const).map((t) => (
+                <button
+                  key={t.value}
+                  onClick={() => patch({ type: t.value })}
+                  className={`font-display rounded-full px-4 py-1.5 text-sm transition-colors ${
+                    (filters.type ?? "all") === t.value ? t.on : `${t.off} hover:opacity-80`
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))
+            )}
+          </div>
+
+          {/* Derecha: Mi mapa */}
+          <button
+            onClick={toggleMyMapMobile}
+            className={`font-display inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors ${
+              myMap ? myMapActive : myMapInactive
+            }`}
+          >
+            {myMap ? "✕" : "🗺"} Mi mapa
+          </button>
         </div>
       </div>
 
@@ -261,63 +296,27 @@ export function Directory({
         </div>
       </div>
 
-      {/* ── Footer mobile: Mi mapa + Lista/Mapa ── */}
+      {/* ── Footer mobile: siempre Lista/Mapa ── */}
       <div className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper px-4 py-3 md:hidden">
-        <div className="flex items-center gap-2">
-
-          {/* Mi mapa */}
-          <button
-            onClick={toggleMyMapMobile}
-            className={`${pillBase} ${myMap ? myMapActive : myMapInactive}`}
-          >
-            {myMap ? "✕" : "🗺"} Mi mapa
-          </button>
-
-          {/* Sub-filtros (solo con Mi mapa activo) */}
-          {myMap && (
-            <>
-              <button
-                onClick={() => setMyMapFilter(myMapFilter === "want_to_visit" ? "all" : "want_to_visit")}
-                className={`${pillBase} font-display ${
-                  myMapFilter === "want_to_visit" ? activePill : inactivePill
-                }`}
-              >
-                🔖 Quiero visitar
-              </button>
-              <button
-                onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}
-                className={`${pillBase} font-display ${
-                  myMapFilter === "visited"
-                    ? activePill
-                    : inactivePill
-                }`}
-              >
-                ✓ Visitadas
-              </button>
-            </>
-          )}
-
-          {/* Toggle Lista/Mapa (solo con Mi mapa inactivo) */}
-          {!myMap && (
-            <div className="ml-auto inline-flex shrink-0 rounded-full border border-line bg-paper p-0.5">
-              <button
-                onClick={() => setMobileView("list")}
-                className={`font-display rounded-full px-4 py-1.5 text-sm transition-colors ${
-                  mobileView === "list" ? "bg-ink text-paper" : "text-ink-soft"
-                }`}
-              >
-                Lista
-              </button>
-              <button
-                onClick={() => setMobileView("map")}
-                className={`font-display rounded-full px-4 py-1.5 text-sm transition-colors ${
-                  mobileView === "map" ? "bg-ink text-paper" : "text-ink-soft"
-                }`}
-              >
-                Mapa
-              </button>
-            </div>
-          )}
+        <div className="flex justify-center">
+          <div className="inline-flex rounded-full border border-line bg-paper p-0.5">
+            <button
+              onClick={() => setMobileView("list")}
+              className={`font-display rounded-full px-6 py-1.5 text-sm transition-colors ${
+                mobileView === "list" ? "bg-ink text-paper" : "text-ink-soft"
+              }`}
+            >
+              Lista
+            </button>
+            <button
+              onClick={() => setMobileView("map")}
+              className={`font-display rounded-full px-6 py-1.5 text-sm transition-colors ${
+                mobileView === "map" ? "bg-ink text-paper" : "text-ink-soft"
+              }`}
+            >
+              Mapa
+            </button>
+          </div>
         </div>
       </div>
 
