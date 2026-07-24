@@ -128,9 +128,11 @@ export async function getFacets(): Promise<Facets> {
 
 // ─── Eventos ────────────────────────────────────────────────────────────────
 
+// Nota: places!place_id(...) desambigua el join — con event_places en el schema,
+// PostgREST encuentra dos rutas a places y necesita el hint explícito.
 const EVENT_SELECT = `
   id, title, description, date, start_time, end_time, url, status, created_at, place_id,
-  places(id, name, slug, type)
+  places!place_id(id, name, slug, type)
 `;
 
 type EventRow = Record<string, unknown>;
@@ -203,7 +205,7 @@ export async function getEventsByPlace(placeId: string): Promise<Event[]> {
   const { data } = await supabase
     .from("events")
     .select(`id, title, description, date, start_time, end_time, url, status, created_at,
-             places!inner(id, name, slug, type)`)
+             places!place_id(id, name, slug, type)`)
     .eq("place_id", placeId)
     .eq("status", "published")
     .gte("date", today)
