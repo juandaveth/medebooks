@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPlaceBySlug, getEventsByPlace, getFeaturedPlaceIds } from "@/lib/queries";
+import { getPlaceBySlug, getEventsByPlace } from "@/lib/queries";
 import { TYPE_LABEL, formatEventDate } from "@/lib/types";
 import { typeColor } from "@/components/PlaceCard";
 import { ShareButton } from "@/components/ShareButton";
@@ -74,12 +74,10 @@ export default async function PlacePage({ params }: Props) {
   if (!place) notFound();
 
   const { data: { user } } = await supabase.auth.getUser();
-  const [initialStatus, events, featuredIds] = await Promise.all([
+  const [initialStatus, events] = await Promise.all([
     user ? getUserPlaceStatus(place.id) : Promise.resolve(null),
     getEventsByPlace(place.id),
-    getFeaturedPlaceIds(),
   ]);
-  const isFeatured = featuredIds.includes(place.id);
 
   const where = [place.neighborhood, place.comuna, place.municipality]
     .filter(Boolean)
@@ -266,7 +264,7 @@ export default async function PlacePage({ params }: Props) {
         </div>
       )}
 
-      {isFeatured && (
+      {place.type === "libreria" && (
         <div className="mt-16 border-t border-line pt-8 text-center">
           <a
             href={`https://wa.me/573163566034?text=${encodeURIComponent(`Hola, soy el administrador de ${place.name} y quisiera tener el rol de admin de https://www.medebooks.app/lugar/${place.slug}`)}`}
