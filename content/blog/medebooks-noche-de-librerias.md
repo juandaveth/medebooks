@@ -8,9 +8,7 @@ section: resenas
 
 Ocho librerías independientes, cada una con su carácter y sus estantes, decidieron hacer algo juntas esta noche: abrir. La **Noche de Librerías** es eso — una apuesta colectiva de espacios que no suelen aparecer juntos, que esta vez sí.
 
-Si llegaste aquí desde el evento — o si alguien te pasó el enlace — gracias por estar. Lo que vas a encontrar es un **prototipo**: un mapa de las librerías y bibliotecas de Medellín con sus barrios, sus fotos y la posibilidad de guardar las que quieras visitar.
-
-No está terminado. Pero ya funciona, y esta noche quiero compartirlo.
+medebooks es un directorio de librerías y bibliotecas de Medellín: mapa, fotos, barrios, y la posibilidad de guardar los lugares que quieres visitar o ya visitaste. Lleva meses construyéndose; la Noche de Librerías es el primer momento en que lo comparto más ampliamente.
 
 ---
 
@@ -24,7 +22,7 @@ Ocho librerías de Antioquia abren sus puertas hasta la medianoche con conversac
 - **Las Letras del Jaguar** — lecturas borrachas: textos en voz alta, tragos y canciones elegidas por los lectores
 - **Librería de la Pascasia** — tienda de calcas y libreras invitadas para encontrar tu próximo libro favorito
 
-La programación completa está en [medebooks.app/noche-librerias](/noche-librerias) y en [El Colombiano](https://www.elcolombiano.com/cultura/literatura/noche-librerias-2026-librerias-antioquia-abiertas-medianoche-ON39168431). Para ver las actualizaciones en tiempo real, el Instagram de la Noche es [@nochelibrerias](https://www.instagram.com/p/DanzR1fEarf/).
+La programación completa está en [medebooks.app/noche-librerias](/noche-librerias) y en [El Colombiano](https://www.elcolombiano.com/cultura/literatura/noche-librerias-2026-librerias-antioquia-abiertas-medianoche-ON39168431). Para actualizaciones en tiempo real, el Instagram de la Noche es [@nochelibrerias](https://www.instagram.com/p/DanzR1fEarf/).
 
 ---
 
@@ -44,7 +42,7 @@ La próxima vez que entres, tus marcas siguen ahí. Si un día descubres una lib
 
 ### Una agenda cultural
 
-Hay una sección nueva: **Agenda**. Hoy, el primer evento del directorio es la Noche de Librerías, vinculada a las 8 librerías participantes. Será el espacio para ir sumando más: presentaciones de libros, tertulias, clubes de lectura. Si tienes un espacio y organizas actividades, me interesa que aparezcan aquí.
+Hay una sección nueva: **Agenda**. El primer evento del directorio es la Noche de Librerías, vinculada a las 8 librerías participantes. Será el espacio para ir sumando más: presentaciones de libros, tertulias, clubes de lectura. Si tienes un espacio y organizas actividades, me interesa que aparezcan aquí.
 
 ---
 
@@ -54,11 +52,11 @@ Esta es la novedad que más me emociona de esta versión.
 
 Cuando te registras en medebooks con el enlace de un amigo, quedan conectados como **compas de lectura**. No es un sistema de puntos ni de recompensas: es simplemente una forma de saber con quién lees. En tu perfil aparecen las personas que te invitaron o a quienes tú invitaste, y así se va construyendo una red pequeña y real de lectores.
 
-¿Por qué? Porque leer en la ciudad es más rico cuando sabes que hay alguien más recorriendo las mismas estanterías. Hoy, en la Noche de Librerías, puedes enviarle a un amigo tu enlace personal — `medebooks.app/leamos/TUCODIGO` — con el mensaje:
+¿Por qué? Porque leer en la ciudad es más rico cuando sabes que hay alguien más recorriendo las mismas estanterías. Puedes enviarle a un amigo tu enlace personal — `medebooks.app/leamos/TUCODIGO` — con el mensaje:
 
 > *"Hola, quisiera que fuéramos a la Noche de Librerías a descubrirlas, ¿parchamos? Seamos compas de lectura en:..."*
 
-Si se registra a través de tu enlace, quedan conectados. Y si esta noche recorren juntos las librerías, eso ya quedó en el mapa de los dos.
+Si se registra a través de tu enlace, quedan conectados.
 
 ---
 
@@ -72,8 +70,14 @@ Quiero que cada espacio en el directorio se vea como realmente es. Si el tuyo es
 
 ---
 
+## Gracias, semillero VibeCoding
+
+medebooks nació y creció dentro del semillero de VibeCoding de la Universidad de Antioquia. Ese espacio — de preguntas, de iteraciones rápidas, de construir en voz alta — es donde este proyecto encontró su forma. Gracias a quienes lo hacen posible y a los que han estado acompañando el proceso desde ahí.
+
+---
+
 medebooks no es una app de una empresa. Es un proyecto personal, hecho con cariño por alguien que lee en Medellín y quiere que sea más fácil encontrar los lugares donde pasan cosas con los libros.
 
-Si te sirve, compártelo. Si ves algo que mejorar, dímelo.
+Si lo usaste esta noche y algo no funcionó bien, si echaste de menos una librería o simplemente tienes una idea — escríbeme. El proyecto mejora con quienes lo usan.
 
 Buena Noche de Librerías.
