@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { createSupabaseBrowser } from "@/lib/supabase/client";
 
@@ -47,8 +48,22 @@ export function LoginForm() {
   }
 
   return (
-    <div className="mx-auto mt-24 max-w-sm px-5">
-      <h1 className="font-display text-3xl text-ink">Ingresar</h1>
+    <div className="mx-auto mt-10 max-w-sm px-5">
+      <Link
+        href="/"
+        className="inline-flex items-center gap-1.5 text-sm text-ink-soft transition-colors hover:text-ink"
+      >
+        ← Volver al mapa
+      </Link>
+
+      <div className="mt-8 flex items-center gap-2">
+        <img src="/icon.svg" alt="" width={36} height={36} className="shrink-0" />
+        <span className="font-display text-2xl leading-none tracking-tight text-ink">
+          medebooks
+        </span>
+      </div>
+
+      <h1 className="mt-6 font-display text-3xl text-ink">Ingresar</h1>
       <p className="mt-2 text-sm text-ink-soft">
         Ingresa para guardar favoritos y contribuir al directorio.
       </p>
