@@ -98,6 +98,7 @@ export async function DirectoryShell({
             initialComuna={initialComuna}
             initialNeighborhood={initialNeighborhood}
             userPlaces={userPlaces}
+            isAuthenticated={!!user}
           />
         </Suspense>
       </main>

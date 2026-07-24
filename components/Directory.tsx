@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { Place, PlaceFilters, PlaceType } from "@/lib/types";
 import type { Facets } from "@/lib/queries";
 import type { UserPlaceStatus } from "@/lib/userPlaces";
@@ -11,11 +11,6 @@ import { Filters } from "./Filters";
 import { PlaceList } from "./PlaceList";
 import { MapView } from "./MapView";
 
-// Ruta canónica compartible, con la geografía explícita bajo Medellín:
-//   /                                 → todo Medellín
-//   /librerias                        → librerías de Medellín
-//   /medellin/castilla                → comuna Castilla (ambos tipos)
-//   /librerias/medellin/belen/la-mota → librerías en el barrio La Mota (Belén)
 function canonicalPath(
   type: PlaceType | "all",
   comuna?: string,
@@ -38,6 +33,7 @@ export function Directory({
   initialComuna,
   initialNeighborhood,
   userPlaces = {},
+  isAuthenticated = false,
 }: {
   places: Place[];
   facets: Facets;
@@ -45,14 +41,14 @@ export function Directory({
   initialComuna?: string;
   initialNeighborhood?: string;
   userPlaces?: Record<string, NonNullable<UserPlaceStatus>>;
+  isAuthenticated?: boolean;
 }) {
+  const router = useRouter();
   const [myMap, setMyMap] = useState(false);
   const [myMapFilter, setMyMapFilter] = useState<"all" | "want_to_visit" | "visited">("all");
   const hasUserPlaces = Object.keys(userPlaces).length > 0;
   const searchParams = useSearchParams();
 
-  // Activa Mi mapa cuando llega ?mymapa=1 (desde el menú de usuario).
-  // useSearchParams reacciona también a navegaciones client-side desde la misma página.
   useEffect(() => {
     if (searchParams.get("mymapa") === "1" && hasUserPlaces) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -73,8 +69,6 @@ export function Directory({
 
   const filtered = useMemo(() => filterPlaces(places, filters), [places, filters]);
 
-  // Ranking aleatorio estable durante la sesión; se rebaraja al pulsar "Aleatorio".
-  // Hash determinista de (id + semilla) → [0,1): puro y reproducible, sin Math.random en render.
   const randomRank = useMemo(() => {
     const m = new Map<string, number>();
     for (const p of places) {
@@ -102,8 +96,6 @@ export function Directory({
     return base;
   }, [filtered, sort, randomRank, myMap, myMapFilter, userPlaces]);
 
-  // Refleja el filtro tipo+municipio en la URL (sin recargar) para que sea compartible
-  // y el usuario descubra la ruta específica del municipio.
   useEffect(() => {
     const path = canonicalPath(
       filters.type ?? "all",
@@ -117,9 +109,7 @@ export function Directory({
   function patch(p: Partial<PlaceFilters>) {
     setFilters((f) => {
       const next = { ...f, ...p };
-      // Las especialidades no aplican a bibliotecas: al cambiar a ese tipo, se limpian.
       if (p.type === "biblioteca") next.specialties = [];
-      // Cambiar de comuna invalida el barrio seleccionado.
       if (p.comuna !== undefined && p.neighborhood === undefined)
         next.neighborhood = "all";
       return next;
@@ -133,126 +123,196 @@ export function Directory({
       setMobileView("map");
   }
 
-  // Orden de la lista: A–Z o aleatorio (rebaraja cada vez que se elige aleatorio).
   function changeSort(next: "alpha" | "random") {
     setSort(next);
     if (next === "random") setShuffleSeed((s) => s + 1);
   }
 
-  // "Muéstrame un lugar al azar": elige uno de los filtrados y lo abre en el mapa.
   function pickRandom() {
     if (filtered.length === 0) return;
     const p = filtered[Math.floor(Math.random() * filtered.length)];
     select(p);
   }
 
+  function toggleMyMapMobile() {
+    if (!isAuthenticated) {
+      router.push("/login");
+      return;
+    }
+    setMyMap((v) => !v);
+    setMyMapFilter("all");
+  }
+
+  const activePill = "border-ink bg-ink text-paper";
+  const inactivePill = "border-line text-ink-soft";
+  const pillBase = "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-2 text-sm transition-colors";
+
   return (
-    <div className="flex h-full flex-col md:flex-row">
-      {/* Panel izquierdo: filtros + lista */}
-      <aside
-        className={`flex min-h-0 flex-col border-line md:w-[420px] md:border-r ${
-          mobileView === "map" ? "hidden md:flex" : "flex"
-        }`}
-      >
-        <div className="border-b border-line px-5 py-4">
-          <Filters
-            filters={filters}
-            facets={facets}
-            count={myMap ? ordered.length : filtered.length}
-            onChange={patch}
-            sort={sort}
-            onSort={changeSort}
-            onRandomPick={pickRandom}
+    <div className="flex h-full flex-col">
+
+      {/* ── Sub-header mobile: filtro por tipo (solo en modo mapa) ── */}
+      <div className={`shrink-0 border-b border-line px-4 py-2 md:hidden ${mobileView !== "map" ? "hidden" : ""}`}>
+        <div className="inline-flex rounded-full border border-line bg-paper p-0.5">
+          {(["all", "libreria", "biblioteca"] as const).map((t) => (
+            <button
+              key={t}
+              onClick={() => patch({ type: t })}
+              className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+                (filters.type ?? "all") === t ? "bg-ink text-paper" : "text-ink-soft"
+              }`}
+            >
+              {t === "all" ? "Todo" : t === "libreria" ? "Librerías" : "Bibliotecas"}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Layout principal: sidebar + mapa ── */}
+      <div className="flex min-h-0 flex-1 flex-col md:flex-row">
+
+        {/* Panel izquierdo: filtros + lista */}
+        <aside
+          className={`flex min-h-0 flex-col border-line md:w-[420px] md:border-r ${
+            mobileView === "map" ? "hidden md:flex" : "flex"
+          }`}
+        >
+          <div className="border-b border-line px-5 py-4">
+            <Filters
+              filters={filters}
+              facets={facets}
+              count={myMap ? ordered.length : filtered.length}
+              onChange={patch}
+              sort={sort}
+              onSort={changeSort}
+              onRandomPick={pickRandom}
+            />
+            {hasUserPlaces && (
+              <div className="mt-3 hidden flex-wrap items-center gap-2 md:flex">
+                <button
+                  onClick={() => { setMyMap((v) => !v); setMyMapFilter("all"); }}
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                    myMap ? activePill : `${inactivePill} hover:border-ink hover:text-ink`
+                  }`}
+                >
+                  <span>{myMap ? "✕" : "🗺"}</span>
+                  Mi mapa
+                </button>
+                {myMap && (
+                  <>
+                    <button
+                      onClick={() => setMyMapFilter(myMapFilter === "want_to_visit" ? "all" : "want_to_visit")}
+                      className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                        myMapFilter === "want_to_visit"
+                          ? activePill
+                          : `${inactivePill} hover:border-ink hover:text-ink`
+                      }`}
+                    >
+                      🔖 Quiero visitar
+                    </button>
+                    <button
+                      onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}
+                      className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                        myMapFilter === "visited"
+                          ? "border-accent-2 bg-accent-2 text-paper"
+                          : `${inactivePill} hover:border-ink hover:text-ink`
+                      }`}
+                    >
+                      ✓ Visitadas
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto pb-16 md:pb-0">
+            <PlaceList places={ordered} activeId={activeId} onSelect={select} userPlaces={userPlaces} />
+          </div>
+        </aside>
+
+        {/* Mapa */}
+        <div
+          className={`relative min-h-0 flex-1 ${
+            mobileView === "list" ? "hidden md:block" : "block"
+          }`}
+        >
+          <MapView
+            places={ordered}
+            activeId={activeId}
+            onSelect={(p) => setActiveId(p.id)}
+            activeComuna={
+              filters.comuna && filters.comuna !== "all" ? filters.comuna : undefined
+            }
+            activeNeighborhood={
+              filters.neighborhood && filters.neighborhood !== "all"
+                ? filters.neighborhood
+                : undefined
+            }
+            userPlaces={userPlaces}
+            myMapMode={myMap}
           />
-          {hasUserPlaces && (
-            <div className="mt-3 flex flex-wrap items-center gap-2">
+        </div>
+      </div>
+
+      {/* ── Footer mobile: Mi mapa + Lista/Mapa ── */}
+      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-paper px-4 py-3 md:hidden">
+        <div className="flex items-center gap-2">
+
+          {/* Mi mapa */}
+          <button
+            onClick={toggleMyMapMobile}
+            className={`${pillBase} ${myMap ? activePill : inactivePill}`}
+          >
+            {myMap ? "✕" : "🗺"} Mi mapa
+          </button>
+
+          {/* Sub-filtros (solo con Mi mapa activo) */}
+          {myMap && (
+            <>
               <button
-                onClick={() => { setMyMap((v) => !v); setMyMapFilter("all"); }}
-                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                  myMap
-                    ? "border-ink bg-ink text-paper"
-                    : "border-line text-ink-soft hover:border-ink hover:text-ink"
+                onClick={() => setMyMapFilter(myMapFilter === "want_to_visit" ? "all" : "want_to_visit")}
+                className={`${pillBase} ${
+                  myMapFilter === "want_to_visit" ? activePill : inactivePill
                 }`}
               >
-                <span>{myMap ? "✕" : "🗺"}</span>
-                Mi mapa
+                🔖 Quiero visitar
               </button>
-              {myMap && (
-                <>
-                  <button
-                    onClick={() => setMyMapFilter(myMapFilter === "want_to_visit" ? "all" : "want_to_visit")}
-                    className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                      myMapFilter === "want_to_visit"
-                        ? "border-ink bg-ink text-paper"
-                        : "border-line text-ink-soft hover:border-ink hover:text-ink"
-                    }`}
-                  >
-                    🔖 Quiero visitar
-                  </button>
-                  <button
-                    onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}
-                    className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                      myMapFilter === "visited"
-                        ? "border-accent-2 bg-accent-2 text-paper"
-                        : "border-line text-ink-soft hover:border-ink hover:text-ink"
-                    }`}
-                  >
-                    ✓ Visitadas
-                  </button>
-                </>
-              )}
+              <button
+                onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}
+                className={`${pillBase} ${
+                  myMapFilter === "visited"
+                    ? "border-accent-2 bg-accent-2 text-paper"
+                    : inactivePill
+                }`}
+              >
+                ✓ Visitadas
+              </button>
+            </>
+          )}
+
+          {/* Toggle Lista/Mapa (solo con Mi mapa inactivo) */}
+          {!myMap && (
+            <div className="ml-auto inline-flex shrink-0 rounded-full border border-line bg-paper p-0.5">
+              <button
+                onClick={() => setMobileView("list")}
+                className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+                  mobileView === "list" ? "bg-ink text-paper" : "text-ink-soft"
+                }`}
+              >
+                Lista
+              </button>
+              <button
+                onClick={() => setMobileView("map")}
+                className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+                  mobileView === "map" ? "bg-ink text-paper" : "text-ink-soft"
+                }`}
+              >
+                Mapa
+              </button>
             </div>
           )}
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto">
-          <PlaceList places={ordered} activeId={activeId} onSelect={select} userPlaces={userPlaces} />
-        </div>
-      </aside>
-
-      {/* Mapa */}
-      <div
-        className={`relative min-h-0 flex-1 ${
-          mobileView === "list" ? "hidden md:block" : "block"
-        }`}
-      >
-        <MapView
-          places={ordered}
-          activeId={activeId}
-          onSelect={(p) => setActiveId(p.id)}
-          activeComuna={
-            filters.comuna && filters.comuna !== "all" ? filters.comuna : undefined
-          }
-          activeNeighborhood={
-            filters.neighborhood && filters.neighborhood !== "all"
-              ? filters.neighborhood
-              : undefined
-          }
-          userPlaces={userPlaces}
-          myMapMode={myMap}
-        />
       </div>
 
-      {/* Toggle móvil */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-4 z-20 flex justify-center md:hidden">
-        <div className="pointer-events-auto inline-flex rounded-full border border-line bg-paper p-0.5 shadow-lg">
-          <button
-            onClick={() => setMobileView("list")}
-            className={`rounded-full px-5 py-2 text-sm ${
-              mobileView === "list" ? "bg-ink text-paper" : "text-ink-soft"
-            }`}
-          >
-            Lista
-          </button>
-          <button
-            onClick={() => setMobileView("map")}
-            className={`rounded-full px-5 py-2 text-sm ${
-              mobileView === "map" ? "bg-ink text-paper" : "text-ink-soft"
-            }`}
-          >
-            Mapa
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
