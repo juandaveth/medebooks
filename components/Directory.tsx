@@ -47,6 +47,7 @@ export function Directory({
   userPlaces?: Record<string, NonNullable<UserPlaceStatus>>;
 }) {
   const [myMap, setMyMap] = useState(false);
+  const [myMapFilter, setMyMapFilter] = useState<"all" | "want_to_visit" | "visited">("all");
   const hasUserPlaces = Object.keys(userPlaces).length > 0;
   const searchParams = useSearchParams();
 
@@ -93,9 +94,13 @@ export function Directory({
             (a, b) => (randomRank.get(a.id) ?? 0) - (randomRank.get(b.id) ?? 0),
           )
         : filtered;
-    if (myMap) return base.filter((p) => userPlaces[p.id]);
+    if (myMap) {
+      const saved = base.filter((p) => userPlaces[p.id]);
+      if (myMapFilter === "all") return saved;
+      return saved.filter((p) => userPlaces[p.id] === myMapFilter);
+    }
     return base;
-  }, [filtered, sort, randomRank, myMap, userPlaces]);
+  }, [filtered, sort, randomRank, myMap, myMapFilter, userPlaces]);
 
   // Refleja el filtro tipo+municipio en la URL (sin recargar) para que sea compartible
   // y el usuario descubra la ruta específica del municipio.
@@ -160,9 +165,9 @@ export function Directory({
             onRandomPick={pickRandom}
           />
           {hasUserPlaces && (
-            <div className="mt-3">
+            <div className="mt-3 flex flex-wrap items-center gap-2">
               <button
-                onClick={() => setMyMap((v) => !v)}
+                onClick={() => { setMyMap((v) => !v); setMyMapFilter("all"); }}
                 className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors ${
                   myMap
                     ? "border-ink bg-ink text-paper"
@@ -172,11 +177,35 @@ export function Directory({
                 <span>{myMap ? "✕" : "🗺"}</span>
                 Mi mapa
               </button>
+              {myMap && (
+                <>
+                  <button
+                    onClick={() => setMyMapFilter(myMapFilter === "want_to_visit" ? "all" : "want_to_visit")}
+                    className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                      myMapFilter === "want_to_visit"
+                        ? "border-ink bg-ink text-paper"
+                        : "border-line text-ink-soft hover:border-ink hover:text-ink"
+                    }`}
+                  >
+                    🔖 Quiero visitar
+                  </button>
+                  <button
+                    onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}
+                    className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                      myMapFilter === "visited"
+                        ? "border-accent-2 bg-accent-2 text-paper"
+                        : "border-line text-ink-soft hover:border-ink hover:text-ink"
+                    }`}
+                  >
+                    ✓ Visitadas
+                  </button>
+                </>
+              )}
             </div>
           )}
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto">
-          <PlaceList places={ordered} activeId={activeId} onSelect={select} />
+          <PlaceList places={ordered} activeId={activeId} onSelect={select} userPlaces={userPlaces} />
         </div>
       </aside>
 

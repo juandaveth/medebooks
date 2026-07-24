@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Place } from "@/lib/types";
 import { TYPE_LABEL } from "@/lib/types";
+import type { UserPlaceStatus } from "@/lib/userPlaces";
 
 export function typeColor(type: Place["type"]): string {
   return type === "libreria" ? "var(--accent)" : "var(--accent-2)";
@@ -10,10 +11,12 @@ export function PlaceCard({
   place,
   active,
   onSelect,
+  userStatus,
 }: {
   place: Place;
   active?: boolean;
   onSelect?: (p: Place) => void;
+  userStatus?: NonNullable<UserPlaceStatus>;
 }) {
   const tags = place.type === "libreria" ? place.specialties : place.services;
   return (
@@ -34,6 +37,12 @@ export function PlaceCard({
             <h3 className="font-display truncate text-lg leading-tight text-ink">
               {place.name}
             </h3>
+            {userStatus === "want_to_visit" && (
+              <span className="shrink-0 text-sm" aria-label="Quiero visitar">🔖</span>
+            )}
+            {userStatus === "visited" && (
+              <span className="shrink-0 text-sm font-semibold text-accent-2" aria-label="Visitado">✓</span>
+            )}
           </div>
           <p className="mt-0.5 text-xs uppercase tracking-wide text-ink-soft">
             {TYPE_LABEL[place.type]}

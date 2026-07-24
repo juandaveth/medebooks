@@ -2,16 +2,19 @@
 
 import { useEffect, useRef } from "react";
 import type { Place } from "@/lib/types";
+import type { UserPlaceStatus } from "@/lib/userPlaces";
 import { PlaceCard } from "./PlaceCard";
 
 export function PlaceList({
   places,
   activeId,
   onSelect,
+  userPlaces = {},
 }: {
   places: Place[];
   activeId?: string | null;
   onSelect?: (p: Place) => void;
+  userPlaces?: Record<string, NonNullable<UserPlaceStatus>>;
 }) {
   const activeRef = useRef<HTMLDivElement | null>(null);
 
@@ -36,6 +39,7 @@ export function PlaceList({
             place={p}
             active={p.id === activeId}
             onSelect={onSelect}
+            userStatus={userPlaces[p.id]}
           />
         </div>
       ))}
