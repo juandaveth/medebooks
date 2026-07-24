@@ -5,11 +5,11 @@ import { getAllPosts, formatDate, type PostMeta } from "@/lib/blog";
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Reseñas de las librerías y bibliotecas de Medellín, y la bitácora de cómo se construye medebooks en público.",
+    "Leyendo la ciudad: librerías y bibliotecas de Medellín. Y la bitácora de cómo se construye medebooks en público.",
   openGraph: {
     title: "Blog · medebooks",
     description:
-      "Reseñas de las librerías y bibliotecas de Medellín, y la bitácora de cómo se construye medebooks en público.",
+      "Leyendo la ciudad: librerías y bibliotecas de Medellín. Y la bitácora de cómo se construye medebooks en público.",
   },
 };
 
@@ -68,19 +68,18 @@ export default function BlogIndexPage() {
           Dos maneras de leer la ciudad
         </h1>
         <p className="mt-5 max-w-prose text-lg leading-relaxed text-ink-soft">
-          Aquí pasan dos cosas. Vamos a <strong className="text-ink">reseñar,
-          una por una, las librerías y bibliotecas</strong> de Medellín — quién
-          las atiende, qué se consigue, por qué vale la pena ir. Y en paralelo
-          contamos, sin maquillar, <strong className="text-ink">cómo se
-          construye medebooks</strong> por dentro.
+          Aquí pasan dos cosas. Vamos <strong className="text-ink">leyendo la ciudad
+          a través de sus librerías y bibliotecas</strong> — quién las atiende,
+          qué se consigue, por qué vale la pena ir. Y en paralelo contamos, sin
+          maquillar, <strong className="text-ink">cómo se construye medebooks</strong> por dentro.
         </p>
       </div>
 
-      {/* Corriente 1 — Reseñas (anunciada) */}
+      {/* Corriente 1 — Leyendo la ciudad */}
       <section className="pt-16">
         <div className="flex items-baseline justify-between gap-3">
           <h2 className="font-display text-2xl tracking-tight text-ink">
-            Reseñas
+            Leyendo la ciudad
           </h2>
           <span className="text-xs uppercase tracking-wide text-accent-2">
             Librerías 📕 y bibliotecas 🏛️
@@ -97,7 +96,7 @@ export default function BlogIndexPage() {
             </p>
             <p className="mt-3 max-w-prose text-ink-soft">
               Cada semana tomaremos una librería o una biblioteca y le
-              dedicaremos una reseña: su historia, lo que la hace distinta, qué
+              dedicaremos una entrada: su historia, lo que la hace distinta, qué
               encontrar y cómo llegar. Empezando por las de barrio, esas que casi
               nadie tiene en el radar.
             </p>
