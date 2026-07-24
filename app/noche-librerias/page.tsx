@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 const NOCHE_PLACES = [
   {
     nombre: "Librería Ojo de Agua",
+    slug: "libreria-ojo-de-agua",
     direccion: "Calle 40 # 73-94, Beminimal Hotel",
     eventos: [
       { hora: "6:30 p.m.", titulo: 'La historia detrás de "Los muertos no eran tantos"', descripcion: "Conversación con la autora. Al final, espacio para firmas." },
@@ -28,6 +29,7 @@ const NOCHE_PLACES = [
   },
   {
     nombre: "Ítaca Librería-Bar",
+    slug: "itaca-libreria-bar",
     direccion: "Circular 5 # 70-127",
     eventos: [
       { hora: "6:30 p.m. – 12:00 a.m.", titulo: "Polaroids en la ventana", descripcion: null },
@@ -41,6 +43,7 @@ const NOCHE_PLACES = [
   },
   {
     nombre: "Librería Delfos",
+    slug: "libreria-delfos",
     direccion: "Carrera 79 # 52A-34",
     eventos: [
       { hora: "6:00 – 8:00 p.m.", titulo: 'Café filosófico: "Lo propio en lo extraño"', descripcion: "¿Qué hay de malo con la meritocracia? Conversan Juan David Gómez Osorio y Yeison Lopera Varela." },
@@ -49,6 +52,7 @@ const NOCHE_PLACES = [
   },
   {
     nombre: "Librería Grámmata y Palinuro, Libros Leídos",
+    slug: "libreria-grammata-textos",
     direccion: "Calle 49B # 75-33",
     eventos: [
       { hora: "3:00 p.m.", titulo: "Colorea con piglander", descripcion: "Para adultos y niños." },
@@ -61,6 +65,7 @@ const NOCHE_PLACES = [
   },
   {
     nombre: "Librería El Remanso de las Letras",
+    slug: "libreria-el-remanso-de-las-letras",
     direccion: "Calle 10 # 13-167, Entrerríos, Antioquia",
     eventos: [
       { hora: "7:00 p.m. – 12:00 a.m.", titulo: "Laboratorio de escucha literaria", descripcion: "Entre García Márquez y Rubén Blades. Una experiencia sensorial para descubrir cómo dialogan la literatura y la música.", destacado: true },
@@ -68,6 +73,7 @@ const NOCHE_PLACES = [
   },
   {
     nombre: "Antimateria Libros y Café",
+    slug: "antimateria",
     direccion: "Calle 45E # 72-09",
     eventos: [
       { hora: "5:00 – 7:00 p.m.", titulo: "Club de lectura en voz alta", descripcion: '"Las estrellas son negras", de Arnoldo Palacios.' },
@@ -77,6 +83,7 @@ const NOCHE_PLACES = [
   },
   {
     nombre: "Las Letras del Jaguar",
+    slug: "las-letras-del-jaguar",
     direccion: "Calle 53 # 47-43",
     eventos: [
       { hora: "7:00 – 8:00 p.m.", titulo: "La vida se dañó, el libro salió bien", descripcion: "Literatura, anécdotas y confesiones de escritura." },
@@ -86,6 +93,7 @@ const NOCHE_PLACES = [
   },
   {
     nombre: "Librería de la Pascasia",
+    slug: "libreria-de-la-pascasia",
     direccion: "Calle 47 # 43-88",
     eventos: [
       { hora: "7:00 p.m.", titulo: "Hablando al garete: ¿vivirá el reggaetón para siempre?", descripcion: "Alejandro Cardona, dj, y Andrea Yepes, periodista, conversan con José Julián Villa." },
@@ -170,17 +178,21 @@ export default async function NocheLibreriasPage() {
               className="rounded-xl border border-line bg-paper"
             >
               {/* Cabecera de la librería */}
-              <div className="flex items-start gap-3 border-b border-line px-4 py-4">
+              <Link
+                href={`/lugar/${place.slug}`}
+                className="group flex items-start gap-3 border-b border-line px-4 py-4 transition-colors hover:bg-paper-2"
+              >
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF6719]/10 text-base">
                   📕
                 </div>
-                <div>
-                  <p className="font-display text-base leading-tight text-ink">
+                <div className="flex-1">
+                  <p className="font-display text-base leading-tight text-ink group-hover:text-[#FF6719]">
                     {place.nombre}
                   </p>
                   <p className="mt-0.5 text-xs text-ink-soft">{place.direccion}</p>
                 </div>
-              </div>
+                <span className="shrink-0 text-xs text-ink-soft/40 transition-transform group-hover:translate-x-0.5">→</span>
+              </Link>
 
               {/* Eventos */}
               <ul className="divide-y divide-line">
