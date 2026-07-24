@@ -65,7 +65,7 @@ export default function BlogIndexPage() {
           El blog de medebooks
         </p>
         <h1 className="font-display mt-3 text-4xl leading-[1.05] tracking-tight text-ink sm:text-5xl">
-          Dos maneras de leer la ciudad
+          Dos maneras de leer Medellín
         </h1>
         <p className="mt-5 max-w-prose text-lg leading-relaxed text-ink-soft">
           Aquí pasan dos cosas. Vamos <strong className="text-ink">leyendo la ciudad
