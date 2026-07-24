@@ -38,7 +38,7 @@ export function PlaceCard({
               {place.name}
             </h3>
             {userStatus === "want_to_visit" && (
-              <span className="shrink-0 text-sm" aria-label="Quiero visitar">🔖</span>
+              <span className="shrink-0 text-sm" aria-label="Quiero ir">🔖</span>
             )}
             {userStatus === "visited" && (
               <span className="shrink-0 text-sm font-semibold text-accent-2" aria-label="Visitado">✓</span>

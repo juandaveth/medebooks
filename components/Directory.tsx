@@ -169,7 +169,7 @@ export function Directory({
                       myMapFilter === "want_to_visit" ? activePill : "text-ink-soft hover:opacity-80"
                     }`}
                   >
-                    🔖 Quiero visitar
+                    🔖 Quiero ir
                   </button>
                   <button
                     onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}
@@ -252,7 +252,7 @@ export function Directory({
                           : `${inactivePill} hover:border-ink hover:text-ink`
                       }`}
                     >
-                      🔖 Quiero visitar
+                      🔖 Quiero ir
                     </button>
                     <button
                       onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}

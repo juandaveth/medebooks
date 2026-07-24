@@ -155,7 +155,7 @@ export function PerfilClient({
       {/* Listas */}
       <div className="mt-10 space-y-8 border-t border-line pt-8">
         <PlaceList
-          title="Quiero visitar"
+          title="Quiero ir"
           emoji="🔖"
           places={lists.wantToVisit}
           empty="Aún no has guardado ningún lugar. Explora el directorio y guarda los que te interesen."

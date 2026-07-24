@@ -50,7 +50,7 @@ export function UserPlaceButtons({
         }`}
       >
         <span>🔖</span>
-        {status === "want_to_visit" ? "Guardado" : "Quiero visitar"}
+        {status === "want_to_visit" ? "Guardado" : "Quiero ir"}
       </button>
 
       <button
