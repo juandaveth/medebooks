@@ -52,8 +52,25 @@ export async function DirectoryShell({
   return (
     <div className="flex h-[100dvh] flex-col">
       {/* Masthead editorial */}
-      <header className="shrink-0 border-b border-line px-5 py-3">
-        <div className="flex items-center justify-between gap-4">
+      <header className="shrink-0 border-b border-line">
+
+        {/* Mobile: logo · agenda · usuario */}
+        <div className="flex items-center justify-between px-5 py-3 md:hidden">
+          <Link href="/" aria-label="medebooks">
+            <img src="/icon.svg" alt="medebooks" width={32} height={32} className="shrink-0" />
+          </Link>
+          <Link
+            href="/eventos"
+            className="flex flex-col items-center gap-0.5 text-ink-soft transition-colors hover:text-ink"
+          >
+            <span className="text-xl leading-none">🗓</span>
+            <span className="font-display text-[10px] uppercase tracking-wide">Agenda</span>
+          </Link>
+          <UserMenu />
+        </div>
+
+        {/* Desktop: logo + subtítulo + nav + usuario */}
+        <div className="hidden items-center justify-between gap-4 px-5 py-3 md:flex">
           <div className="flex items-center gap-3">
             <Link
               href="/"
@@ -67,9 +84,9 @@ export async function DirectoryShell({
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <div className="hidden items-center gap-4 text-xs uppercase tracking-wide text-ink-soft sm:flex">
-              <Link href="/eventos" className="hover:text-ink transition-colors">
-                Eventos
+            <div className="flex items-center gap-4 text-xs uppercase tracking-wide text-ink-soft">
+              <Link href="/eventos" className="transition-colors hover:text-ink">
+                Agenda
               </Link>
               <span className="flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-accent" /> Librería
@@ -81,8 +98,9 @@ export async function DirectoryShell({
             <UserMenu />
           </div>
         </div>
+
         {!hasSupabase && (
-          <p className="mt-2 rounded bg-paper-2 px-2 py-1 text-[11px] text-ink-soft">
+          <p className="mx-5 mb-2 rounded bg-paper-2 px-2 py-1 text-[11px] text-ink-soft">
             Modo demo: mostrando datos de muestra. Conecta Supabase para ver los
             datos reales sembrados desde Google Places.
           </p>
