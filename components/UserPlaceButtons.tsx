@@ -23,7 +23,7 @@ export function UserPlaceButtons({
     return (
       <Link
         href={`/login?next=/lugar/${slug}`}
-        className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm text-ink-soft transition-colors hover:border-ink hover:text-ink"
+        className="font-display inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm text-ink-soft transition-colors hover:border-ink hover:text-ink"
       >
         <span>🔖</span> Ingresar para guardar
       </Link>
@@ -43,9 +43,9 @@ export function UserPlaceButtons({
       <button
         onClick={() => handleClick("want_to_visit")}
         disabled={pending}
-        className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors disabled:opacity-50 ${
+        className={`font-display inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors disabled:opacity-50 ${
           status === "want_to_visit"
-            ? "border-ink bg-ink text-paper"
+            ? "border-[#FF6719]/40 bg-[#FF6719]/10 text-[#FF6719]"
             : "border-line text-ink-soft hover:border-ink hover:text-ink"
         }`}
       >
@@ -56,9 +56,9 @@ export function UserPlaceButtons({
       <button
         onClick={() => handleClick("visited")}
         disabled={pending}
-        className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors disabled:opacity-50 ${
+        className={`font-display inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors disabled:opacity-50 ${
           status === "visited"
-            ? "border-accent-2 bg-accent-2 text-paper"
+            ? "border-[#FF6719] bg-[#FF6719] text-white"
             : "border-line text-ink-soft hover:border-ink hover:text-ink"
         }`}
       >

@@ -147,21 +147,29 @@ export function Directory({
   const inactivePill = "border-line text-ink-soft";
   const pillBase = "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-2 text-sm transition-colors";
 
+  // Mi mapa: siempre naranja medebooks, Fraunces
+  const myMapActive = "border-[#FF6719] bg-[#FF6719] text-white font-display";
+  const myMapInactive = "border-[#FF6719]/40 bg-[#FF6719]/10 text-[#FF6719] font-display";
+
   return (
     <div className="flex h-full flex-col">
 
       {/* ── Sub-header mobile: filtro por tipo (solo en modo mapa) ── */}
       <div className={`shrink-0 border-b border-line px-4 py-2 md:hidden ${mobileView !== "map" ? "hidden" : ""}`}>
         <div className="inline-flex rounded-full border border-line bg-paper p-0.5">
-          {(["all", "libreria", "biblioteca"] as const).map((t) => (
+          {([
+            { value: "all",        label: "Todo",        on: "bg-[#FF6719] text-white",  off: "text-[#FF6719]"  },
+            { value: "libreria",   label: "Librerías",   on: "bg-accent text-paper",     off: "text-accent"     },
+            { value: "biblioteca", label: "Bibliotecas", on: "bg-accent-2 text-paper",   off: "text-accent-2"   },
+          ] as const).map((t) => (
             <button
-              key={t}
-              onClick={() => patch({ type: t })}
-              className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
-                (filters.type ?? "all") === t ? "bg-ink text-paper" : "text-ink-soft"
+              key={t.value}
+              onClick={() => patch({ type: t.value })}
+              className={`font-display rounded-full px-4 py-1.5 text-sm transition-colors ${
+                (filters.type ?? "all") === t.value ? t.on : `${t.off} hover:opacity-80`
               }`}
             >
-              {t === "all" ? "Todo" : t === "libreria" ? "Librerías" : "Bibliotecas"}
+              {t.label}
             </button>
           ))}
         </div>
@@ -191,7 +199,7 @@ export function Directory({
                 <button
                   onClick={() => { setMyMap((v) => !v); setMyMapFilter("all"); }}
                   className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                    myMap ? activePill : `${inactivePill} hover:border-ink hover:text-ink`
+                    myMap ? myMapActive : myMapInactive
                   }`}
                 >
                   <span>{myMap ? "✕" : "🗺"}</span>
@@ -201,7 +209,7 @@ export function Directory({
                   <>
                     <button
                       onClick={() => setMyMapFilter(myMapFilter === "want_to_visit" ? "all" : "want_to_visit")}
-                      className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                      className={`font-display inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
                         myMapFilter === "want_to_visit"
                           ? activePill
                           : `${inactivePill} hover:border-ink hover:text-ink`
@@ -211,9 +219,9 @@ export function Directory({
                     </button>
                     <button
                       onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}
-                      className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                      className={`font-display inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
                         myMapFilter === "visited"
-                          ? "border-accent-2 bg-accent-2 text-paper"
+                          ? activePill
                           : `${inactivePill} hover:border-ink hover:text-ink`
                       }`}
                     >
@@ -260,7 +268,7 @@ export function Directory({
           {/* Mi mapa */}
           <button
             onClick={toggleMyMapMobile}
-            className={`${pillBase} ${myMap ? activePill : inactivePill}`}
+            className={`${pillBase} ${myMap ? myMapActive : myMapInactive}`}
           >
             {myMap ? "✕" : "🗺"} Mi mapa
           </button>
@@ -270,7 +278,7 @@ export function Directory({
             <>
               <button
                 onClick={() => setMyMapFilter(myMapFilter === "want_to_visit" ? "all" : "want_to_visit")}
-                className={`${pillBase} ${
+                className={`${pillBase} font-display ${
                   myMapFilter === "want_to_visit" ? activePill : inactivePill
                 }`}
               >
@@ -278,9 +286,9 @@ export function Directory({
               </button>
               <button
                 onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}
-                className={`${pillBase} ${
+                className={`${pillBase} font-display ${
                   myMapFilter === "visited"
-                    ? "border-accent-2 bg-accent-2 text-paper"
+                    ? activePill
                     : inactivePill
                 }`}
               >
@@ -294,7 +302,7 @@ export function Directory({
             <div className="ml-auto inline-flex shrink-0 rounded-full border border-line bg-paper p-0.5">
               <button
                 onClick={() => setMobileView("list")}
-                className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+                className={`font-display rounded-full px-4 py-1.5 text-sm transition-colors ${
                   mobileView === "list" ? "bg-ink text-paper" : "text-ink-soft"
                 }`}
               >
@@ -302,7 +310,7 @@ export function Directory({
               </button>
               <button
                 onClick={() => setMobileView("map")}
-                className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+                className={`font-display rounded-full px-4 py-1.5 text-sm transition-colors ${
                   mobileView === "map" ? "bg-ink text-paper" : "text-ink-soft"
                 }`}
               >

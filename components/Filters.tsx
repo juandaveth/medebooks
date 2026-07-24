@@ -4,10 +4,10 @@ import { useState } from "react";
 import type { PlaceFilters, PlaceType } from "@/lib/types";
 import type { Facets } from "@/lib/queries";
 
-const TYPES: { value: PlaceType | "all"; label: string }[] = [
-  { value: "all", label: "Todo" },
-  { value: "libreria", label: "Librerías" },
-  { value: "biblioteca", label: "Bibliotecas" },
+const TYPES: { value: PlaceType | "all"; label: string; on: string; off: string }[] = [
+  { value: "all",        label: "Todo",        on: "bg-[#FF6719] text-white",   off: "text-[#FF6719]"  },
+  { value: "libreria",   label: "Librerías",   on: "bg-accent text-paper",      off: "text-accent"     },
+  { value: "biblioteca", label: "Bibliotecas", on: "bg-accent-2 text-paper",    off: "text-accent-2"   },
 ];
 
 /** Grupo de chips de selección múltiple (OR), plegable, con encabezado y "Limpiar". */
@@ -120,8 +120,8 @@ export function Filters({
             <button
               key={t.value}
               onClick={() => onChange({ type: t.value })}
-              className={`rounded-full px-3.5 py-1.5 text-sm transition-colors ${
-                active ? "bg-ink text-paper" : "text-ink-soft hover:text-ink"
+              className={`font-display rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+                active ? t.on : `${t.off} hover:opacity-80`
               }`}
             >
               {t.label}
@@ -173,7 +173,7 @@ export function Filters({
       <div className="flex items-center justify-between gap-2">
         <button
           onClick={onRandomPick}
-          className="flex items-center gap-1.5 rounded-full border border-line px-3.5 py-1.5 text-sm text-ink transition-colors hover:border-ink hover:bg-paper-2"
+          className="font-display flex items-center gap-1.5 rounded-full border border-line px-3.5 py-1.5 text-sm text-ink transition-colors hover:border-ink hover:bg-paper-2"
         >
           <span aria-hidden>🎲</span> Al azar
         </button>
@@ -190,7 +190,7 @@ export function Filters({
                 key={o.value}
                 onClick={() => onSort(o.value)}
                 aria-pressed={sort === o.value}
-                className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                className={`font-display rounded-full px-3 py-1 text-sm transition-colors ${
                   sort === o.value
                     ? "bg-ink text-paper"
                     : "text-ink-soft hover:text-ink"
