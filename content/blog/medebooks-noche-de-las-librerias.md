@@ -6,7 +6,7 @@ tag: "Vida cultural"
 section: resenas
 ---
 
-Esta noche, Medellín hace lo que mejor sabe hacer: llenar sus librerías. Una colaboración surge para el 24 de julio para parchar y conocer las librerías de la ciudad.
+Ocho librerías independientes, cada una con su carácter y sus estantes, decidieron hacer algo juntas esta noche: abrir. La **Noche de Librerías** es eso — una apuesta colectiva de espacios que no suelen aparecer juntos, que esta vez sí.
 
 Si llegaste aquí desde el evento — o si alguien te pasó el enlace — gracias por estar. Lo que vas a encontrar es un **prototipo**: un mapa de las librerías y bibliotecas de Medellín con sus barrios, sus fotos y la posibilidad de guardar las que quieras visitar.
 
