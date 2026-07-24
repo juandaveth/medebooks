@@ -8,6 +8,7 @@ import { createSupabaseBrowser } from "@/lib/supabase/client";
 export function LoginForm() {
   const params = useSearchParams();
   const next = params.get("next") ?? "/";
+  const invite = params.get("invite");
   const hadError = params.get("error") === "auth";
 
   const [email, setEmail] = useState("");
@@ -15,8 +16,10 @@ export function LoginForm() {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
-  const redirectTo = () =>
-    `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+  const redirectTo = () => {
+    const base = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+    return invite ? `${base}&invite=${encodeURIComponent(invite)}` : base;
+  };
 
   async function signInGoogle() {
     setBusy(true);
@@ -40,7 +43,10 @@ export function LoginForm() {
     const supabase = createSupabaseBrowser();
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: redirectTo() },
+      options: {
+        emailRedirectTo: redirectTo(),
+        data: invite ? { invite_code: invite } : undefined,
+      },
     });
     setBusy(false);
     if (error) setMsg(error.message);
