@@ -72,7 +72,7 @@ Quiero que cada espacio en el directorio se vea como realmente es. Si el tuyo es
 
 ## Gracias, semillero VibeCoding
 
-medebooks nació y creció dentro del semillero de VibeCoding de la Universidad de Antioquia. Ese espacio — de preguntas, de iteraciones rápidas, de construir en voz alta — es donde este proyecto encontró su forma. Gracias a quienes lo hacen posible y a los que han estado acompañando el proceso desde ahí.
+medebooks nació y creció dentro del [semillero de VibeCoding de la Universidad de Antioquia](https://github.com/cold-briu/vibe-coding-udea). Ese espacio — de preguntas, de iteraciones rápidas, de construir en voz alta — es donde este proyecto encontró su forma. Gracias a quienes lo hacen posible y a los que han estado acompañando el proceso desde ahí.
 
 ---
 
