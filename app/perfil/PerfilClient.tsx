@@ -103,12 +103,20 @@ export function PerfilClient({
 
   return (
     <div className="mx-auto max-w-lg px-5 py-12">
-      <Link
-        href="/"
-        className="font-display text-2xl leading-none tracking-tight text-ink"
-      >
-        medebooks
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link
+          href="/"
+          className="font-display text-2xl leading-none tracking-tight text-ink"
+        >
+          medebooks
+        </Link>
+        <Link
+          href="/"
+          className="text-sm text-ink-soft transition-colors hover:text-ink"
+        >
+          ← Volver al mapa
+        </Link>
+      </div>
 
       {/* Header de perfil */}
       <div className="mt-8 flex items-center gap-4">

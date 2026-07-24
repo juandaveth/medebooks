@@ -102,6 +102,22 @@ export async function setUserPlaceStatus(
   revalidatePath("/perfil");
 }
 
+export async function getUserPlaceStatuses(
+  userId: string,
+): Promise<Record<string, NonNullable<UserPlaceStatus>>> {
+  const supabase = await createSupabaseServer();
+  const { data } = await supabase
+    .from("user_places")
+    .select("place_id, status")
+    .eq("user_id", userId);
+
+  const result: Record<string, NonNullable<UserPlaceStatus>> = {};
+  for (const row of data ?? []) {
+    result[String(row.place_id)] = row.status as NonNullable<UserPlaceStatus>;
+  }
+  return result;
+}
+
 export async function getUserPlaceLists(userId: string): Promise<{
   wantToVisit: Place[];
   visited: Place[];

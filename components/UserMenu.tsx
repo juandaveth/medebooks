@@ -67,7 +67,14 @@ export function UserMenu() {
             onClick={() => setOpen(false)}
             className="block px-3 py-2 text-xs text-ink hover:bg-paper-2"
           >
-            Mi perfil
+            👤 Mi perfil
+          </Link>
+          <Link
+            href="/?mymapa=1"
+            onClick={() => setOpen(false)}
+            className="block px-3 py-2 text-xs text-ink hover:bg-paper-2"
+          >
+            🗺 Mi mapa
           </Link>
           <button
             onClick={() => { setOpen(false); signOut(); }}
