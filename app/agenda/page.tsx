@@ -47,18 +47,29 @@ export default async function EventosPage() {
                 {event.title}
               </h2>
 
-              <Link
-                href={`/lugar/${event.placeSlug}`}
-                className="mt-1 inline-flex items-center gap-1.5 text-sm text-ink-soft underline-offset-2 hover:text-ink hover:underline"
-              >
-                <span
-                  className="inline-block h-2 w-2 shrink-0 rounded-full"
-                  style={{ background: typeColor(event.placeType) }}
-                />
-                {event.placeName}
-                <span className="text-ink-soft/50">·</span>
-                <span>{TYPE_LABEL[event.placeType]}</span>
-              </Link>
+              {event.placeCount && event.placeCount > 1 ? (
+                <Link
+                  href="/noche-librerias"
+                  className="mt-1 inline-flex items-center gap-1.5 text-sm text-[#FF6719] underline-offset-2 hover:underline"
+                >
+                  <span className="inline-block h-2 w-2 shrink-0 rounded-full bg-[#FF6719]" />
+                  {event.placeCount} librerías participan · Ver programación →
+                </Link>
+              ) : event.placeSlug ? (
+                <Link
+                  href={`/lugar/${event.placeSlug}`}
+                  className="mt-1 inline-flex items-center gap-1.5 text-sm text-ink-soft underline-offset-2 hover:text-ink hover:underline"
+                >
+                  <span
+                    className="inline-block h-2 w-2 shrink-0 rounded-full"
+                    style={{ background: typeColor(event.placeType ?? "libreria") }}
+                  />
+                  {event.placeName}
+                  {event.placeType && (
+                    <><span className="text-ink-soft/50">·</span><span>{TYPE_LABEL[event.placeType]}</span></>
+                  )}
+                </Link>
+              ) : null}
 
               {event.description && (
                 <p className="mt-3 text-ink leading-relaxed">{event.description}</p>

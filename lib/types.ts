@@ -82,10 +82,11 @@ export const TYPE_LABEL: Record<PlaceType, string> = {
 
 export type Event = {
   id: string;
-  placeId: string;
-  placeName: string;
-  placeSlug: string;
-  placeType: PlaceType;
+  placeId: string | null;       // null = evento multi-lugar
+  placeName: string | null;
+  placeSlug: string | null;
+  placeType: PlaceType | null;
+  placeCount?: number;          // cuántos lugares si es multi-lugar
   title: string;
   description?: string | null;
   date: string; // YYYY-MM-DD
