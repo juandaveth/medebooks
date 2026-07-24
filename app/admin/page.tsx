@@ -24,6 +24,10 @@ export default async function AdminPage({
   if (q) query = query.ilike("name", `%${q}%`);
   const { data: places, error } = await query;
 
+  // Conteo de usuarios registrados.
+  const { data: usersData } = await supabase.auth.admin.listUsers({ perPage: 1 });
+  const userCount = (usersData as { total?: number } | null)?.total ?? 0;
+
   // Municipios presentes (para el filtro rápido de limpieza).
   const { data: allMunis } = await supabase.from("places").select("municipality");
   const municipios = [
@@ -51,6 +55,18 @@ export default async function AdminPage({
           </form>
         </div>
       </header>
+
+      {/* Stats rápidas */}
+      <div className="mt-6 flex gap-4">
+        <div className="rounded-xl border border-line bg-paper px-5 py-4">
+          <p className="text-xs uppercase tracking-wide text-ink-soft">Usuarios</p>
+          <p className="font-display text-3xl text-ink">{userCount}</p>
+        </div>
+        <div className="rounded-xl border border-line bg-paper px-5 py-4">
+          <p className="text-xs uppercase tracking-wide text-ink-soft">Lugares</p>
+          <p className="font-display text-3xl text-ink">{places?.length ?? 0}</p>
+        </div>
+      </div>
 
       {/* Filtro rápido por municipio (útil para depurar lo que no es de Medellín) */}
       <form className="mt-4 flex flex-wrap items-center gap-2 text-sm">
