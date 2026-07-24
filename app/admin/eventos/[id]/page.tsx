@@ -18,10 +18,16 @@ export default async function EditEventoPage({
 
   const [{ data: event }, { data: places }] = await Promise.all([
     supabase.from("events").select("*").eq("id", id).maybeSingle(),
-    supabase.from("places").select("id, name, type").eq("status", "published").order("name"),
+    supabase.from("places").select("id, name, type, comuna").eq("status", "published").order("comuna", { nullsFirst: false }).order("name"),
   ]);
 
   if (!event) notFound();
+
+  const byComuna: Record<string, typeof places> = {};
+  for (const p of places ?? []) {
+    const key = p.comuna ?? "Sin comuna";
+    (byComuna[key] ??= []).push(p);
+  }
 
   return (
     <div className="mx-auto max-w-xl px-5 py-8">
@@ -42,10 +48,14 @@ export default async function EditEventoPage({
             className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2 text-sm text-ink focus:border-ink focus:outline-none"
           >
             <option value="">Seleccionar lugar…</option>
-            {(places ?? []).map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name} ({p.type === "libreria" ? "Librería" : "Biblioteca"})
-              </option>
+            {Object.entries(byComuna).map(([comuna, items]) => (
+              <optgroup key={comuna} label={comuna}>
+                {(items ?? []).map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name} ({p.type === "libreria" ? "Librería" : "Biblioteca"})
+                  </option>
+                ))}
+              </optgroup>
             ))}
           </select>
         </label>

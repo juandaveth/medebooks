@@ -11,9 +11,17 @@ export default async function NuevoEventoPage() {
   const supabase = createSupabaseAdmin();
   const { data: places } = await supabase
     .from("places")
-    .select("id, name, type")
+    .select("id, name, type, comuna")
     .eq("status", "published")
+    .order("comuna", { nullsFirst: false })
     .order("name");
+
+  // Agrupar por comuna para los <optgroup>
+  const byComuna: Record<string, typeof places> = {};
+  for (const p of places ?? []) {
+    const key = p.comuna ?? "Sin comuna";
+    (byComuna[key] ??= []).push(p);
+  }
 
   return (
     <div className="mx-auto max-w-xl px-5 py-8">
@@ -31,10 +39,14 @@ export default async function NuevoEventoPage() {
             className="mt-1 w-full rounded-lg border border-line bg-paper px-3 py-2 text-sm text-ink focus:border-ink focus:outline-none"
           >
             <option value="">Seleccionar lugar…</option>
-            {(places ?? []).map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name} ({p.type === "libreria" ? "Librería" : "Biblioteca"})
-              </option>
+            {Object.entries(byComuna).map(([comuna, items]) => (
+              <optgroup key={comuna} label={comuna}>
+                {(items ?? []).map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name} ({p.type === "libreria" ? "Librería" : "Biblioteca"})
+                  </option>
+                ))}
+              </optgroup>
             ))}
           </select>
         </label>
