@@ -2,8 +2,8 @@
 title: "medebooks llega a la Noche de las Librerías"
 date: 2026-07-24
 description: "Guardar favoritos, una agenda cultural y una invitación a los lectores y a los dueños de cada espacio: esto es lo que trae medebooks a la Noche de las Librerías."
-tag: "Construyendo en público"
-section: construyendo
+tag: "Vida cultural"
+section: resenas
 ---
 
 Esta noche, Medellín hace lo que mejor sabe hacer: llenar sus librerías. La **Noche de las Librerías** es una de esas ocasiones en que los libros se salen a la calle, los escaparates se iluminan un poco más y la gente recorre los barrios buscando ese lugar que no conocía. Es exactamente el momento para el que nació medebooks.
