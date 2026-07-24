@@ -204,7 +204,7 @@ export function Directory({
           <button
             onClick={toggleMyMapMobile}
             aria-label="Mi mapa"
-            className={`font-display inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1.5 text-sm transition-colors ${
+            className={`font-display ml-auto inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1.5 text-sm transition-colors ${
               myMap ? myMapActive : myMapInactive
             }`}
           >
