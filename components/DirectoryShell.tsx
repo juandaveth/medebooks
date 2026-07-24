@@ -60,7 +60,7 @@ export async function DirectoryShell({
             <img src="/icon.svg" alt="medebooks" width={32} height={32} className="shrink-0" />
           </Link>
           <Link
-            href="/eventos"
+            href="/agenda"
             className="flex flex-col items-center gap-0.5 text-ink-soft transition-colors hover:text-ink"
           >
             <span className="text-xl leading-none">🗓</span>
@@ -85,7 +85,7 @@ export async function DirectoryShell({
           </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-4 text-xs uppercase tracking-wide text-ink-soft">
-              <Link href="/eventos" className="transition-colors hover:text-ink">
+              <Link href="/agenda" className="transition-colors hover:text-ink">
                 Agenda
               </Link>
               <span className="flex items-center gap-1.5">

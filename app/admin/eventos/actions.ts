@@ -26,7 +26,7 @@ export async function createEvent(formData: FormData) {
   });
 
   if (error) throw new Error(error.message);
-  revalidatePath("/eventos");
+  revalidatePath("/agenda");
   revalidatePath("/admin/eventos");
   redirect("/admin/eventos");
 }
@@ -49,7 +49,7 @@ export async function updateEvent(formData: FormData) {
   }).eq("id", id);
 
   if (error) throw new Error(error.message);
-  revalidatePath("/eventos");
+  revalidatePath("/agenda");
   revalidatePath("/admin/eventos");
   redirect("/admin/eventos");
 }
@@ -62,7 +62,7 @@ export async function deleteEvent(formData: FormData) {
 
   const { error } = await supabase.from("events").delete().eq("id", id);
   if (error) throw new Error(error.message);
-  revalidatePath("/eventos");
+  revalidatePath("/agenda");
   revalidatePath("/admin/eventos");
   redirect("/admin/eventos");
 }
