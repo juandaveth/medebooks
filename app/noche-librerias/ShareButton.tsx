@@ -11,7 +11,7 @@ export function ShareButton({ inviteCode }: { inviteCode: string }) {
       : `https://medebooks.app/leamos/${inviteCode}`;
 
   const whatsappText = encodeURIComponent(
-    `Hola, quisiera que fuéramos a la Noche de las Librerías a descubrirlas, parchamos? Seamos compas de lectura en: ${inviteUrl}`
+    `Hola, quisiera que fuéramos a la Noche de Librerías a descubrirlas, parchamos? Seamos compas de lectura en: ${inviteUrl}`
   );
 
   function copyLink() {

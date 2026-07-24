@@ -1,5 +1,5 @@
 /**
- * Borra el evento anterior de la Noche de las Librerías y crea uno nuevo
+ * Borra el evento anterior de la Noche de Librerías y crea uno nuevo
  * vinculado a las 8 librerías participantes.
  *
  * Uso: npx tsx scripts/seed-evento-noche.ts
@@ -43,7 +43,7 @@ async function main() {
     .from("events")
     .insert({
       place_id:    null,
-      title:       "Noche de las Librerías",
+      title:       "Noche de Librerías",
       description: "Una noche para recorrer la ciudad estante por estante. 8 librerías de Antioquia abren sus puertas con conversaciones, talleres, música y lecturas en voz alta.",
       date:        "2026-07-24",
       start_time:  "18:00",

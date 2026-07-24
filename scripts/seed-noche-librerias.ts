@@ -1,5 +1,5 @@
 /**
- * Verifica cuáles librerías de la Noche de las Librerías existen en la BD
+ * Verifica cuáles librerías de la Noche de Librerías existen en la BD
  * e inserta las que faltan.
  *
  * Uso: npx tsx scripts/seed-noche-librerias.ts
@@ -130,7 +130,7 @@ const TO_INSERT = [
 ];
 
 async function main() {
-  console.log("Verificando librerías de la Noche de las Librerías...\n");
+  console.log("Verificando librerías de la Noche de Librerías...\n");
 
   // Buscar por nombre (ilike para cada una)
   const { data: existing } = await supabase

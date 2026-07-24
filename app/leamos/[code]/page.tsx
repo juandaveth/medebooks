@@ -3,8 +3,8 @@ import Link from "next/link";
 import { getInviterByCode } from "@/lib/companions";
 
 export const metadata: Metadata = {
-  title: "Noche de las Librerías · medebooks",
-  description: "Descubre las librerías de Medellín que participan en la Noche de las Librerías y úneteles.",
+  title: "Noche de Librerías · medebooks",
+  description: "Descubre las librerías de Medellín que participan en la Noche de Librerías y úneteles.",
 };
 
 const NOCHE_PLACES = [
@@ -73,7 +73,7 @@ export default async function LeamosPage({
 
         {/* Título */}
         <h1 className="font-display mt-6 text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl">
-          Noche de las Librerías
+          Noche de Librerías
         </h1>
         <p className="mt-4 max-w-prose text-base leading-relaxed text-ink-soft">
           Esta noche las librerías de Antioquia abren sus puertas hasta tarde.

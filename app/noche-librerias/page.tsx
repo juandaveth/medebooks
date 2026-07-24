@@ -5,11 +5,11 @@ import { getMyInviteCode } from "@/lib/companions";
 import { ShareButton } from "./ShareButton";
 
 export const metadata: Metadata = {
-  title: "Noche de las Librerías · medebooks",
+  title: "Noche de Librerías · medebooks",
   description:
     "8 librerías de Antioquia abren sus puertas esta noche con conversaciones, talleres, música y lecturas. Arma tu ruta.",
   openGraph: {
-    title: "Noche de las Librerías · medebooks",
+    title: "Noche de Librerías · medebooks",
     description:
       "8 librerías de Antioquia abren sus puertas esta noche con conversaciones, talleres, música y lecturas. Arma tu ruta.",
   },
@@ -142,12 +142,32 @@ export default async function NocheLibreriasPage() {
         </span>
 
         <h1 className="font-display mt-4 text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl">
-          Noche de las Librerías
+          Noche de Librerías
         </h1>
         <p className="mt-4 max-w-prose text-base leading-relaxed text-ink-soft">
           8 librerías de Antioquia abren sus puertas con conversaciones, talleres,
           música y lecturas en voz alta. Arma tu ruta y compártela con tus compas.
         </p>
+
+        {/* Links externos */}
+        <div className="mt-5 flex flex-wrap gap-3">
+          <a
+            href="https://www.instagram.com/p/DaDyM_ECcK8/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full border border-line px-3.5 py-1.5 text-xs text-ink-soft transition-colors hover:border-ink hover:text-ink"
+          >
+            <span>📸</span> Instagram · info en tiempo real
+          </a>
+          <a
+            href="https://www.elcolombiano.com/cultura/literatura/noche-librerias-2026-librerias-antioquia-abiertas-medianoche-ON39168431"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full border border-line px-3.5 py-1.5 text-xs text-ink-soft transition-colors hover:border-ink hover:text-ink"
+          >
+            <span>📰</span> El Colombiano
+          </a>
+        </div>
 
         {/* Compartir / CTA */}
         {inviteCode ? (

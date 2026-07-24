@@ -1,16 +1,32 @@
 ---
-title: "medebooks llega a la Noche de las Librerías"
+title: "medebooks en la Noche de Librerías"
 date: 2026-07-24
-description: "Guardar favoritos, una agenda cultural y una invitación a los lectores y a los dueños de cada espacio: esto es lo que trae medebooks a la Noche de las Librerías."
+description: "Guardar tu ruta, encontrar compas de lectura e ir juntos a las librerías: esto es lo que trae medebooks a la Noche de Librerías de Antioquia."
 tag: "Vida cultural"
 section: resenas
 ---
 
-Esta noche, Medellín hace lo que mejor sabe hacer: llenar sus librerías. La **Noche de las Librerías** es una de esas ocasiones en que los libros se salen a la calle, los escaparates se iluminan un poco más y la gente recorre los barrios buscando ese lugar que no conocía. Es exactamente el momento para el que nació medebooks.
+Esta noche, Medellín hace lo que mejor sabe hacer: llenar sus librerías. La **Noche de Librerías** es una de esas ocasiones en que los libros se salen a la calle, los escaparates se iluminan un poco más y la gente recorre los barrios buscando ese lugar que no conocía. Es exactamente el momento para el que nació medebooks.
 
-Si llegaste aquí desde el evento — o si alguien te pasó el enlace — gracias por estar. Lo que vas a encontrar es un **prototipo**: un mapa de las 42 librerías y bibliotecas de Medellín que están en el directorio, con sus barrios, sus fotos y la posibilidad de guardar las que quieras visitar.
+Si llegaste aquí desde el evento — o si alguien te pasó el enlace — gracias por estar. Lo que vas a encontrar es un **prototipo**: un mapa de las librerías y bibliotecas de Medellín con sus barrios, sus fotos y la posibilidad de guardar las que quieras visitar.
 
 No está terminado. Pero ya funciona, y esta noche quiero compartirlo.
+
+---
+
+## La programación de esta noche
+
+Ocho librerías de Antioquia abren sus puertas hasta la medianoche con conversaciones, talleres, conciertos y lecturas en voz alta. Algunas de las que más me llaman la atención:
+
+- **Librería Ojo de Agua** — conversación con autora, teatro y una pesca de frases misteriosa
+- **Ítaca Librería-Bar** — taller de separadores con flores prensadas, poemas y música desde el balcón
+- **Antimateria** — club de lectura en voz alta con *Las estrellas son negras* y parchecito musical en el jardín
+- **Las Letras del Jaguar** — lecturas borrachas: textos en voz alta, tragos y canciones elegidas por los lectores
+- **Librería de la Pascasia** — tienda de calcas y libreras invitadas para encontrar tu próximo libro favorito
+
+La programación completa está en [medebooks.app/noche-librerias](/noche-librerias) y en [El Colombiano](https://www.elcolombiano.com/cultura/literatura/noche-librerias-2026-librerias-antioquia-abiertas-medianoche-ON39168431). Para ver las actualizaciones en tiempo real, el Instagram de la Noche es [@nochelibrerias](https://www.instagram.com/p/DaDyM_ECcK8/).
+
+---
 
 ## Lo que llegó en esta versión
 
@@ -20,15 +36,29 @@ medebooks tiene ahora colores propios. El **naranja** es el color de la marca; e
 
 La tipografía también cambió: los botones y etiquetas usan **Fraunces**, la misma fuente del logo. Es un detalle pequeño, pero hace que la interfaz se sienta más coherente, más pensada.
 
-### Ingresar con Google y guardar tus lugares
+### Ingresar con Google y guardar tu ruta
 
 Ya puedes crear una cuenta con tu correo de Google. Con eso se desbloquea **Mi mapa**: una capa personal donde marcas los lugares que quieres visitar y los que ya visitaste. Nada más. Sin publicidad, sin newsletters, sin formularios largos.
 
 La próxima vez que entres, tus marcas siguen ahí. Si un día descubres una librería nueva en un barrio que no conocías, la guardas y la tienes en tu mapa para cuando pases por ahí.
 
-### Una agenda
+### Una agenda cultural
 
-Hay una sección nueva: **Agenda**. Esta noche, el primer evento en el directorio es la Noche de las Librerías en Antimateria, en Florida Nueva, Laureles. Será el espacio para ir sumando más: presentaciones de libros, tertulias, clubes de lectura. Si tienes un espacio y organizas actividades, me interesa que aparezcan aquí.
+Hay una sección nueva: **Agenda**. Hoy, el primer evento del directorio es la Noche de Librerías, vinculada a las 8 librerías participantes. Será el espacio para ir sumando más: presentaciones de libros, tertulias, clubes de lectura. Si tienes un espacio y organizas actividades, me interesa que aparezcan aquí.
+
+---
+
+## Compas de lectura
+
+Esta es la novedad que más me emociona de esta versión.
+
+Cuando te registras en medebooks con el enlace de un amigo, quedan conectados como **compas de lectura**. No es un sistema de puntos ni de recompensas: es simplemente una forma de saber con quién lees. En tu perfil aparecen las personas que te invitaron o a quienes tú invitaste, y así se va construyendo una red pequeña y real de lectores.
+
+¿Por qué? Porque leer en la ciudad es más rico cuando sabes que hay alguien más recorriendo las mismas estanterías. Hoy, en la Noche de Librerías, puedes enviarle a un amigo tu enlace personal — `medebooks.app/leamos/TUCODIGO` — con el mensaje:
+
+> *"Hola, quisiera que fuéramos a la Noche de Librerías a descubrirlas, ¿parchamos? Seamos compas de lectura en:..."*
+
+Si se registra a través de tu enlace, quedan conectados. Y si esta noche recorren juntos las librerías, eso ya quedó en el mapa de los dos.
 
 ---
 
@@ -36,11 +66,9 @@ Hay una sección nueva: **Agenda**. Esta noche, el primer evento en el directori
 
 Si eres dueño de una librería, trabajas en una biblioteca o simplemente cuidas un espacio donde los libros tienen lugar: esta parte es para ti.
 
-medebooks existe para que más personas encuentren lo que tú haces. Hoy el directorio tiene 42 espacios en Medellín, con fotos, barrios y comunas. Pero los datos vienen de Google Maps, y no siempre están bien: un nombre en mayúsculas, un horario desactualizado, una foto que no representa el lugar.
+medebooks existe para que más personas encuentren lo que tú haces. Hoy el directorio tiene más de 40 espacios en Medellín, con fotos, barrios y comunas. Pero los datos vienen de Google Maps, y no siempre están bien: un nombre en mayúsculas, un horario desactualizado, una foto que no representa el lugar.
 
-Quiero que cada espacio en el directorio se vea como realmente es. Si el tuyo está aquí y quieres actualizar algo — el nombre, la descripción, el tipo de librería que eres, los temas en que te especializas — escríbeme. Este prototipo crece con la información que ustedes me den.
-
-Y si tu espacio no aparece todavía, también cuéntame.
+Quiero que cada espacio en el directorio se vea como realmente es. Si el tuyo está aquí y quieres actualizar algo, escríbeme. Y si tu espacio no aparece todavía, también cuéntame.
 
 ---
 
@@ -48,4 +76,4 @@ medebooks no es una app de una empresa. Es un proyecto personal, hecho con cari�
 
 Si te sirve, compártelo. Si ves algo que mejorar, dímelo.
 
-Buena Noche de las Librerías.
+Buena Noche de Librerías.
