@@ -269,7 +269,7 @@ export default async function PlacePage({ params }: Props) {
       {isFeatured && (
         <div className="mt-16 border-t border-line pt-8 text-center">
           <a
-            href={`https://wa.me/573163566034?text=${encodeURIComponent(`Hola, soy el administrador de ${place.name} y quisiera tener el rol de admin dentro de medebooks`)}`}
+            href={`https://wa.me/573163566034?text=${encodeURIComponent(`Hola, soy el administrador de ${place.name} y quisiera tener el rol de admin de https://www.medebooks.app/lugar/${place.slug}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs text-ink-soft underline-offset-2 hover:text-ink hover:underline"
