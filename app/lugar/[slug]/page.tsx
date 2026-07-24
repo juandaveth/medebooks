@@ -6,6 +6,9 @@ import { TYPE_LABEL } from "@/lib/types";
 import { typeColor } from "@/components/PlaceCard";
 import { ShareButton } from "@/components/ShareButton";
 import { MapView } from "@/components/MapView";
+import { UserPlaceButtons } from "@/components/UserPlaceButtons";
+import { createSupabaseServer } from "@/lib/supabase/server";
+import { getUserPlaceStatus } from "@/lib/userPlaces";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -64,8 +67,14 @@ function ContactRow({ label, value, href }: { label: string; value: string; href
 
 export default async function PlacePage({ params }: Props) {
   const { slug } = await params;
-  const place = await getPlaceBySlug(slug);
+  const [place, supabase] = await Promise.all([
+    getPlaceBySlug(slug),
+    createSupabaseServer(),
+  ]);
   if (!place) notFound();
+
+  const { data: { user } } = await supabase.auth.getUser();
+  const initialStatus = user ? await getUserPlaceStatus(place.id) : null;
 
   const where = [place.neighborhood, place.comuna, place.municipality]
     .filter(Boolean)
@@ -129,6 +138,15 @@ export default async function PlacePage({ params }: Props) {
         >
           Ver en Google Maps ↗
         </a>
+      </div>
+
+      <div className="mt-4">
+        <UserPlaceButtons
+          placeId={place.id}
+          slug={place.slug}
+          initialStatus={initialStatus}
+          loggedIn={!!user}
+        />
       </div>
 
       {/* Mini-mapa */}

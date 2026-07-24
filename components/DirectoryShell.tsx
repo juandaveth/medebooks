@@ -3,6 +3,7 @@ import type { Place, PlaceType } from "@/lib/types";
 import type { Facets } from "@/lib/queries";
 import { hasSupabase } from "@/lib/supabase";
 import { Directory } from "./Directory";
+import { UserMenu } from "./UserMenu";
 
 // Subtítulo del masthead según el tipo que se está viendo.
 const SUBTITLE: Record<PlaceType | "all", string> = {
@@ -57,13 +58,16 @@ export function DirectoryShell({
               {subtitleFor(initialType, initialComuna, initialNeighborhood)}
             </p>
           </div>
-          <div className="flex items-center gap-3 text-xs uppercase tracking-wide text-ink-soft">
-            <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-accent" /> Librería
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-accent-2" /> Biblioteca
-            </span>
+          <div className="flex items-center gap-3">
+            <div className="hidden items-center gap-3 text-xs uppercase tracking-wide text-ink-soft sm:flex">
+              <span className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-accent" /> Librería
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-accent-2" /> Biblioteca
+              </span>
+            </div>
+            <UserMenu />
           </div>
         </div>
         {!hasSupabase && (

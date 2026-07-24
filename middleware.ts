@@ -35,5 +35,5 @@ export async function middleware(request: NextRequest) {
 
 // Solo corre en las rutas que dependen de la sesión.
 export const config = {
-  matcher: ["/admin/:path*", "/login", "/auth/:path*"],
+  matcher: ["/admin/:path*", "/login", "/auth/:path*", "/perfil/:path*"],
 };
