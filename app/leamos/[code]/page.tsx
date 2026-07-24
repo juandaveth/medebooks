@@ -15,7 +15,7 @@ const NOCHE_PLACES = [
   "Librería Aquelarre",
 ];
 
-export default async function InvitaPage({
+export default async function LeamosPage({
   params,
 }: {
   params: Promise<{ code: string }>;

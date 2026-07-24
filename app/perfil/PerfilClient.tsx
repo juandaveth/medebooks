@@ -89,11 +89,11 @@ function InviteSection({ inviteCode }: { inviteCode: string }) {
 
   const inviteUrl =
     typeof window !== "undefined"
-      ? `${window.location.origin}/invita/${inviteCode}`
-      : `https://medebooks.app/invita/${inviteCode}`;
+      ? `${window.location.origin}/leamos/${inviteCode}`
+      : `https://medebooks.app/leamos/${inviteCode}`;
 
   const whatsappText = encodeURIComponent(
-    `Esta noche en la Noche de las Librerías 🔥 Descubre las librerías de Medellín con medebooks: ${inviteUrl}`
+    `Hola, quisiera que fuéramos juntos a la noche de las librerías a conocerlas y leer juntos. ¿Vamos? ${inviteUrl}`
   );
 
   function copyLink() {
