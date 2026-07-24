@@ -3,8 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
-import { updateEvent, deleteEvent } from "../actions";
+import { updateEvent } from "../actions";
 import { PlaceSelector } from "../PlaceSelector";
+import { DeleteEventButton } from "../DeleteEventButton";
 
 export const metadata: Metadata = { title: "Editar evento — Admin", robots: { index: false } };
 
@@ -140,16 +141,14 @@ export default async function EditEventoPage({
 
       <div className="mt-10 border-t border-line pt-6">
         <p className="text-sm text-ink-soft">Zona de peligro</p>
-        <form action={deleteEvent} className="mt-3">
-          <input type="hidden" name="id" value={event.id} />
-          <button
-            type="submit"
+        <div className="mt-3">
+          <DeleteEventButton
+            id={event.id}
+            message="¿Eliminar este evento permanentemente?"
+            label="Eliminar evento"
             className="rounded-full border border-red-200 px-4 py-2 text-sm text-red-500 hover:border-red-400"
-            onClick={(e) => { if (!confirm("¿Eliminar este evento permanentemente?")) e.preventDefault(); }}
-          >
-            Eliminar evento
-          </button>
-        </form>
+          />
+        </div>
       </div>
     </div>
   );

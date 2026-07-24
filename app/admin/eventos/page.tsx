@@ -3,7 +3,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
 import { formatEventDate } from "@/lib/types";
-import { deleteEvent } from "./actions";
+import { DeleteEventButton } from "./DeleteEventButton";
 
 export const metadata: Metadata = { title: "Eventos — Admin", robots: { index: false } };
 
@@ -73,16 +73,10 @@ export default async function AdminEventosPage() {
                       >
                         Editar
                       </Link>
-                      <form action={deleteEvent}>
-                        <input type="hidden" name="id" value={e.id} />
-                        <button
-                          type="submit"
-                          className="text-red-500 hover:underline"
-                          onClick={(e) => { if (!confirm("¿Eliminar este evento?")) e.preventDefault(); }}
-                        >
-                          Eliminar
-                        </button>
-                      </form>
+                      <DeleteEventButton
+                        id={e.id}
+                        className="text-red-500 hover:underline"
+                      />
                     </div>
                   </td>
                 </tr>
