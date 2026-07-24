@@ -267,12 +267,12 @@ export default async function PlacePage({ params }: Props) {
       {place.type === "libreria" && (
         <div className="mt-16 border-t border-line pt-8 text-center">
           <a
-            href={`https://wa.me/573163566034?text=${encodeURIComponent(`Hola, soy el administrador de ${place.name} y quisiera tener el rol de admin de https://www.medebooks.app/lugar/${place.slug}`)}`}
+            href={`https://wa.me/573163566034?text=${encodeURIComponent(`Hola, trabajo en ${place.name} y quisiera tener el rol de admin de https://www.medebooks.app/lugar/${place.slug}`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs text-ink-soft underline-offset-2 hover:text-ink hover:underline"
           >
-            Soy el admin
+            Trabajo aquí
           </a>
         </div>
       )}
