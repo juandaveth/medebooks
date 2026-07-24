@@ -6,7 +6,7 @@ import { createSupabaseBrowser } from "@/lib/supabase/client";
 
 export function LoginForm() {
   const params = useSearchParams();
-  const next = params.get("next") ?? "/admin";
+  const next = params.get("next") ?? "/";
   const hadError = params.get("error") === "auth";
 
   const [email, setEmail] = useState("");

@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   const code = searchParams.get("code");
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type");
-  const next = searchParams.get("next") ?? "/admin";
+  const next = searchParams.get("next") ?? "/";
 
   const supabase = await createSupabaseServer();
 

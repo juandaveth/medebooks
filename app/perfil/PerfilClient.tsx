@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { User } from "@supabase/supabase-js";
 import { useSession } from "@/components/SessionProvider";
 import type { UserRole } from "@/lib/roleTypes";
-import { ROLE_LABEL } from "@/lib/roleTypes";
+import type { ManagedPlace } from "@/lib/roles";
 import type { Place } from "@/lib/types";
 import { TYPE_LABEL } from "@/lib/types";
 
@@ -71,14 +71,27 @@ function PlaceList({
   );
 }
 
+function roleBadgeLabel(role: UserRole, managedPlaces: ManagedPlace[]): string {
+  if (role === "super-admin") return "Super-admin";
+  if (role === "lector") return "Lector";
+
+  const types = new Set(managedPlaces.map((p) => p.type));
+  if (types.size === 1) {
+    return types.has("libreria") ? "Admin de librería" : "Admin de biblioteca";
+  }
+  return "Admin de negocio";
+}
+
 export function PerfilClient({
   user,
   role,
   lists,
+  managedPlaces,
 }: {
   user: User;
   role: UserRole;
   lists: { wantToVisit: Place[]; visited: Place[] };
+  managedPlaces: ManagedPlace[];
 }) {
   const { signOut } = useSession();
 
@@ -114,9 +127,19 @@ export function PerfilClient({
         <div>
           <h1 className="font-display text-2xl text-ink">{name}</h1>
           <p className="text-sm text-ink-soft">{user.email}</p>
-          <span className="mt-1 inline-block rounded-full border border-line px-2 py-0.5 text-xs text-ink-soft">
-            {ROLE_LABEL[role]}
-          </span>
+          <div className="mt-1 flex flex-wrap items-center gap-1.5">
+            <span className="inline-block rounded-full border border-line px-2 py-0.5 text-xs text-ink-soft">
+              {roleBadgeLabel(role, managedPlaces)}
+            </span>
+            {managedPlaces.map((p) => (
+              <span
+                key={p.name}
+                className="inline-block rounded-full border border-line bg-paper-2 px-2 py-0.5 text-xs text-ink-soft"
+              >
+                {p.type === "libreria" ? "📕" : "🏛️"} {p.name}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
