@@ -34,6 +34,7 @@ export function Directory({
   initialNeighborhood,
   userPlaces = {},
   isAuthenticated = false,
+  featuredPlaceIds = [],
 }: {
   places: Place[];
   facets: Facets;
@@ -42,10 +43,14 @@ export function Directory({
   initialNeighborhood?: string;
   userPlaces?: Record<string, NonNullable<UserPlaceStatus>>;
   isAuthenticated?: boolean;
+  featuredPlaceIds?: string[];
 }) {
   const router = useRouter();
   const [myMap, setMyMap] = useState(false);
   const [myMapFilter, setMyMapFilter] = useState<"all" | "want_to_visit" | "visited">("all");
+  const [nocheMode, setNocheMode] = useState(false);
+  const featuredSet = useMemo(() => new Set(featuredPlaceIds), [featuredPlaceIds]);
+  const hasNoche = featuredPlaceIds.length > 0;
   const hasUserPlaces = Object.keys(userPlaces).length > 0;
   const searchParams = useSearchParams();
 
@@ -88,13 +93,14 @@ export function Directory({
             (a, b) => (randomRank.get(a.id) ?? 0) - (randomRank.get(b.id) ?? 0),
           )
         : filtered;
+    if (nocheMode) return base.filter((p) => featuredSet.has(p.id));
     if (myMap) {
       const saved = base.filter((p) => userPlaces[p.id]);
       if (myMapFilter === "all") return saved;
       return saved.filter((p) => userPlaces[p.id] === myMapFilter);
     }
     return base;
-  }, [filtered, sort, randomRank, myMap, myMapFilter, userPlaces]);
+  }, [filtered, sort, randomRank, nocheMode, featuredSet, myMap, myMapFilter, userPlaces]);
 
   useEffect(() => {
     const path = canonicalPath(
@@ -150,6 +156,9 @@ export function Directory({
   // Mi mapa: siempre naranja medebooks, Fraunces
   const myMapActive = "border-[#FF6719] bg-[#FF6719] text-white font-display";
   const myMapInactive = "border-[#FF6719]/40 bg-[#FF6719]/10 text-[#FF6719] font-display";
+  // Noche: ámbar
+  const nocheActive = "border-[#F59E0B] bg-[#F59E0B] text-white font-display";
+  const nocheInactive = "border-[#F59E0B]/40 bg-[#F59E0B]/10 text-[#F59E0B] font-display";
 
   return (
     <div className="flex h-full flex-col">
@@ -200,22 +209,35 @@ export function Directory({
             </div>
           )}
 
-          {/* Derecha: Mi mapa — "mi" + ícono */}
-          <button
-            onClick={toggleMyMapMobile}
-            aria-label="Mi mapa"
-            className={`font-display ml-auto inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1.5 text-sm transition-colors ${
-              myMap ? myMapActive : myMapInactive
-            }`}
-          >
-            {myMap
-              ? <span className="leading-none">✕</span>
-              : <>
-                  <span>mi</span>
-                  <img src="/icon.svg" alt="" width={18} height={18} className="shrink-0" />
-                </>
-            }
-          </button>
+          {/* Derecha: botones Noche + Mi mapa */}
+          <div className="ml-auto flex shrink-0 items-center gap-2">
+            {hasNoche && (
+              <button
+                onClick={() => { setNocheMode((v) => !v); setMyMap(false); }}
+                aria-label="Noche de Librerías"
+                className={`font-display inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1.5 text-sm transition-colors ${
+                  nocheMode ? nocheActive : nocheInactive
+                }`}
+              >
+                {nocheMode ? <span className="leading-none">✕</span> : <span>🌙</span>}
+              </button>
+            )}
+            <button
+              onClick={toggleMyMapMobile}
+              aria-label="Mi mapa"
+              className={`font-display inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1.5 text-sm transition-colors ${
+                myMap ? myMapActive : myMapInactive
+              }`}
+            >
+              {myMap
+                ? <span className="leading-none">✕</span>
+                : <>
+                    <span>mi</span>
+                    <img src="/icon.svg" alt="" width={18} height={18} className="shrink-0" />
+                  </>
+              }
+            </button>
+          </div>
         </div>
       </div>
 
@@ -238,39 +260,53 @@ export function Directory({
               onSort={changeSort}
               onRandomPick={pickRandom}
             />
-            {hasUserPlaces && (
+            {(hasUserPlaces || hasNoche) && (
               <div className="mt-3 hidden flex-wrap items-center gap-2 md:flex">
-                <button
-                  onClick={() => { setMyMap((v) => !v); setMyMapFilter("all"); }}
-                  className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                    myMap ? myMapActive : myMapInactive
-                  }`}
-                >
-                  <span>{myMap ? "✕" : "🗺"}</span>
-                  Mi mapa
-                </button>
-                {myMap && (
+                {hasNoche && (
+                  <button
+                    onClick={() => { setNocheMode((v) => !v); setMyMap(false); }}
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                      nocheMode ? nocheActive : nocheInactive
+                    }`}
+                  >
+                    🌙 Esta noche
+                  </button>
+                )}
+                {hasUserPlaces && (
                   <>
                     <button
-                      onClick={() => setMyMapFilter(myMapFilter === "want_to_visit" ? "all" : "want_to_visit")}
-                      className={`font-display inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                        myMapFilter === "want_to_visit"
-                          ? activePill
-                          : `${inactivePill} hover:border-ink hover:text-ink`
+                      onClick={() => { setMyMap((v) => !v); setMyMapFilter("all"); setNocheMode(false); }}
+                      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                        myMap ? myMapActive : myMapInactive
                       }`}
                     >
-                      🔖 Quiero ir
+                      <span>{myMap ? "✕" : "🗺"}</span>
+                      Mi mapa
                     </button>
-                    <button
-                      onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}
-                      className={`font-display inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
-                        myMapFilter === "visited"
-                          ? activePill
-                          : `${inactivePill} hover:border-ink hover:text-ink`
-                      }`}
-                    >
-                      ✓ Visitadas
-                    </button>
+                    {myMap && (
+                      <>
+                        <button
+                          onClick={() => setMyMapFilter(myMapFilter === "want_to_visit" ? "all" : "want_to_visit")}
+                          className={`font-display inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                            myMapFilter === "want_to_visit"
+                              ? activePill
+                              : `${inactivePill} hover:border-ink hover:text-ink`
+                          }`}
+                        >
+                          🔖 Quiero ir
+                        </button>
+                        <button
+                          onClick={() => setMyMapFilter(myMapFilter === "visited" ? "all" : "visited")}
+                          className={`font-display inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                            myMapFilter === "visited"
+                              ? activePill
+                              : `${inactivePill} hover:border-ink hover:text-ink`
+                          }`}
+                        >
+                          ✓ Visitadas
+                        </button>
+                      </>
+                    )}
                   </>
                 )}
               </div>
@@ -301,6 +337,7 @@ export function Directory({
             }
             userPlaces={userPlaces}
             myMapMode={myMap}
+            featuredIds={featuredSet}
           />
         </div>
       </div>

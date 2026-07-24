@@ -171,6 +171,30 @@ export async function getUpcomingEvents(): Promise<Event[]> {
   return (data ?? []).map(rowToEvent);
 }
 
+/**
+ * IDs de lugares que participan en algún evento publicado hoy.
+ * Se usa para mostrar el PIN de campaña en el mapa.
+ */
+export async function getFeaturedPlaceIds(): Promise<string[]> {
+  const supabase = getSupabase();
+  if (!supabase) return [];
+  const today = new Date().toISOString().split("T")[0];
+  // Eventos publicados para hoy
+  const { data: events } = await supabase
+    .from("events")
+    .select("id")
+    .eq("status", "published")
+    .eq("date", today);
+  if (!events || events.length === 0) return [];
+  const eventIds = events.map((e) => e.id as string);
+  // Lugares vinculados a esos eventos
+  const { data: links } = await supabase
+    .from("event_places")
+    .select("place_id")
+    .in("event_id", eventIds);
+  return (links ?? []).map((l) => l.place_id as string);
+}
+
 /** Próximos eventos de un lugar concreto. */
 export async function getEventsByPlace(placeId: string): Promise<Event[]> {
   const supabase = getSupabase();

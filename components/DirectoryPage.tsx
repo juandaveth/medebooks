@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPlaces, getFacets, type Facets } from "@/lib/queries";
+import { getPlaces, getFacets, getFeaturedPlaceIds, type Facets } from "@/lib/queries";
 import { resolveGeo } from "@/lib/medellin";
 import { DirectoryShell } from "@/components/DirectoryShell";
 import type { PlaceType } from "@/lib/types";
@@ -58,7 +58,11 @@ export async function DirectoryPage({
   type?: PlaceType | "all";
   path?: string[];
 }) {
-  const [places, facets] = await Promise.all([getPlaces(), getFacets()]);
+  const [places, facets, featuredPlaceIds] = await Promise.all([
+    getPlaces(),
+    getFacets(),
+    getFeaturedPlaceIds(),
+  ]);
   const { comuna, neighborhood } = resolveGeoSegments(facets, path);
   return (
     <DirectoryShell
@@ -67,6 +71,7 @@ export async function DirectoryPage({
       initialType={type}
       initialComuna={comuna}
       initialNeighborhood={neighborhood}
+      featuredPlaceIds={featuredPlaceIds}
     />
   );
 }

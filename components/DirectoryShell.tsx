@@ -38,12 +38,14 @@ export async function DirectoryShell({
   initialType = "all",
   initialComuna,
   initialNeighborhood,
+  featuredPlaceIds = [],
 }: {
   places: Place[];
   facets: Facets;
   initialType?: PlaceType | "all";
   initialComuna?: string;
   initialNeighborhood?: string;
+  featuredPlaceIds?: string[];
 }) {
   const supabase = await createSupabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
@@ -123,6 +125,7 @@ export async function DirectoryShell({
             initialNeighborhood={initialNeighborhood}
             userPlaces={userPlaces}
             isAuthenticated={!!user}
+            featuredPlaceIds={featuredPlaceIds}
           />
         </Suspense>
       </main>
